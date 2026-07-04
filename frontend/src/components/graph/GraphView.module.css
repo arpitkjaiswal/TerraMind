@@ -1,0 +1,58 @@
+.container { display: flex; flex-direction: column; gap: 20px; padding: 32px; max-width: 1100px; }
+
+.header { display: flex; align-items: flex-start; justify-content: space-between; }
+.title { font-size: 24px; font-weight: 700; color: var(--text-primary); }
+.subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+
+.controls { display: flex; gap: 6px; }
+.controlBtn {
+  width: 34px; height: 34px; border-radius: var(--radius-md);
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text-secondary); transition: var(--transition);
+}
+.controlBtn:hover { color: var(--text-primary); background: var(--bg-hover); }
+
+.canvas {
+  position: relative;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden;
+  min-height: 500px;
+}
+.svg { width: 100%; height: 500px; cursor: grab; }
+.svg:active { cursor: grabbing; }
+
+.legend {
+  position: absolute; top: 16px; left: 16px;
+  background: rgba(12,18,25,0.85); backdrop-filter: blur(8px);
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: 12px 14px; display: flex; flex-direction: column; gap: 6px;
+}
+.legendItem { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--text-muted); }
+.legendDot { width: 8px; height: 8px; border-radius: 50%; }
+.legendLine { width: 16px; height: 2px; border-radius: 1px; }
+.legendDash { width: 16px; height: 0; border-top: 2px dashed var(--text-muted); opacity: 0.5; }
+.legendDivider { height: 1px; background: var(--border); margin: 4px 0; }
+
+.inspector {
+  background: var(--bg-card); border: 1px solid var(--border-active);
+  border-radius: var(--radius-lg); padding: 20px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.inspectorHeader { display: flex; align-items: flex-start; gap: 12px; }
+.inspectorDot { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.inspectorType { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
+.inspectorLabel { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+.inspectorDate { font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+
+.inspectorProps { display: flex; flex-direction: column; gap: 6px; }
+.propRow { display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; background: var(--bg-elevated); border-radius: var(--radius-sm); }
+.propKey { font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+.propVal { font-size: 12px; color: var(--text-primary); font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+.inspectorEdges { display: flex; flex-direction: column; gap: 6px; }
+.inspectorEdgeTitle { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.edgeRow { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.edgeType { font-weight: 700; font-size: 10px; letter-spacing: 0.05em; }
+.edgeTarget { color: var(--text-primary); flex: 1; }
+.edgeUnconfirmed { font-size: 10px; color: var(--amber-400); background: rgba(245,158,11,0.1); padding: 1px 6px; border-radius: 99px; }

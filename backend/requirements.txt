@@ -1,0 +1,76 @@
+# ── Web framework ────────────────────────────────────────────────────────────
+fastapi==0.115.7
+uvicorn[standard]==0.32.1
+python-multipart>=0.0.18
+
+# ── Auth ─────────────────────────────────────────────────────────────────────
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+httpx==0.27.2           # OAuth token introspection / external calls
+
+# ── Config / env ─────────────────────────────────────────────────────────────
+pydantic>=2.10.4
+pydantic-settings==2.7.0
+python-dotenv==1.0.1
+
+# ── Database (Postgres / async SQLAlchemy) ───────────────────────────────────
+sqlalchemy[asyncio]>=2.0.36
+asyncpg==0.30.0
+alembic==1.14.0
+psycopg2-binary==2.9.10  # sync driver for Alembic migrations
+
+# ── Graph store (Neo4j) ───────────────────────────────────────────────────────
+neo4j==5.27.0
+
+# ── Vector store (Qdrant) ────────────────────────────────────────────────────
+qdrant-client==1.12.1
+
+# ── Cache / queue (Redis) ────────────────────────────────────────────────────
+redis[hiredis]==5.2.1
+celery[redis]==5.4.0
+
+# ── Cognee (memory / knowledge graph engine) ────────────────────────────────
+cognee==0.1.40           # pip-installable; wraps extract→cognify→search
+
+# ── Document parsing ─────────────────────────────────────────────────────────
+pdfplumber==0.11.4
+PyMuPDF==1.25.1          # fitz
+pandas==2.2.3
+openpyxl==3.1.5          # Excel/CSV handling
+
+# ── OCR / handwriting digitisation ──────────────────────────────────────────
+azure-ai-formrecognizer==3.3.3   # Azure AI Document Intelligence
+google-cloud-vision==3.8.1       # fallback: Google Cloud Vision
+
+# ── LLM provider clients ────────────────────────────────────────────────────
+anthropic==0.40.0          # Claude
+openai==1.59.5             # GPT fallback
+
+# ── Object storage (S3-compatible) ───────────────────────────────────────────
+boto3==1.35.36
+aioboto3==13.2.0
+
+# ── Observability ────────────────────────────────────────────────────────────
+opentelemetry-sdk==1.29.0
+opentelemetry-instrumentation-fastapi==0.50b0
+opentelemetry-instrumentation-sqlalchemy==0.50b0
+opentelemetry-exporter-otlp==1.29.0
+structlog>=24.4.0
+prometheus-fastapi-instrumentator==7.0.0
+
+# ── Resilience ───────────────────────────────────────────────────────────────
+tenacity==9.0.0            # exponential backoff / retry
+pybreaker==1.4.1           # circuit breaker
+
+# ── Rate limiting ─────────────────────────────────────────────────────────────
+slowapi==0.1.9
+
+# ── Content-hash / idempotency ───────────────────────────────────────────────
+
+# ── Testing ──────────────────────────────────────────────────────────────────
+pytest==8.3.4
+pytest-asyncio==0.24.0
+pytest-cov==6.0.0
+httpx==0.27.2              # test client
+factory-boy==3.3.1
+faker==33.1.0
