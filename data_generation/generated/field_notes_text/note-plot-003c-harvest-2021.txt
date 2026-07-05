@@ -1,0 +1,7 @@
+Date: 2021-04-24
+Farm: farm-003
+Plot: plot-003c
+Category: harvest_report
+Farmer: Ranjit Das
+---
+Harvest report Vegetable Patch: Yield = 18.4 q/ha (64.5q from 3.5ha). Mixed quality - some sections affected by disease. Similar to last year (18.1 q/ha).. Sold 57.3q @ Rs.2219/q.

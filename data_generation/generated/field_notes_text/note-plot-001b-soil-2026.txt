@@ -1,0 +1,12 @@
+Date: 2026-03-11
+Farm: farm-001
+Plot: plot-001b
+Category: soil_test
+Farmer: Rajinder Singh
+---
+Soil test results for Field B (South) (sample date: 2026-03-28).
+Lab: State Agricultural Lab, Punjab.
+Results: N=97 kg/ha, P=34 kg/ha, K=44 kg/ha, pH=4.8
+Organic Carbon: 0.52%
+EC: 0.47 dS/m
+Recommendation: Maintain current levels. Lime application needed to raise pH.

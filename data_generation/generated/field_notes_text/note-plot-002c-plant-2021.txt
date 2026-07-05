@@ -1,0 +1,7 @@
+Date: 2021-12-19
+Farm: farm-002
+Plot: plot-002c
+Category: planting_record
+Farmer: Venkatesh Rao
+---
+Planted HD-2967 Sugarcane in Block 3 - 5.0 hectares total. Pre-treated seeds w/ Carbendazim. Applied Ammonium Sulphate @ 131kg/ha. dry soil conditions.

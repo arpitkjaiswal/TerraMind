@@ -1,0 +1,7 @@
+Date: 2022-04-18
+Farm: farm-001
+Plot: plot-001a
+Category: planting_record
+Farmer: Rajinder Singh
+---
+Started planting Rice (UP-262) in Field A (North). Prepared with Ammonium Sulphate basal dose (109 kg/ha). Soil felt well-drained. Hoping for good monsoon this yr.

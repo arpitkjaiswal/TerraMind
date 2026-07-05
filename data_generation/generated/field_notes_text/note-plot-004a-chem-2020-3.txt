@@ -1,0 +1,7 @@
+Date: 2020-08-02
+Farm: farm-004
+Plot: plot-004a
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Cotton Field 1 - sprayed Mancozeb 75WP today (2.5g/L). Noticed aphid colony buildup on Cotton(lint). Spot coverage. Will check results in 3-5 days.

@@ -1,0 +1,7 @@
+Date: 2020-08-28
+Farm: farm-003
+Plot: plot-003c
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Applied 2,4-D Sodium Salt (herbicide) on Vegetable Patch @ 2.5ml/L. Pest pressure was low. Sprayed 3.5 ha. Weather: cloudy. Note: Mixed with sticker

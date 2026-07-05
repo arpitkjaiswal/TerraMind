@@ -1,0 +1,7 @@
+Date: 2024-05-10
+Farm: farm-005
+Plot: plot-005c
+Category: harvest_report
+Farmer: Arun Kumar
+---
+Harvest report Mustard Plot: Yield = 35.5 q/ha (284.2q from 8.0ha). Grain quality looks good - no moisture issues. Similar to last year (36.8 q/ha).. Sold 247.6q @ Rs.3691/q.

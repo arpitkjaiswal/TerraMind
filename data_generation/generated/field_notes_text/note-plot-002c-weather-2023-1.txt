@@ -1,0 +1,7 @@
+Date: 2023-06-17
+Farm: farm-002
+Plot: plot-002c
+Category: weather_observation
+Farmer: Venkatesh Rao
+---
+Heavy rainfall last 6 days in Block 3 area. Measured approx 132mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

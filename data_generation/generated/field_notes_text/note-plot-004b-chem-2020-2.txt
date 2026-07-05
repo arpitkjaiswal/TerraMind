@@ -1,0 +1,7 @@
+Date: 2020-08-12
+Farm: farm-004
+Plot: plot-004b
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Soybean Plot - sprayed 2,4-D Sodium Salt today (2.5ml/L). Noticed aphid colony buildup on Arhar/Tur. Full field coverage. Will check results in 3-5 days.

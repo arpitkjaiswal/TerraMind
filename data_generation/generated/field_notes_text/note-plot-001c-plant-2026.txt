@@ -1,0 +1,7 @@
+Date: 2026-07-27
+Farm: farm-001
+Plot: plot-001c
+Category: planting_record
+Farmer: Rajinder Singh
+---
+Sowed Rice in Field C (East) today. Used Swarna variety. Soil was dry. Applied Urea at 124 kg/ha before sowing. Weather clear, temp around 37°C.

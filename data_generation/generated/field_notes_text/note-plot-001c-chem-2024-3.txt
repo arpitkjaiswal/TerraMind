@@ -1,0 +1,7 @@
+Date: 2024-05-07
+Farm: farm-001
+Plot: plot-001c
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Field C (East) - sprayed Mancozeb 75WP today (2.5g/L). Noticed blast disease symptoms on Rice. Full field coverage. Will check results in 3-5 days.

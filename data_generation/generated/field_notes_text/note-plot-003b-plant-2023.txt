@@ -1,0 +1,7 @@
+Date: 2023-11-21
+Farm: farm-003
+Plot: plot-003b
+Category: planting_record
+Farmer: Ranjit Das
+---
+Tea Garden A: sowing done. Arecanut - Co-0238. Fert: NPK 20:20:0 (43 kg/ha). Notes: cracked texture, need irrigation in 3 days. Temp was 25C today.

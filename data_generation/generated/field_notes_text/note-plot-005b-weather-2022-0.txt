@@ -1,0 +1,7 @@
+Date: 2022-07-11
+Farm: farm-005
+Plot: plot-005b
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Sugarcane Block: No rain for 19 days straight. Soil cracking badly. Temp hitting 45°C. Crops showing stress - leaves curling. Need to arrange irrigation ASAP.

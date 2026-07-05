@@ -1,0 +1,7 @@
+Date: 2022-06-21
+Farm: farm-001
+Plot: plot-001b
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Chemical application log: Imidacloprid 17.8SL on Field B (South). Rate: 0.5ml/L. Target: weed pressure. Applied early morning, wind was moderate. 

@@ -1,0 +1,12 @@
+Date: 2020-02-15
+Farm: farm-003
+Plot: plot-003c
+Category: soil_test
+Farmer: Ranjit Das
+---
+Soil test results for Vegetable Patch (sample date: 2020-02-20).
+Lab: State Agricultural Lab, Assam.
+Results: N=85 kg/ha, P=35 kg/ha, K=25 kg/ha, pH=8.0
+Organic Carbon: 0.48%
+EC: 0.40 dS/m
+Recommendation: Maintain current levels. pH adequate.

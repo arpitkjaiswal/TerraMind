@@ -1,0 +1,7 @@
+Date: 2022-10-06
+Farm: farm-003
+Plot: plot-003a
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Chemical application log: Imidacloprid 17.8SL on Paddy Field 1. Rate: 0.5ml/L. Target: fungal spots on leaves. Applied early morning, wind was light. Mixed with sticker

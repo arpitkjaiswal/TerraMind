@@ -1,0 +1,12 @@
+Date: 2022-02-07
+Farm: farm-004
+Plot: plot-004a
+Category: soil_test
+Farmer: Suresh Patil
+---
+Soil test results for Cotton Field 1 (sample date: 2022-03-19).
+Lab: State Agricultural Lab, Maharashtra.
+Results: N=104 kg/ha, P=45 kg/ha, K=29 kg/ha, pH=6.1
+Organic Carbon: 0.54%
+EC: 0.46 dS/m
+Recommendation: Maintain current levels. pH adequate.

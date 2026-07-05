@@ -1,0 +1,7 @@
+Date: 2023-10-11
+Farm: farm-003
+Plot: plot-003a
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Paddy Field 1 - sprayed Lambda Cyhalothrin today (1ml/L). Noticed weed pressure on Rice. Spot coverage. Will check results in 3-5 days.

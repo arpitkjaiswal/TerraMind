@@ -1,0 +1,7 @@
+Date: 2020-07-11
+Farm: farm-002
+Plot: plot-002a
+Category: weather_observation
+Farmer: Venkatesh Rao
+---
+Heavy rainfall last 30 days in Block 1 area. Measured approx 172mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

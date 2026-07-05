@@ -1,0 +1,7 @@
+Date: 2021-09-13
+Farm: farm-001
+Plot: plot-001b
+Category: weather_observation
+Farmer: Rajinder Singh
+---
+Heavy rainfall last 20 days in Field B (South) area. Measured approx 29mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

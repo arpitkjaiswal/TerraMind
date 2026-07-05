@@ -1,0 +1,7 @@
+Date: 2022-09-26
+Farm: farm-005
+Plot: plot-005a
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Wheat Field Alpha: No rain for 19 days straight. Soil cracking badly. Temp hitting 22°C. Crops showing stress - leaves curling. Need to arrange irrigation ASAP.

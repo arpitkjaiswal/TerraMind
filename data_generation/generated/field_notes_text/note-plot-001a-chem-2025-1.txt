@@ -1,0 +1,7 @@
+Date: 2025-09-18
+Farm: farm-001
+Plot: plot-001a
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Applied Propiconazole 25EC (fungicide) on Field A (North) @ 1ml/L. Pest pressure was low. Sprayed 12.5 ha. Weather: light drizzle. Note: Double dose due to severity

@@ -1,0 +1,7 @@
+Date: 2021-06-14
+Farm: farm-005
+Plot: plot-005a
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Chemical application log: Glyphosate 41SL on Wheat Field Alpha. Rate: 10ml/L. Target: fungal spots on leaves. Applied early morning, wind was calm. Double dose due to severity

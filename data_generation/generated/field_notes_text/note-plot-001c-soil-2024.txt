@@ -1,0 +1,12 @@
+Date: 2024-02-20
+Farm: farm-001
+Plot: plot-001c
+Category: soil_test
+Farmer: Rajinder Singh
+---
+Soil test results for Field C (East) (sample date: 2024-02-20).
+Lab: State Agricultural Lab, Punjab.
+Results: N=87 kg/ha, P=23 kg/ha, K=27 kg/ha, pH=6.0
+Organic Carbon: 0.35%
+EC: 0.48 dS/m
+Recommendation: Increase phosphorus application. Lime application needed to raise pH.

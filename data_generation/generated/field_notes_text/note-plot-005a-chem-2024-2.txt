@@ -1,0 +1,7 @@
+Date: 2024-08-06
+Farm: farm-005
+Plot: plot-005a
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Applied 2,4-D Sodium Salt (herbicide) on Wheat Field Alpha @ 2.5ml/L. Pest pressure was low. Sprayed 25.0 ha. Weather: clear. Note: Worker used full PPE

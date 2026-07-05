@@ -1,0 +1,7 @@
+Date: 2025-05-04
+Farm: farm-005
+Plot: plot-005a
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Applied Glyphosate 41SL (herbicide) on Wheat Field Alpha @ 10ml/L. Pest pressure was severe. Sprayed 25.0 ha. Weather: light drizzle. Note: 

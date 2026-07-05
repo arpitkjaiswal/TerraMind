@@ -1,0 +1,7 @@
+Date: 2020-06-06
+Farm: farm-001
+Plot: plot-001a
+Category: weather_observation
+Farmer: Rajinder Singh
+---
+Good monsoon so far - Field A (North) getting steady rain. About 165mm this week. Crop looking healthy. Humidity around 58%.

@@ -1,0 +1,7 @@
+Date: 2021-07-02
+Farm: farm-004
+Plot: plot-004c
+Category: weather_observation
+Farmer: Suresh Patil
+---
+Onion Beds: No rain for 18 days straight. Soil cracking badly. Temp hitting 28°C. Crops showing stress - leaves curling. Need to arrange irrigation ASAP.

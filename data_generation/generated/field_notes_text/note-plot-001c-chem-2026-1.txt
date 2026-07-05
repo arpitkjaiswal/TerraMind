@@ -1,0 +1,7 @@
+Date: 2026-06-09
+Farm: farm-001
+Plot: plot-001c
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Chemical application log: Imidacloprid 17.8SL on Field C (East). Rate: 0.5ml/L. Target: stem borer infestation. Applied early morning, wind was calm. Mixed with sticker

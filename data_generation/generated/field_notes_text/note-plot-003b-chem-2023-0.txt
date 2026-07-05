@@ -1,0 +1,7 @@
+Date: 2023-06-02
+Farm: farm-003
+Plot: plot-003b
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Chemical application log: Lambda Cyhalothrin on Tea Garden A. Rate: 1ml/L. Target: whitefly attack. Applied early morning, wind was calm. Double dose due to severity

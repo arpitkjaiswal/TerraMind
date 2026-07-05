@@ -1,0 +1,7 @@
+Date: 2023-12-04
+Farm: farm-005
+Plot: plot-005c
+Category: planting_record
+Farmer: Arun Kumar
+---
+Started planting Rapeseed &Mustard (Co-0238) in Mustard Plot. Prepared with NPK 20:20:0 basal dose (124 kg/ha). Soil felt dry. Hoping for good monsoon this yr.

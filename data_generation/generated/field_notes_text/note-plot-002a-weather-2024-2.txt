@@ -1,0 +1,7 @@
+Date: 2024-07-14
+Farm: farm-002
+Plot: plot-002a
+Category: weather_observation
+Farmer: Venkatesh Rao
+---
+Unusual cold snap in Block 1 region. Temp dropped to 31°C overnight. Some frost damage visible on young Rice plants. Applied straw mulching.

@@ -1,0 +1,7 @@
+Date: 2020-11-06
+Farm: farm-005
+Plot: plot-005a
+Category: planting_record
+Farmer: Arun Kumar
+---
+Planted MTU-1010 Wheat in Wheat Field Alpha - 25.0 hectares total. Pre-treated seeds w/ no treatment. Applied SSP @ 99kg/ha. cracked soil conditions.

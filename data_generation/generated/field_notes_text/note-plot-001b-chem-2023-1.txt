@@ -1,0 +1,7 @@
+Date: 2023-09-04
+Farm: farm-001
+Plot: plot-001b
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Field B (South) - sprayed Glyphosate 41SL today (10ml/L). Noticed fungal spots on leaves on Wheat. Full field coverage. Will check results in 3-5 days.

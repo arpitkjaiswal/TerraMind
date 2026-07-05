@@ -1,0 +1,7 @@
+Date: 2023-07-15
+Farm: farm-005
+Plot: plot-005c
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Mustard Plot - sprayed Lambda Cyhalothrin today (1ml/L). Noticed fungal spots on leaves on Rapeseed &Mustard. Full field coverage. Will check results in 3-5 days.

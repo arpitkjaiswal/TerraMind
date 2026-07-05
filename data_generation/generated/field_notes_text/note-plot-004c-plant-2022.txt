@@ -1,0 +1,7 @@
+Date: 2022-12-09
+Farm: farm-004
+Plot: plot-004c
+Category: planting_record
+Farmer: Suresh Patil
+---
+Planted HKR-47 Onion in Onion Beds - 4.0 hectares total. Pre-treated seeds w/ Carbendazim. Applied MOP @ 135kg/ha. cracked soil conditions.

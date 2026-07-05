@@ -1,0 +1,7 @@
+Date: 2020-09-14
+Farm: farm-005
+Plot: plot-005b
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Sugarcane Block - sprayed Glyphosate 41SL today (10ml/L). Noticed brown plant hopper on Sugarcane. Spot coverage. Will check results in 3-5 days.

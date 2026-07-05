@@ -1,0 +1,7 @@
+Date: 2020-09-09
+Farm: farm-005
+Plot: plot-005a
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Wheat Field Alpha - sprayed Imidacloprid 17.8SL today (0.5ml/L). Noticed stem borer infestation on Wheat. 50% coverage. Will check results in 3-5 days.

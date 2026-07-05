@@ -1,0 +1,7 @@
+Date: 2021-10-04
+Farm: farm-004
+Plot: plot-004c
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Imidacloprid 17.8SL on Onion Beds. Rate: 0.5ml/L. Target: leaf blight symptoms. Applied early morning, wind was moderate. Worker used full PPE

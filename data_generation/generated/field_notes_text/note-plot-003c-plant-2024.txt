@@ -1,0 +1,7 @@
+Date: 2024-11-26
+Farm: farm-003
+Plot: plot-003c
+Category: planting_record
+Farmer: Ranjit Das
+---
+Started planting Potato (Co-0238) in Vegetable Patch. Prepared with NPK 20:20:0 basal dose (105 kg/ha). Soil felt moist. Hoping for good monsoon this yr.

@@ -1,0 +1,7 @@
+Date: 2024-09-13
+Farm: farm-003
+Plot: plot-003b
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Good monsoon so far - Tea Garden A getting steady rain. About 197mm this week. Crop looking healthy. Humidity around 71%.

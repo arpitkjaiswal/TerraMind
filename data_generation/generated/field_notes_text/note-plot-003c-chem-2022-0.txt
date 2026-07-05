@@ -1,0 +1,7 @@
+Date: 2022-08-15
+Farm: farm-003
+Plot: plot-003c
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Vegetable Patch - sprayed Mancozeb 75WP today (2.5g/L). Noticed leaf blight symptoms on Potato. 50% coverage. Will check results in 3-5 days.

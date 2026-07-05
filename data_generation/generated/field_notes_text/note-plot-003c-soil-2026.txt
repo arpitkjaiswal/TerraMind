@@ -1,0 +1,12 @@
+Date: 2026-02-24
+Farm: farm-003
+Plot: plot-003c
+Category: soil_test
+Farmer: Ranjit Das
+---
+Soil test results for Vegetable Patch (sample date: 2026-02-16).
+Lab: State Agricultural Lab, Assam.
+Results: N=66 kg/ha, P=17 kg/ha, K=33 kg/ha, pH=5.9
+Organic Carbon: 0.56%
+EC: 0.13 dS/m
+Recommendation: Increase phosphorus application. Lime application needed to raise pH.

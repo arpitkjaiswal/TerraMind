@@ -1,0 +1,7 @@
+Date: 2022-10-16
+Farm: farm-005
+Plot: plot-005c
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Applied Propiconazole 25EC (fungicide) on Mustard Plot @ 1ml/L. Pest pressure was severe. Sprayed 8.0 ha. Weather: light drizzle. Note: 

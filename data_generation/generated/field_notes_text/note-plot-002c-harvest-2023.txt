@@ -1,0 +1,7 @@
+Date: 2023-05-20
+Farm: farm-002
+Plot: plot-002c
+Category: harvest_report
+Farmer: Venkatesh Rao
+---
+Harvested Sugarcane from Block 3 today. Got about 181.1 quintals from 5.0 ha (36.2 q/ha). Excellent quality, good grain fill. Similar to last year (39.2 q/ha).

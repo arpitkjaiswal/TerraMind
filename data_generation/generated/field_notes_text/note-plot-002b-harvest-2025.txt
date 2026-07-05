@@ -1,0 +1,7 @@
+Date: 2025-03-14
+Farm: farm-002
+Plot: plot-002b
+Category: harvest_report
+Farmer: Venkatesh Rao
+---
+Block 2 harvest done - Maize: 286.6q total, 38.2 q/ha. Mixed quality - some sections affected by disease. Stored in godown. Similar to last year (37.1 q/ha).

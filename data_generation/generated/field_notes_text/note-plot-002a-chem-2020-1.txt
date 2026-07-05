@@ -1,0 +1,7 @@
+Date: 2020-05-02
+Farm: farm-002
+Plot: plot-002a
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Block 1 - sprayed Propiconazole 25EC today (1ml/L). Noticed brown plant hopper on Rice. 50% coverage. Will check results in 3-5 days.

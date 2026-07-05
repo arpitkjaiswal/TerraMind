@@ -1,0 +1,7 @@
+Date: 2021-10-08
+Farm: farm-005
+Plot: plot-005b
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Chemical application log: Glyphosate 41SL on Sugarcane Block. Rate: 10ml/L. Target: brown plant hopper. Applied early morning, wind was calm. Mixed with sticker

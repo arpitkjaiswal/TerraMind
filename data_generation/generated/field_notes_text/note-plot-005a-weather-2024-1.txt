@@ -1,0 +1,7 @@
+Date: 2024-10-05
+Farm: farm-005
+Plot: plot-005a
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Good monsoon so far - Wheat Field Alpha getting steady rain. About 157mm this week. Crop looking healthy. Humidity around 65%.

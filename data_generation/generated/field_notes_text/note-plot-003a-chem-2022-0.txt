@@ -1,0 +1,7 @@
+Date: 2022-10-08
+Farm: farm-003
+Plot: plot-003a
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Chemical application log: Propiconazole 25EC on Paddy Field 1. Rate: 1ml/L. Target: stem borer infestation. Applied early morning, wind was light. Double dose due to severity

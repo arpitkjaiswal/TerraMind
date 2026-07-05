@@ -1,0 +1,7 @@
+Date: 2024-12-19
+Farm: farm-004
+Plot: plot-004b
+Category: planting_record
+Farmer: Suresh Patil
+---
+Sowed Arhar/Tur in Soybean Plot today. Used PR-126 variety. Soil was well-drained. Applied SSP at 57 kg/ha before sowing. Weather clear, temp around 36°C.

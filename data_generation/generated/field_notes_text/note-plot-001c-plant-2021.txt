@@ -1,0 +1,7 @@
+Date: 2021-07-17
+Farm: farm-001
+Plot: plot-001c
+Category: planting_record
+Farmer: Rajinder Singh
+---
+Planted Swarna Rice in Field C (East) - 15.0 hectares total. Pre-treated seeds w/ no treatment. Applied Ammonium Sulphate @ 132kg/ha. moist soil conditions.

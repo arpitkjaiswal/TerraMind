@@ -1,0 +1,7 @@
+Date: 2020-06-20
+Farm: farm-001
+Plot: plot-001c
+Category: weather_observation
+Farmer: Rajinder Singh
+---
+Unusual cold snap in Field C (East) region. Temp dropped to 42°C overnight. Some frost damage visible on young Rice plants. Applied straw mulching.

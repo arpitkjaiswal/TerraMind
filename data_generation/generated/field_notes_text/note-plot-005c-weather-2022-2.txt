@@ -1,0 +1,7 @@
+Date: 2022-09-26
+Farm: farm-005
+Plot: plot-005c
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Heavy rainfall last 8 days in Mustard Plot area. Measured approx 44mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

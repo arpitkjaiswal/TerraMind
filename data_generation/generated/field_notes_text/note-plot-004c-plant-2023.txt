@@ -1,0 +1,7 @@
+Date: 2023-11-04
+Farm: farm-004
+Plot: plot-004c
+Category: planting_record
+Farmer: Suresh Patil
+---
+Sowed Onion in Onion Beds today. Used HD-2967 variety. Soil was cracked. Applied Ammonium Sulphate at 88 kg/ha before sowing. Weather clear, temp around 34°C.

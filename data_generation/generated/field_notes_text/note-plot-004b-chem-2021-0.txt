@@ -1,0 +1,7 @@
+Date: 2021-05-18
+Farm: farm-004
+Plot: plot-004b
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Soybean Plot - sprayed Propiconazole 25EC today (1ml/L). Noticed whitefly attack on Arhar/Tur. 50% coverage. Will check results in 3-5 days.

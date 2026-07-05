@@ -1,0 +1,7 @@
+Date: 2020-12-26
+Farm: farm-003
+Plot: plot-003a
+Category: harvest_report
+Farmer: Ranjit Das
+---
+Harvested Rice from Paddy Field 1 today. Got about 575.2 quintals from 20.0 ha (28.8 q/ha). Mixed quality - some sections affected by disease. Similar to last year (32.0 q/ha).

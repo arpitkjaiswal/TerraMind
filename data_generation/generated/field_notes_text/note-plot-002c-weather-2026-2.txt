@@ -1,0 +1,7 @@
+Date: 2026-10-27
+Farm: farm-002
+Plot: plot-002c
+Category: weather_observation
+Farmer: Venkatesh Rao
+---
+Heatwave warning: 39°C recorded near Block 3. Irrigated urgently. Sugarcane showing wilting. Applied foliar spray to reduce transpiration stress.

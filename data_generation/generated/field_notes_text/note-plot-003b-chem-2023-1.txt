@@ -1,0 +1,7 @@
+Date: 2023-10-03
+Farm: farm-003
+Plot: plot-003b
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Applied Chlorpyrifos 20EC (insecticide) on Tea Garden A @ 2ml/L. Pest pressure was severe. Sprayed 6.0 ha. Weather: clear. Note: 

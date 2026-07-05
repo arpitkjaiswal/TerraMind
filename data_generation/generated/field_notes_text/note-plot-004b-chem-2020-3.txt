@@ -1,0 +1,7 @@
+Date: 2020-09-07
+Farm: farm-004
+Plot: plot-004b
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Soybean Plot - sprayed Imidacloprid 17.8SL today (0.5ml/L). Noticed stem borer infestation on Arhar/Tur. Full field coverage. Will check results in 3-5 days.

@@ -1,0 +1,7 @@
+Date: 2020-05-23
+Farm: farm-004
+Plot: plot-004c
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Propiconazole 25EC on Onion Beds. Rate: 1ml/L. Target: stem borer infestation. Applied early morning, wind was moderate. 

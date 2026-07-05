@@ -1,0 +1,7 @@
+Date: 2024-10-19
+Farm: farm-003
+Plot: plot-003b
+Category: planting_record
+Farmer: Ranjit Das
+---
+Planted Pusa-44 Arecanut in Tea Garden A - 6.0 hectares total. Pre-treated seeds w/ Trichoderma. Applied MOP @ 95kg/ha. moist soil conditions.

@@ -1,0 +1,7 @@
+Date: 2024-08-12
+Farm: farm-005
+Plot: plot-005c
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Applied Chlorpyrifos 20EC (insecticide) on Mustard Plot @ 2ml/L. Pest pressure was moderate. Sprayed 8.0 ha. Weather: cloudy. Note: Mixed with sticker

@@ -1,0 +1,7 @@
+Date: 2024-10-06
+Farm: farm-005
+Plot: plot-005c
+Category: planting_record
+Farmer: Arun Kumar
+---
+Sowed Rapeseed &Mustard in Mustard Plot today. Used HKR-47 variety. Soil was moist. Applied SSP at 97 kg/ha before sowing. Weather clear, temp around 37°C.

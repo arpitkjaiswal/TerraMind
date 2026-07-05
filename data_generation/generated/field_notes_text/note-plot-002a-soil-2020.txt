@@ -1,0 +1,12 @@
+Date: 2020-03-09
+Farm: farm-002
+Plot: plot-002a
+Category: soil_test
+Farmer: Venkatesh Rao
+---
+Soil test results for Block 1 (sample date: 2020-03-09).
+Lab: State Agricultural Lab, Karnataka.
+Results: N=102 kg/ha, P=24 kg/ha, K=32 kg/ha, pH=7.8
+Organic Carbon: 0.68%
+EC: 0.38 dS/m
+Recommendation: Increase phosphorus application. pH adequate.

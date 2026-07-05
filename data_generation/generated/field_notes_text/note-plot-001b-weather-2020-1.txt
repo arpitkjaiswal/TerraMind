@@ -1,0 +1,7 @@
+Date: 2020-07-15
+Farm: farm-001
+Plot: plot-001b
+Category: weather_observation
+Farmer: Rajinder Singh
+---
+Heatwave warning: 29°C recorded near Field B (South). Irrigated urgently. Wheat showing wilting. Applied foliar spray to reduce transpiration stress.

@@ -1,0 +1,7 @@
+Date: 2021-07-19
+Farm: farm-001
+Plot: plot-001c
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Field C (East) - sprayed Lambda Cyhalothrin today (1ml/L). Noticed stem borer infestation on Rice. Border coverage. Will check results in 3-5 days.

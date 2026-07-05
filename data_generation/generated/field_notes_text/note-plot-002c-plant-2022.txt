@@ -1,0 +1,7 @@
+Date: 2022-11-13
+Farm: farm-002
+Plot: plot-002c
+Category: planting_record
+Farmer: Venkatesh Rao
+---
+Started planting Sugarcane (Co-0238) in Block 3. Prepared with NPK 20:20:0 basal dose (98 kg/ha). Soil felt well-drained. Hoping for good monsoon this yr.

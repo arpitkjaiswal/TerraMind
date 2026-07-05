@@ -1,0 +1,7 @@
+Date: 2025-08-22
+Farm: farm-001
+Plot: plot-001a
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Field A (North) - sprayed Mancozeb 75WP today (2.5g/L). Noticed weed pressure on Rice. Border coverage. Will check results in 3-5 days.

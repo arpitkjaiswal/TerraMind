@@ -1,0 +1,7 @@
+Date: 2023-03-03
+Farm: farm-005
+Plot: plot-005a
+Category: harvest_report
+Farmer: Arun Kumar
+---
+Harvested Wheat from Wheat Field Alpha today. Got about 620.6 quintals from 25.0 ha (24.8 q/ha). Some grain damage from late rain. Similar to last year (26.3 q/ha).

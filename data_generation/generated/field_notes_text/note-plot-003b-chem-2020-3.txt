@@ -1,0 +1,7 @@
+Date: 2020-08-15
+Farm: farm-003
+Plot: plot-003b
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Tea Garden A - sprayed Mancozeb 75WP today (2.5g/L). Noticed blast disease symptoms on Arecanut. Spot coverage. Will check results in 3-5 days.

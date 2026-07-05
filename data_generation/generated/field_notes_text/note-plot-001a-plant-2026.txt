@@ -1,0 +1,7 @@
+Date: 2026-06-27
+Farm: farm-001
+Plot: plot-001a
+Category: planting_record
+Farmer: Rajinder Singh
+---
+Planted MTU-1010 Rice in Field A (North) - 12.5 hectares total. Pre-treated seeds w/ Carbendazim. Applied Ammonium Sulphate @ 48kg/ha. dry soil conditions.

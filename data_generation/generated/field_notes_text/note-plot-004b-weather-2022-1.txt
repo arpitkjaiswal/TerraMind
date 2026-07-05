@@ -1,0 +1,7 @@
+Date: 2022-09-27
+Farm: farm-004
+Plot: plot-004b
+Category: weather_observation
+Farmer: Suresh Patil
+---
+Soybean Plot: No rain for 16 days straight. Soil cracking badly. Temp hitting 28°C. Crops showing stress - leaves curling. Need to arrange irrigation ASAP.

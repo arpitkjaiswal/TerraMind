@@ -1,0 +1,7 @@
+Date: 2021-05-15
+Farm: farm-005
+Plot: plot-005a
+Category: harvest_report
+Farmer: Arun Kumar
+---
+Wheat Field Alpha harvest done - Wheat: 1002.6q total, 40.1 q/ha. Mixed quality - some sections affected by disease. Stored in godown. Similar to last year (37.2 q/ha).

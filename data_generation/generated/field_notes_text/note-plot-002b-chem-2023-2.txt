@@ -1,0 +1,7 @@
+Date: 2023-06-14
+Farm: farm-002
+Plot: plot-002b
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Applied Glyphosate 41SL (herbicide) on Block 2 @ 10ml/L. Pest pressure was moderate. Sprayed 7.5 ha. Weather: light drizzle. Note: 

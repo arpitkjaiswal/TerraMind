@@ -1,0 +1,7 @@
+Date: 2025-06-16
+Farm: farm-002
+Plot: plot-002b
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Applied Lambda Cyhalothrin (insecticide) on Block 2 @ 1ml/L. Pest pressure was low. Sprayed 7.5 ha. Weather: clear. Note: Worker used full PPE

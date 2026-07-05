@@ -1,0 +1,7 @@
+Date: 2024-09-15
+Farm: farm-005
+Plot: plot-005a
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Unusual cold snap in Wheat Field Alpha region. Temp dropped to 20°C overnight. Some frost damage visible on young Wheat plants. Applied straw mulching.

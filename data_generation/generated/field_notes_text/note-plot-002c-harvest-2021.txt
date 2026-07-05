@@ -1,0 +1,7 @@
+Date: 2021-05-07
+Farm: farm-002
+Plot: plot-002c
+Category: harvest_report
+Farmer: Venkatesh Rao
+---
+Block 3 harvest done - Sugarcane: 78.7q total, 15.7 q/ha. Grain quality looks good - no moisture issues. Stored in godown. Similar to last year (16.0 q/ha).

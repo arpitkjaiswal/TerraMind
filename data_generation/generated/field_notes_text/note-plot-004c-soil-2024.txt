@@ -1,0 +1,12 @@
+Date: 2024-02-10
+Farm: farm-004
+Plot: plot-004c
+Category: soil_test
+Farmer: Suresh Patil
+---
+Soil test results for Onion Beds (sample date: 2024-02-13).
+Lab: State Agricultural Lab, Maharashtra.
+Results: N=107 kg/ha, P=28 kg/ha, K=32 kg/ha, pH=7.1
+Organic Carbon: 0.75%
+EC: 0.23 dS/m
+Recommendation: Maintain current levels. pH adequate.

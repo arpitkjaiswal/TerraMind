@@ -1,0 +1,7 @@
+Date: 2020-08-03
+Farm: farm-005
+Plot: plot-005a
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Heatwave warning: 19°C recorded near Wheat Field Alpha. Irrigated urgently. Wheat showing wilting. Applied foliar spray to reduce transpiration stress.

@@ -1,0 +1,12 @@
+Date: 2020-02-21
+Farm: farm-002
+Plot: plot-002c
+Category: soil_test
+Farmer: Venkatesh Rao
+---
+Soil test results for Block 3 (sample date: 2020-03-22).
+Lab: State Agricultural Lab, Karnataka.
+Results: N=106 kg/ha, P=38 kg/ha, K=24 kg/ha, pH=5.6
+Organic Carbon: 0.40%
+EC: 0.38 dS/m
+Recommendation: Maintain current levels. Lime application needed to raise pH.

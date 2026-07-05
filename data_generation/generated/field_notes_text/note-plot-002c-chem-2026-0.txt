@@ -1,0 +1,7 @@
+Date: 2026-10-20
+Farm: farm-002
+Plot: plot-002c
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Chemical application log: Chlorpyrifos 20EC on Block 3. Rate: 2ml/L. Target: aphid colony buildup. Applied early morning, wind was moderate. Double dose due to severity

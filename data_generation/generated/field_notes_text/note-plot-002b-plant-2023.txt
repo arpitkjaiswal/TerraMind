@@ -1,0 +1,7 @@
+Date: 2023-04-06
+Farm: farm-002
+Plot: plot-002b
+Category: planting_record
+Farmer: Venkatesh Rao
+---
+Block 2: sowing done. Maize - Pusa-44. Fert: NPK 20:20:0 (140 kg/ha). Notes: waterlogged texture, need irrigation in 3 days. Temp was 36C today.

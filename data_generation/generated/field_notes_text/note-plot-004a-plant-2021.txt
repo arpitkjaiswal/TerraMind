@@ -1,0 +1,7 @@
+Date: 2021-05-06
+Farm: farm-004
+Plot: plot-004a
+Category: planting_record
+Farmer: Suresh Patil
+---
+Cotton Field 1: sowing done. Cotton(lint) - Pusa-44. Fert: Urea (148 kg/ha). Notes: cracked texture, need irrigation in 3 days. Temp was 25C today.

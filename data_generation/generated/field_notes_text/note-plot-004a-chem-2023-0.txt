@@ -1,0 +1,7 @@
+Date: 2023-07-17
+Farm: farm-004
+Plot: plot-004a
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Applied Propiconazole 25EC (fungicide) on Cotton Field 1 @ 1ml/L. Pest pressure was low. Sprayed 18.0 ha. Weather: clear. Note: 

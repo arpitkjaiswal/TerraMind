@@ -1,0 +1,7 @@
+Date: 2020-12-06
+Farm: farm-001
+Plot: plot-001c
+Category: harvest_report
+Farmer: Rajinder Singh
+---
+Harvested Rice from Field C (East) today. Got about 362.2 quintals from 15.0 ha (24.1 q/ha). Quality below average - pest damage visible. Similar to last year (24.7 q/ha).

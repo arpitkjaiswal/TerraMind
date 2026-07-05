@@ -1,0 +1,7 @@
+Date: 2020-09-26
+Farm: farm-004
+Plot: plot-004a
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Propiconazole 25EC on Cotton Field 1. Rate: 1ml/L. Target: brown plant hopper. Applied early morning, wind was light. 

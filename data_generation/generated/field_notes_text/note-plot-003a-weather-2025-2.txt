@@ -1,0 +1,7 @@
+Date: 2025-09-04
+Farm: farm-003
+Plot: plot-003a
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Good monsoon so far - Paddy Field 1 getting steady rain. About 51mm this week. Crop looking healthy. Humidity around 43%.

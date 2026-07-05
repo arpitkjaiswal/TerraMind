@@ -1,0 +1,7 @@
+Date: 2026-03-11
+Farm: farm-004
+Plot: plot-004c
+Category: harvest_report
+Farmer: Suresh Patil
+---
+Harvested Onion from Onion Beds today. Got about 79.1 quintals from 4.0 ha (19.8 q/ha). Grade A quality - expecting good price. Similar to last year (20.2 q/ha).

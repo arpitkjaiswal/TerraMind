@@ -1,0 +1,7 @@
+Date: 2020-07-24
+Farm: farm-002
+Plot: plot-002b
+Category: planting_record
+Farmer: Venkatesh Rao
+---
+Planted PR-126 Maize in Block 2 - 7.5 hectares total. Pre-treated seeds w/ Carbendazim. Applied Urea @ 64kg/ha. dry soil conditions.

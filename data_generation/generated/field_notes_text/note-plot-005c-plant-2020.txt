@@ -1,0 +1,7 @@
+Date: 2020-11-03
+Farm: farm-005
+Plot: plot-005c
+Category: planting_record
+Farmer: Arun Kumar
+---
+Sowed Rapeseed &Mustard in Mustard Plot today. Used HKR-47 variety. Soil was dry. Applied MOP at 78 kg/ha before sowing. Weather clear, temp around 24°C.

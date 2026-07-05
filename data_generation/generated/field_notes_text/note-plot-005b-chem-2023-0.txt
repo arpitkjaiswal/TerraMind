@@ -1,0 +1,7 @@
+Date: 2023-06-03
+Farm: farm-005
+Plot: plot-005b
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Applied Chlorpyrifos 20EC (insecticide) on Sugarcane Block @ 2ml/L. Pest pressure was low. Sprayed 15.0 ha. Weather: cloudy. Note: Worker used full PPE

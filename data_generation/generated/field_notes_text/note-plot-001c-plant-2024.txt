@@ -1,0 +1,7 @@
+Date: 2024-05-05
+Farm: farm-001
+Plot: plot-001c
+Category: planting_record
+Farmer: Rajinder Singh
+---
+Planted HKR-47 Rice in Field C (East) - 15.0 hectares total. Pre-treated seeds w/ bio-agent treatment. Applied MOP @ 40kg/ha. cracked soil conditions.

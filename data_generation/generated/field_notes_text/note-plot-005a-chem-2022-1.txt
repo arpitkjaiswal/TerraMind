@@ -1,0 +1,7 @@
+Date: 2022-08-10
+Farm: farm-005
+Plot: plot-005a
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Wheat Field Alpha - sprayed Carbendazim 50WP today (2g/L). Noticed aphid colony buildup on Wheat. Full field coverage. Will check results in 3-5 days.

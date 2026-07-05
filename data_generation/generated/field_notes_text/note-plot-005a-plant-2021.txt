@@ -1,0 +1,7 @@
+Date: 2021-11-11
+Farm: farm-005
+Plot: plot-005a
+Category: planting_record
+Farmer: Arun Kumar
+---
+Started planting Wheat (PR-126) in Wheat Field Alpha. Prepared with SSP basal dose (71 kg/ha). Soil felt slightly wet. Hoping for good monsoon this yr.

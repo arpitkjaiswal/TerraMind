@@ -1,0 +1,7 @@
+Date: 2020-09-02
+Farm: farm-004
+Plot: plot-004a
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Applied Carbendazim 50WP (fungicide) on Cotton Field 1 @ 2g/L. Pest pressure was high. Sprayed 18.0 ha. Weather: clear. Note: Double dose due to severity

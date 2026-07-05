@@ -1,0 +1,7 @@
+Date: 2024-10-19
+Farm: farm-004
+Plot: plot-004c
+Category: planting_record
+Farmer: Suresh Patil
+---
+Started planting Onion (PR-126) in Onion Beds. Prepared with NPK 20:20:0 basal dose (148 kg/ha). Soil felt well-drained. Hoping for good monsoon this yr.

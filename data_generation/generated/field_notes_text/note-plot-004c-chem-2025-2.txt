@@ -1,0 +1,7 @@
+Date: 2025-05-13
+Farm: farm-004
+Plot: plot-004c
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Lambda Cyhalothrin on Onion Beds. Rate: 1ml/L. Target: blast disease symptoms. Applied early morning, wind was light. Worker used full PPE

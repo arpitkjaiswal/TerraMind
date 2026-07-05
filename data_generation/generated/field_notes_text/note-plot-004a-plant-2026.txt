@@ -1,0 +1,7 @@
+Date: 2026-07-23
+Farm: farm-004
+Plot: plot-004a
+Category: planting_record
+Farmer: Suresh Patil
+---
+Started planting Cotton(lint) (UP-262) in Cotton Field 1. Prepared with DAP basal dose (93 kg/ha). Soil felt dry. Hoping for good monsoon this yr.

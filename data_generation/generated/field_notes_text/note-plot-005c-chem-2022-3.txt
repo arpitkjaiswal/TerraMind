@@ -1,0 +1,7 @@
+Date: 2022-05-24
+Farm: farm-005
+Plot: plot-005c
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Applied Mancozeb 75WP (fungicide) on Mustard Plot @ 2.5g/L. Pest pressure was severe. Sprayed 8.0 ha. Weather: clear. Note: Worker used full PPE

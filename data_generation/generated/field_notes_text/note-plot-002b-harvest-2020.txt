@@ -1,0 +1,7 @@
+Date: 2020-04-28
+Farm: farm-002
+Plot: plot-002b
+Category: harvest_report
+Farmer: Venkatesh Rao
+---
+Harvest report Block 2: Yield = 20.3 q/ha (152.3q from 7.5ha). Excellent quality, good grain fill. Similar to last year (23.1 q/ha).. Sold 122.8q @ Rs.3374/q.

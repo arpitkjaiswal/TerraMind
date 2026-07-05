@@ -1,0 +1,7 @@
+Date: 2023-10-28
+Farm: farm-003
+Plot: plot-003a
+Category: harvest_report
+Farmer: Ranjit Das
+---
+Harvested Rice from Paddy Field 1 today. Got about 333.0 quintals from 20.0 ha (16.7 q/ha). Grade A quality - expecting good price. Similar to last year (16.4 q/ha).

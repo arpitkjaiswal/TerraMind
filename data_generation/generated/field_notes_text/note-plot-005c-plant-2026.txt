@@ -1,0 +1,7 @@
+Date: 2026-12-08
+Farm: farm-005
+Plot: plot-005c
+Category: planting_record
+Farmer: Arun Kumar
+---
+Planted Co-0238 Rapeseed &Mustard in Mustard Plot - 8.0 hectares total. Pre-treated seeds w/ bio-agent treatment. Applied Ammonium Sulphate @ 142kg/ha. cracked soil conditions.

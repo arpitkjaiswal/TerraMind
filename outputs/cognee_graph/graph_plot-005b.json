@@ -1,0 +1,2036 @@
+{
+  "nodes": [
+    {
+      "id": "node-00005",
+      "type": "Farm",
+      "label": "Indo-Gangetic Farms",
+      "date": null,
+      "properties": {
+        "state": "Uttar Pradesh",
+        "owner": "Arun Kumar",
+        "farm_id": "farm-005"
+      }
+    },
+    {
+      "id": "node-00018",
+      "type": "Field",
+      "label": "Wheat Field Alpha",
+      "date": null,
+      "properties": {
+        "crop": "Wheat",
+        "size_ha": 25.0,
+        "farm_id": "farm-005",
+        "plot_id": "plot-005a"
+      }
+    },
+    {
+      "id": "node-00019",
+      "type": "Field",
+      "label": "Sugarcane Block",
+      "date": null,
+      "properties": {
+        "crop": "Sugarcane",
+        "size_ha": 15.0,
+        "farm_id": "farm-005",
+        "plot_id": "plot-005b"
+      }
+    },
+    {
+      "id": "node-00020",
+      "type": "Field",
+      "label": "Mustard Plot",
+      "date": null,
+      "properties": {
+        "crop": "Rapeseed &Mustard",
+        "size_ha": 8.0,
+        "farm_id": "farm-005",
+        "plot_id": "plot-005c"
+      }
+    },
+    {
+      "id": "node-00755",
+      "type": "YieldMeasurement",
+      "label": "yield_plot-005b_2020",
+      "date": "2020-03-12",
+      "properties": {
+        "yield_per_ha": 40.4,
+        "plot_id": "plot-005b",
+        "text": "Harvest report Sugarcane Block: Yield = 40.4 q/ha (606.4q from 15.0ha). Grain quality looks good - no moisture issues. Similar to last year (45.0 q/ha).. Sold 364.0q @ Rs.3793/q."
+      }
+    },
+    {
+      "id": "node-00756",
+      "type": "YieldMeasurement",
+      "label": "yield_plot-005b_2021",
+      "date": "2021-04-28",
+      "properties": {
+        "yield_per_ha": 39.6,
+        "plot_id": "plot-005b",
+        "text": "Harvested Sugarcane from Sugarcane Block today. Got about 594.3 quintals from 15.0 ha (39.6 q/ha). Some grain damage from late rain. Similar to last year (39.2 q/ha)."
+      }
+    },
+    {
+      "id": "node-00757",
+      "type": "YieldMeasurement",
+      "label": "yield_plot-005b_2022",
+      "date": "2022-04-13",
+      "properties": {
+        "yield_per_ha": 26.8,
+        "plot_id": "plot-005b",
+        "text": "Sugarcane Block harvest done - Sugarcane: 402.4q total, 26.8 q/ha. Excellent quality, good grain fill. Stored in godown. Similar to last year (26.3 q/ha)."
+      }
+    },
+    {
+      "id": "node-00758",
+      "type": "YieldMeasurement",
+      "label": "yield_plot-005b_2023",
+      "date": "2023-04-27",
+      "properties": {
+        "yield_per_ha": 29.2,
+        "plot_id": "plot-005b",
+        "text": "Sugarcane Block harvest done - Sugarcane: 438.7q total, 29.2 q/ha. Excellent quality, good grain fill. Stored in godown. Similar to last year (27.7 q/ha)."
+      }
+    },
+    {
+      "id": "node-00759",
+      "type": "YieldMeasurement",
+      "label": "yield_plot-005b_2024",
+      "date": "2024-03-05",
+      "properties": {
+        "yield_per_ha": 19.0,
+        "plot_id": "plot-005b",
+        "text": "Harvest report Sugarcane Block: Yield = 19.0 q/ha (285.4q from 15.0ha). Excellent quality, good grain fill. Similar to last year (17.5 q/ha).. Sold 227.6q @ Rs.2056/q."
+      }
+    },
+    {
+      "id": "node-00760",
+      "type": "YieldMeasurement",
+      "label": "yield_plot-005b_2025",
+      "date": "2025-04-28",
+      "properties": {
+        "yield_per_ha": 17.5,
+        "plot_id": "plot-005b",
+        "text": "Sugarcane Block harvest done - Sugarcane: 263.1q total, 17.5 q/ha. Grade A quality - expecting good price. Stored in godown. Similar to last year (18.6 q/ha)."
+      }
+    },
+    {
+      "id": "node-00761",
+      "type": "YieldMeasurement",
+      "label": "yield_plot-005b_2026",
+      "date": "2026-04-18",
+      "properties": {
+        "yield_per_ha": 33.7,
+        "plot_id": "plot-005b",
+        "text": "Sugarcane Block harvest done - Sugarcane: 505.5q total, 33.7 q/ha. Excellent quality, good grain fill. Stored in godown. Similar to last year (34.2 q/ha)."
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "node-00005",
+      "target": "node-00018",
+      "type": "CONTAINS",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00005",
+      "target": "node-00019",
+      "type": "CONTAINS",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00005",
+      "target": "node-00020",
+      "type": "CONTAINS",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00103",
+      "target": "node-00018",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2020-07-22",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00104",
+      "target": "node-00018",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2021-08-28",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00105",
+      "target": "node-00018",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2021-07-20",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00106",
+      "target": "node-00018",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2024-05-21",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00107",
+      "target": "node-00018",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2025-05-15",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00108",
+      "target": "node-00018",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2025-08-08",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00109",
+      "target": "node-00018",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2026-09-09",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00110",
+      "target": "node-00019",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2020-09-16",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00111",
+      "target": "node-00019",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2021-06-28",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00112",
+      "target": "node-00019",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2021-05-05",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00113",
+      "target": "node-00019",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2022-08-28",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00114",
+      "target": "node-00019",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2023-10-28",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00115",
+      "target": "node-00019",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2024-10-10",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00116",
+      "target": "node-00019",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2025-05-02",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00117",
+      "target": "node-00019",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2026-06-06",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00118",
+      "target": "node-00020",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2020-08-21",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00119",
+      "target": "node-00020",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2021-07-19",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00120",
+      "target": "node-00020",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2021-08-04",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00121",
+      "target": "node-00020",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2022-05-19",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00122",
+      "target": "node-00020",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2023-06-20",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00123",
+      "target": "node-00020",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2023-10-05",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00124",
+      "target": "node-00020",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2024-07-27",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00125",
+      "target": "node-00020",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2025-06-25",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00126",
+      "target": "node-00020",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2026-05-09",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00127",
+      "target": "node-00020",
+      "type": "OCCURRED_DURING",
+      "confirmed": false,
+      "date": "2026-07-04",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00557",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-12-27",
+      "source_document_id": "CHEM-0430"
+    },
+    {
+      "source": "node-00558",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-11-06",
+      "source_document_id": "CHEM-0431"
+    },
+    {
+      "source": "node-00559",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-11-21",
+      "source_document_id": "CHEM-0432"
+    },
+    {
+      "source": "node-00560",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-02-13",
+      "source_document_id": "CHEM-0433"
+    },
+    {
+      "source": "node-00561",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-03-26",
+      "source_document_id": "CHEM-0434"
+    },
+    {
+      "source": "node-00562",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-02-12",
+      "source_document_id": "CHEM-0435"
+    },
+    {
+      "source": "node-00563",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2021-11-26",
+      "source_document_id": "CHEM-0436"
+    },
+    {
+      "source": "node-00564",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2021-11-06",
+      "source_document_id": "CHEM-0437"
+    },
+    {
+      "source": "node-00565",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2021-03-02",
+      "source_document_id": "CHEM-0438"
+    },
+    {
+      "source": "node-00566",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2021-01-06",
+      "source_document_id": "CHEM-0439"
+    },
+    {
+      "source": "node-00567",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-11-23",
+      "source_document_id": "CHEM-0440"
+    },
+    {
+      "source": "node-00568",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-12-18",
+      "source_document_id": "CHEM-0441"
+    },
+    {
+      "source": "node-00569",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-11-01",
+      "source_document_id": "CHEM-0442"
+    },
+    {
+      "source": "node-00570",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-12-23",
+      "source_document_id": "CHEM-0443"
+    },
+    {
+      "source": "node-00571",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-03-28",
+      "source_document_id": "CHEM-0444"
+    },
+    {
+      "source": "node-00572",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-12-10",
+      "source_document_id": "CHEM-0445"
+    },
+    {
+      "source": "node-00573",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-12-21",
+      "source_document_id": "CHEM-0446"
+    },
+    {
+      "source": "node-00574",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-11-13",
+      "source_document_id": "CHEM-0447"
+    },
+    {
+      "source": "node-00575",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-12-28",
+      "source_document_id": "CHEM-0448"
+    },
+    {
+      "source": "node-00576",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-01-16",
+      "source_document_id": "CHEM-0449"
+    },
+    {
+      "source": "node-00577",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-02-06",
+      "source_document_id": "CHEM-0450"
+    },
+    {
+      "source": "node-00578",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-02-07",
+      "source_document_id": "CHEM-0451"
+    },
+    {
+      "source": "node-00579",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-11-13",
+      "source_document_id": "CHEM-0452"
+    },
+    {
+      "source": "node-00580",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-12-12",
+      "source_document_id": "CHEM-0453"
+    },
+    {
+      "source": "node-00581",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-11-26",
+      "source_document_id": "CHEM-0454"
+    },
+    {
+      "source": "node-00582",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-01-13",
+      "source_document_id": "CHEM-0455"
+    },
+    {
+      "source": "node-00583",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-03-16",
+      "source_document_id": "CHEM-0456"
+    },
+    {
+      "source": "node-00584",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2025-11-11",
+      "source_document_id": "CHEM-0457"
+    },
+    {
+      "source": "node-00585",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2025-12-08",
+      "source_document_id": "CHEM-0458"
+    },
+    {
+      "source": "node-00586",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2025-02-01",
+      "source_document_id": "CHEM-0459"
+    },
+    {
+      "source": "node-00587",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2025-01-07",
+      "source_document_id": "CHEM-0460"
+    },
+    {
+      "source": "node-00588",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2025-01-10",
+      "source_document_id": "CHEM-0461"
+    },
+    {
+      "source": "node-00589",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-12-06",
+      "source_document_id": "CHEM-0462"
+    },
+    {
+      "source": "node-00590",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-12-15",
+      "source_document_id": "CHEM-0463"
+    },
+    {
+      "source": "node-00591",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-11-03",
+      "source_document_id": "CHEM-0464"
+    },
+    {
+      "source": "node-00592",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-12-27",
+      "source_document_id": "CHEM-0465"
+    },
+    {
+      "source": "node-00593",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-02-28",
+      "source_document_id": "CHEM-0466"
+    },
+    {
+      "source": "node-00594",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-12-06",
+      "source_document_id": "CHEM-0467"
+    },
+    {
+      "source": "node-00595",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-11-22",
+      "source_document_id": "CHEM-0468"
+    },
+    {
+      "source": "node-00596",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-12-11",
+      "source_document_id": "CHEM-0469"
+    },
+    {
+      "source": "node-00597",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-12-17",
+      "source_document_id": "CHEM-0470"
+    },
+    {
+      "source": "node-00598",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-01-14",
+      "source_document_id": "CHEM-0471"
+    },
+    {
+      "source": "node-00599",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-03-25",
+      "source_document_id": "CHEM-0472"
+    },
+    {
+      "source": "node-00600",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-02-13",
+      "source_document_id": "CHEM-0473"
+    },
+    {
+      "source": "node-00601",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2021-11-20",
+      "source_document_id": "CHEM-0474"
+    },
+    {
+      "source": "node-00602",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2021-11-24",
+      "source_document_id": "CHEM-0475"
+    },
+    {
+      "source": "node-00603",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2021-02-10",
+      "source_document_id": "CHEM-0476"
+    },
+    {
+      "source": "node-00604",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-11-05",
+      "source_document_id": "CHEM-0477"
+    },
+    {
+      "source": "node-00605",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-12-20",
+      "source_document_id": "CHEM-0478"
+    },
+    {
+      "source": "node-00606",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-12-27",
+      "source_document_id": "CHEM-0479"
+    },
+    {
+      "source": "node-00607",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-11-06",
+      "source_document_id": "CHEM-0480"
+    },
+    {
+      "source": "node-00608",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-02-23",
+      "source_document_id": "CHEM-0481"
+    },
+    {
+      "source": "node-00609",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-11-22",
+      "source_document_id": "CHEM-0482"
+    },
+    {
+      "source": "node-00610",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-12-19",
+      "source_document_id": "CHEM-0483"
+    },
+    {
+      "source": "node-00611",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-11-10",
+      "source_document_id": "CHEM-0484"
+    },
+    {
+      "source": "node-00612",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-03-08",
+      "source_document_id": "CHEM-0485"
+    },
+    {
+      "source": "node-00613",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-03-01",
+      "source_document_id": "CHEM-0486"
+    },
+    {
+      "source": "node-00614",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-03-26",
+      "source_document_id": "CHEM-0487"
+    },
+    {
+      "source": "node-00615",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-12-28",
+      "source_document_id": "CHEM-0488"
+    },
+    {
+      "source": "node-00616",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-12-19",
+      "source_document_id": "CHEM-0489"
+    },
+    {
+      "source": "node-00617",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-12-10",
+      "source_document_id": "CHEM-0490"
+    },
+    {
+      "source": "node-00618",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-12-09",
+      "source_document_id": "CHEM-0491"
+    },
+    {
+      "source": "node-00619",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-03-13",
+      "source_document_id": "CHEM-0492"
+    },
+    {
+      "source": "node-00620",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2025-12-14",
+      "source_document_id": "CHEM-0493"
+    },
+    {
+      "source": "node-00621",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2025-11-22",
+      "source_document_id": "CHEM-0494"
+    },
+    {
+      "source": "node-00622",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2025-01-16",
+      "source_document_id": "CHEM-0495"
+    },
+    {
+      "source": "node-00623",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-12-21",
+      "source_document_id": "CHEM-0496"
+    },
+    {
+      "source": "node-00624",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-12-12",
+      "source_document_id": "CHEM-0497"
+    },
+    {
+      "source": "node-00625",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-11-16",
+      "source_document_id": "CHEM-0498"
+    },
+    {
+      "source": "node-00626",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-12-02",
+      "source_document_id": "CHEM-0499"
+    },
+    {
+      "source": "node-00627",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-02-05",
+      "source_document_id": "CHEM-0500"
+    },
+    {
+      "source": "node-00628",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-03-06",
+      "source_document_id": "CHEM-0501"
+    },
+    {
+      "source": "node-00629",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-11-19",
+      "source_document_id": "CHEM-0502"
+    },
+    {
+      "source": "node-00630",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-12-21",
+      "source_document_id": "CHEM-0503"
+    },
+    {
+      "source": "node-00631",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-11-18",
+      "source_document_id": "CHEM-0504"
+    },
+    {
+      "source": "node-00632",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-03-01",
+      "source_document_id": "CHEM-0505"
+    },
+    {
+      "source": "node-00633",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-01-13",
+      "source_document_id": "CHEM-0506"
+    },
+    {
+      "source": "node-00634",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2021-12-24",
+      "source_document_id": "CHEM-0507"
+    },
+    {
+      "source": "node-00635",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2021-12-12",
+      "source_document_id": "CHEM-0508"
+    },
+    {
+      "source": "node-00636",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2021-03-05",
+      "source_document_id": "CHEM-0509"
+    },
+    {
+      "source": "node-00637",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2021-02-23",
+      "source_document_id": "CHEM-0510"
+    },
+    {
+      "source": "node-00638",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-11-22",
+      "source_document_id": "CHEM-0511"
+    },
+    {
+      "source": "node-00639",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-12-04",
+      "source_document_id": "CHEM-0512"
+    },
+    {
+      "source": "node-00640",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-11-10",
+      "source_document_id": "CHEM-0513"
+    },
+    {
+      "source": "node-00641",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-01-17",
+      "source_document_id": "CHEM-0514"
+    },
+    {
+      "source": "node-00642",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-03-07",
+      "source_document_id": "CHEM-0515"
+    },
+    {
+      "source": "node-00643",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-11-18",
+      "source_document_id": "CHEM-0516"
+    },
+    {
+      "source": "node-00644",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-11-01",
+      "source_document_id": "CHEM-0517"
+    },
+    {
+      "source": "node-00645",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-11-25",
+      "source_document_id": "CHEM-0518"
+    },
+    {
+      "source": "node-00646",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-02-09",
+      "source_document_id": "CHEM-0519"
+    },
+    {
+      "source": "node-00647",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-02-12",
+      "source_document_id": "CHEM-0520"
+    },
+    {
+      "source": "node-00648",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-01-01",
+      "source_document_id": "CHEM-0521"
+    },
+    {
+      "source": "node-00649",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-12-24",
+      "source_document_id": "CHEM-0522"
+    },
+    {
+      "source": "node-00650",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-12-15",
+      "source_document_id": "CHEM-0523"
+    },
+    {
+      "source": "node-00651",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-11-04",
+      "source_document_id": "CHEM-0524"
+    },
+    {
+      "source": "node-00652",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-03-16",
+      "source_document_id": "CHEM-0525"
+    },
+    {
+      "source": "node-00653",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2025-11-16",
+      "source_document_id": "CHEM-0526"
+    },
+    {
+      "source": "node-00654",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2025-12-21",
+      "source_document_id": "CHEM-0527"
+    },
+    {
+      "source": "node-00655",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2025-12-17",
+      "source_document_id": "CHEM-0528"
+    },
+    {
+      "source": "node-00656",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2025-03-21",
+      "source_document_id": "CHEM-0529"
+    },
+    {
+      "source": "node-00657",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-11-17",
+      "source_document_id": "CHEM-0530"
+    },
+    {
+      "source": "node-00658",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-12-08",
+      "source_document_id": "CHEM-0531"
+    },
+    {
+      "source": "node-00659",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-12-13",
+      "source_document_id": "CHEM-0532"
+    },
+    {
+      "source": "node-00660",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-12-15",
+      "source_document_id": "CHEM-0533"
+    },
+    {
+      "source": "node-00661",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-02-02",
+      "source_document_id": "CHEM-0534"
+    },
+    {
+      "source": "node-00662",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-03-07",
+      "source_document_id": "CHEM-0535"
+    },
+    {
+      "source": "node-00663",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-02-11",
+      "source_document_id": "CHEM-0536"
+    },
+    {
+      "source": "node-00018",
+      "target": "node-00748",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00018",
+      "target": "node-00749",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00018",
+      "target": "node-00750",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00018",
+      "target": "node-00751",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00018",
+      "target": "node-00752",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00018",
+      "target": "node-00753",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00018",
+      "target": "node-00754",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00019",
+      "target": "node-00755",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00019",
+      "target": "node-00756",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00019",
+      "target": "node-00757",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00019",
+      "target": "node-00758",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00019",
+      "target": "node-00759",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00019",
+      "target": "node-00760",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00019",
+      "target": "node-00761",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00020",
+      "target": "node-00762",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00020",
+      "target": "node-00763",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00020",
+      "target": "node-00764",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00020",
+      "target": "node-00765",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00020",
+      "target": "node-00766",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00020",
+      "target": "node-00767",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00020",
+      "target": "node-00768",
+      "type": "PRODUCED",
+      "confirmed": false,
+      "date": null,
+      "source_document_id": null
+    },
+    {
+      "source": "node-00755",
+      "target": "node-00756",
+      "type": "PRECEDED",
+      "confirmed": false,
+      "date": "2021-01-01",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00756",
+      "target": "node-00757",
+      "type": "PRECEDED",
+      "confirmed": false,
+      "date": "2022-01-01",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00757",
+      "target": "node-00758",
+      "type": "PRECEDED",
+      "confirmed": false,
+      "date": "2023-01-01",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00758",
+      "target": "node-00759",
+      "type": "PRECEDED",
+      "confirmed": false,
+      "date": "2024-01-01",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00759",
+      "target": "node-00760",
+      "type": "PRECEDED",
+      "confirmed": false,
+      "date": "2025-01-01",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00760",
+      "target": "node-00761",
+      "type": "PRECEDED",
+      "confirmed": false,
+      "date": "2026-01-01",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00594",
+      "target": "node-00755",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2020-12-06",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00595",
+      "target": "node-00755",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2020-11-22",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00596",
+      "target": "node-00755",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2020-12-11",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00597",
+      "target": "node-00755",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2020-12-17",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00598",
+      "target": "node-00755",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2020-01-14",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00599",
+      "target": "node-00755",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2020-03-25",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00600",
+      "target": "node-00755",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2020-02-13",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00601",
+      "target": "node-00756",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2021-11-20",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00602",
+      "target": "node-00756",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2021-11-24",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00603",
+      "target": "node-00756",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2021-02-10",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00604",
+      "target": "node-00757",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2022-11-05",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00605",
+      "target": "node-00757",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2022-12-20",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00606",
+      "target": "node-00757",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2022-12-27",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00607",
+      "target": "node-00757",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2022-11-06",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00608",
+      "target": "node-00757",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2022-02-23",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00609",
+      "target": "node-00758",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2023-11-22",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00610",
+      "target": "node-00758",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2023-12-19",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00611",
+      "target": "node-00758",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2023-11-10",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00612",
+      "target": "node-00758",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2023-03-08",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00613",
+      "target": "node-00758",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2023-03-01",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00614",
+      "target": "node-00758",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2023-03-26",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00615",
+      "target": "node-00759",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2024-12-28",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00616",
+      "target": "node-00759",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2024-12-19",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00617",
+      "target": "node-00759",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2024-12-10",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00618",
+      "target": "node-00759",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2024-12-09",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00619",
+      "target": "node-00759",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2024-03-13",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00620",
+      "target": "node-00760",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2025-12-14",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00621",
+      "target": "node-00760",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2025-11-22",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00622",
+      "target": "node-00760",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2025-01-16",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00623",
+      "target": "node-00761",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2026-12-21",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00624",
+      "target": "node-00761",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2026-12-12",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00625",
+      "target": "node-00761",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2026-11-16",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00626",
+      "target": "node-00761",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2026-12-02",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00627",
+      "target": "node-00761",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2026-02-05",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00628",
+      "target": "node-00761",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2026-03-06",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00110",
+      "target": "node-00755",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2020-09-16",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00111",
+      "target": "node-00756",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2021-06-28",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00112",
+      "target": "node-00756",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2021-05-05",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00113",
+      "target": "node-00757",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2022-08-28",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00114",
+      "target": "node-00758",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2023-10-28",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00115",
+      "target": "node-00759",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2024-10-10",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00116",
+      "target": "node-00760",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2025-05-02",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00117",
+      "target": "node-00761",
+      "type": "CORRELATED_WITH",
+      "confirmed": false,
+      "date": "2026-06-06",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00853",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-11-06",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00854",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2021-11-11",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00855",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-12-22",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00856",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-11-07",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00857",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-10-17",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00858",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2025-10-23",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00859",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-11-08",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00860",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-12-17",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00861",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2021-11-10",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00862",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-12-18",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00863",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-12-20",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00864",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-11-01",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00865",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2025-12-28",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00866",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-11-11",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00867",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-11-03",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00868",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2021-10-18",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00869",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-11-15",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00870",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2023-12-04",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00871",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-10-06",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00872",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2025-10-08",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00873",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-12-08",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00922",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-02-12",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00923",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-02-21",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00924",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-03-09",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00925",
+      "target": "node-00018",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-03-23",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00926",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-02-07",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00927",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-02-16",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00928",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-03-14",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00929",
+      "target": "node-00019",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-03-19",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00930",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2020-03-06",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00931",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2022-02-20",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00932",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2024-03-19",
+      "source_document_id": null
+    },
+    {
+      "source": "node-00933",
+      "target": "node-00020",
+      "type": "APPLIED_TO",
+      "confirmed": false,
+      "date": "2026-03-15",
+      "source_document_id": null
+    }
+  ],
+  "plot_id": "plot-005b",
+  "farm_id": "farm-005"
+}

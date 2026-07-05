@@ -1,0 +1,7 @@
+Date: 2025-08-13
+Farm: farm-004
+Plot: plot-004c
+Category: weather_observation
+Farmer: Suresh Patil
+---
+Heavy rainfall last 19 days in Onion Beds area. Measured approx 88mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

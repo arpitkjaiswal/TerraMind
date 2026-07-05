@@ -1,0 +1,7 @@
+Date: 2025-06-09
+Farm: farm-003
+Plot: plot-003a
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Heavy rainfall last 9 days in Paddy Field 1 area. Measured approx 175mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

@@ -1,0 +1,7 @@
+Date: 2023-09-21
+Farm: farm-003
+Plot: plot-003a
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Chemical application log: Carbendazim 50WP on Paddy Field 1. Rate: 2g/L. Target: blast disease symptoms. Applied early morning, wind was light. 

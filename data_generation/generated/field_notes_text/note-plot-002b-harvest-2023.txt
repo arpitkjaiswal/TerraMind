@@ -1,0 +1,7 @@
+Date: 2023-03-08
+Farm: farm-002
+Plot: plot-002b
+Category: harvest_report
+Farmer: Venkatesh Rao
+---
+Harvest report Block 2: Yield = 30.6 q/ha (229.6q from 7.5ha). Mixed quality - some sections affected by disease. Similar to last year (31.0 q/ha).. Sold 165.0q @ Rs.1660/q.

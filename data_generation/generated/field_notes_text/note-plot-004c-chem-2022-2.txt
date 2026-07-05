@@ -1,0 +1,7 @@
+Date: 2022-10-13
+Farm: farm-004
+Plot: plot-004c
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Onion Beds - sprayed Chlorpyrifos 20EC today (2ml/L). Noticed aphid colony buildup on Onion. 50% coverage. Will check results in 3-5 days.

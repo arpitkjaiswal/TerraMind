@@ -1,0 +1,7 @@
+Date: 2026-05-15
+Farm: farm-002
+Plot: plot-002b
+Category: harvest_report
+Farmer: Venkatesh Rao
+---
+Harvested Maize from Block 2 today. Got about 315.8 quintals from 7.5 ha (42.1 q/ha). Grade A quality - expecting good price. Similar to last year (42.8 q/ha).

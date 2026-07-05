@@ -1,0 +1,7 @@
+Date: 2026-07-22
+Farm: farm-004
+Plot: plot-004a
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Applied Mancozeb 75WP (fungicide) on Cotton Field 1 @ 2.5g/L. Pest pressure was high. Sprayed 18.0 ha. Weather: clear. Note: Worker used full PPE

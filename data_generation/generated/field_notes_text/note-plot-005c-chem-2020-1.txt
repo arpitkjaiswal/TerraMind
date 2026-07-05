@@ -1,0 +1,7 @@
+Date: 2020-09-08
+Farm: farm-005
+Plot: plot-005c
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Mustard Plot - sprayed Carbendazim 50WP today (2g/L). Noticed weed pressure on Rapeseed &Mustard. 50% coverage. Will check results in 3-5 days.

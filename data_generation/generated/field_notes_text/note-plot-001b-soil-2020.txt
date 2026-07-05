@@ -1,0 +1,12 @@
+Date: 2020-02-21
+Farm: farm-001
+Plot: plot-001b
+Category: soil_test
+Farmer: Rajinder Singh
+---
+Soil test results for Field B (South) (sample date: 2020-02-07).
+Lab: State Agricultural Lab, Punjab.
+Results: N=120 kg/ha, P=42 kg/ha, K=26 kg/ha, pH=6.6
+Organic Carbon: 0.59%
+EC: 0.44 dS/m
+Recommendation: Maintain current levels. pH adequate.

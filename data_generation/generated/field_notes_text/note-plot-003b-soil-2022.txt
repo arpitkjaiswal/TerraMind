@@ -1,0 +1,12 @@
+Date: 2022-02-23
+Farm: farm-003
+Plot: plot-003b
+Category: soil_test
+Farmer: Ranjit Das
+---
+Soil test results for Tea Garden A (sample date: 2022-03-03).
+Lab: State Agricultural Lab, Assam.
+Results: N=107 kg/ha, P=37 kg/ha, K=29 kg/ha, pH=5.9
+Organic Carbon: 0.30%
+EC: 0.17 dS/m
+Recommendation: Maintain current levels. Lime application needed to raise pH.

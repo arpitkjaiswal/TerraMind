@@ -1,0 +1,12 @@
+Date: 2022-02-22
+Farm: farm-001
+Plot: plot-001c
+Category: soil_test
+Farmer: Rajinder Singh
+---
+Soil test results for Field C (East) (sample date: 2022-02-27).
+Lab: State Agricultural Lab, Punjab.
+Results: N=80 kg/ha, P=39 kg/ha, K=24 kg/ha, pH=6.9
+Organic Carbon: 0.33%
+EC: 0.26 dS/m
+Recommendation: Maintain current levels. pH adequate.

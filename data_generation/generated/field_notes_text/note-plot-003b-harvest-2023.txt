@@ -1,0 +1,7 @@
+Date: 2023-05-12
+Farm: farm-003
+Plot: plot-003b
+Category: harvest_report
+Farmer: Ranjit Das
+---
+Harvested Arecanut from Tea Garden A today. Got about 136.7 quintals from 6.0 ha (22.8 q/ha). Mixed quality - some sections affected by disease. Similar to last year (23.8 q/ha).

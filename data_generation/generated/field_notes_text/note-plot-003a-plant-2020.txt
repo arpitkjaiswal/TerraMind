@@ -1,0 +1,7 @@
+Date: 2020-05-23
+Farm: farm-003
+Plot: plot-003a
+Category: planting_record
+Farmer: Ranjit Das
+---
+Planted Basmati-1509 Rice in Paddy Field 1 - 20.0 hectares total. Pre-treated seeds w/ no treatment. Applied Ammonium Sulphate @ 149kg/ha. well-drained soil conditions.

@@ -1,0 +1,980 @@
+[
+  {
+    "query_text": "Why did Field B's yield drop by 30% in 2025?",
+    "confidence_label": "unconfirmed_hypothesis",
+    "confidence_score": 0.25,
+    "evidence_trail": [],
+    "relevant_nodes": [],
+    "graph_hops": 0,
+    "nodes_visited": 0,
+    "query_id": "demo-query-001",
+    "expected_insight": "Traces to combination of heavy Chlorpyrifos 20EC application in Kharif 2024 and severe drought in 2025. Soil pH had been declining from repeated Ammonium Sulphate use."
+  },
+  {
+    "query_text": "What is the relationship between pesticide use in 2024 and crop failure in 2025?",
+    "confidence_label": "statistical_association",
+    "confidence_score": 0.55,
+    "evidence_trail": [
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00183",
+        "target": "node-00007",
+        "confirmed": false,
+        "date": "2024-02-13",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00183",
+        "target": "node-00675",
+        "confirmed": false,
+        "date": "2024-02-13",
+        "hop": 0
+      },
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00203",
+        "target": "node-00008",
+        "confirmed": false,
+        "date": "2021-06-12",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00203",
+        "target": "node-00679",
+        "confirmed": false,
+        "date": "2021-06-12",
+        "hop": 0
+      },
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00204",
+        "target": "node-00008",
+        "confirmed": false,
+        "date": "2021-07-07",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00204",
+        "target": "node-00679",
+        "confirmed": false,
+        "date": "2021-07-07",
+        "hop": 0
+      },
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00224",
+        "target": "node-00008",
+        "confirmed": false,
+        "date": "2025-08-03",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00224",
+        "target": "node-00683",
+        "confirmed": false,
+        "date": "2025-08-03",
+        "hop": 0
+      },
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00234",
+        "target": "node-00009",
+        "confirmed": false,
+        "date": "2020-08-19",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00234",
+        "target": "node-00685",
+        "confirmed": false,
+        "date": "2020-08-19",
+        "hop": 0
+      }
+    ],
+    "relevant_nodes": [
+      {
+        "type": "ChemicalProduct",
+        "label": "Chlorpyrifos 20EC_plot-001b_2024",
+        "date": "2024-02-13",
+        "properties": {
+          "chemical_name": "Chlorpyrifos 20EC",
+          "chemical_type": "pesticide",
+          "application_rate": 2666.9,
+          "unit": "ml/ha",
+          "method": "power sprayer"
+        }
+      },
+      {
+        "type": "ChemicalProduct",
+        "label": "Chlorpyrifos 20EC_plot-001c_2021",
+        "date": "2021-06-12",
+        "properties": {
+          "chemical_name": "Chlorpyrifos 20EC",
+          "chemical_type": "pesticide",
+          "application_rate": 2123.5,
+          "unit": "ml/ha",
+          "method": "knapsack"
+        }
+      },
+      {
+        "type": "ChemicalProduct",
+        "label": "Chlorpyrifos 20EC_plot-001c_2021",
+        "date": "2021-07-07",
+        "properties": {
+          "chemical_name": "Chlorpyrifos 20EC",
+          "chemical_type": "pesticide",
+          "application_rate": 2131.3,
+          "unit": "ml/ha",
+          "method": "foliar spray"
+        }
+      },
+      {
+        "type": "ChemicalProduct",
+        "label": "Chlorpyrifos 20EC_plot-001c_2025",
+        "date": "2025-08-03",
+        "properties": {
+          "chemical_name": "Chlorpyrifos 20EC",
+          "chemical_type": "pesticide",
+          "application_rate": 1227.6,
+          "unit": "ml/ha",
+          "method": "knapsack"
+        }
+      },
+      {
+        "type": "ChemicalProduct",
+        "label": "Chlorpyrifos 20EC_plot-002a_2020",
+        "date": "2020-08-19",
+        "properties": {
+          "chemical_name": "Chlorpyrifos 20EC",
+          "chemical_type": "pesticide",
+          "application_rate": 2499.4,
+          "unit": "ml/ha",
+          "method": "foliar spray"
+        }
+      },
+      {
+        "type": "ChemicalProduct",
+        "label": "Chlorpyrifos 20EC_plot-002c_2021",
+        "date": "2021-03-21",
+        "properties": {
+          "chemical_name": "Chlorpyrifos 20EC",
+          "chemical_type": "pesticide",
+          "application_rate": 1674.6,
+          "unit": "ml/ha",
+          "method": "knapsack"
+        }
+      },
+      {
+        "type": "ChemicalProduct",
+        "label": "Chlorpyrifos 20EC_plot-003b_2021",
+        "date": "2021-02-21",
+        "properties": {
+          "chemical_name": "Chlorpyrifos 20EC",
+          "chemical_type": "pesticide",
+          "application_rate": 1895.4,
+          "unit": "ml/ha",
+          "method": "knapsack"
+        }
+      }
+    ],
+    "graph_hops": 0,
+    "nodes_visited": 7,
+    "query_id": "demo-query-002",
+    "expected_insight": "High-dose Chlorpyrifos (2000-3000 ml/ha) in 2024 Kharif damaged soil microbiome, which combined with 2025 drought reduced the soil's water retention capacity."
+  },
+  {
+    "query_text": "Why is soil pH declining in Field B (plot-001b)?",
+    "confidence_label": "statistical_association",
+    "confidence_score": 0.55,
+    "evidence_trail": [
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00878",
+        "target": "node-00007",
+        "confirmed": false,
+        "date": "2020-02-21",
+        "hop": 0
+      },
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00879",
+        "target": "node-00007",
+        "confirmed": false,
+        "date": "2022-02-13",
+        "hop": 0
+      },
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00880",
+        "target": "node-00007",
+        "confirmed": false,
+        "date": "2024-03-22",
+        "hop": 0
+      },
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00881",
+        "target": "node-00007",
+        "confirmed": false,
+        "date": "2026-03-11",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CONTAINS",
+        "source": "node-00007",
+        "target": "node-00001",
+        "confirmed": false,
+        "date": null,
+        "hop": 1
+      },
+      {
+        "relationship_type": "OCCURRED_DURING",
+        "source": "node-00007",
+        "target": "node-00028",
+        "confirmed": false,
+        "date": "2020-05-08",
+        "hop": 1
+      },
+      {
+        "relationship_type": "OCCURRED_DURING",
+        "source": "node-00007",
+        "target": "node-00029",
+        "confirmed": false,
+        "date": "2021-08-13",
+        "hop": 1
+      },
+      {
+        "relationship_type": "OCCURRED_DURING",
+        "source": "node-00007",
+        "target": "node-00030",
+        "confirmed": false,
+        "date": "2024-09-13",
+        "hop": 1
+      },
+      {
+        "relationship_type": "OCCURRED_DURING",
+        "source": "node-00007",
+        "target": "node-00031",
+        "confirmed": false,
+        "date": "2024-10-14",
+        "hop": 1
+      },
+      {
+        "relationship_type": "OCCURRED_DURING",
+        "source": "node-00007",
+        "target": "node-00032",
+        "confirmed": false,
+        "date": "2025-10-18",
+        "hop": 1
+      }
+    ],
+    "relevant_nodes": [
+      {
+        "type": "Practice",
+        "label": "soil_test_plot-001b_2020",
+        "date": "2020-02-21",
+        "properties": {
+          "n": 120,
+          "p": 42,
+          "k": 26,
+          "ph": 6.6,
+          "text": "Soil test results for Field B (South) (sample date: 2020-02-07).\nLab: State Agricultural Lab, Punjab.\nResults: N=120 kg/ha, P=42 kg/ha, K=26 kg/ha, pH=6.6\nOrganic Carbon: 0.59%\nEC: 0.44 dS/m\nRecommendation: Maintain current levels. pH adequate."
+        }
+      },
+      {
+        "type": "Practice",
+        "label": "soil_test_plot-001b_2022",
+        "date": "2022-02-13",
+        "properties": {
+          "n": 82,
+          "p": 44,
+          "k": 21,
+          "ph": 6.4,
+          "text": "Soil test results for Field B (South) (sample date: 2022-03-10).\nLab: State Agricultural Lab, Punjab.\nResults: N=82 kg/ha, P=44 kg/ha, K=21 kg/ha, pH=6.4\nOrganic Carbon: 0.54%\nEC: 0.48 dS/m\nRecommendation: Maintain current levels. pH adequate."
+        }
+      },
+      {
+        "type": "Practice",
+        "label": "soil_test_plot-001b_2024",
+        "date": "2024-03-22",
+        "properties": {
+          "n": 113,
+          "p": 29,
+          "k": 27,
+          "ph": 6.2,
+          "text": "Soil test results for Field B (South) (sample date: 2024-03-01).\nLab: State Agricultural Lab, Punjab.\nResults: N=113 kg/ha, P=29 kg/ha, K=27 kg/ha, pH=6.2\nOrganic Carbon: 0.44%\nEC: 0.42 dS/m\nRecommendation: Maintain current levels. pH adequate."
+        }
+      },
+      {
+        "type": "Practice",
+        "label": "soil_test_plot-001b_2026",
+        "date": "2026-03-11",
+        "properties": {
+          "n": 97,
+          "p": 34,
+          "k": 44,
+          "ph": 4.8,
+          "text": "Soil test results for Field B (South) (sample date: 2026-03-28).\nLab: State Agricultural Lab, Punjab.\nResults: N=97 kg/ha, P=34 kg/ha, K=44 kg/ha, pH=4.8\nOrganic Carbon: 0.52%\nEC: 0.47 dS/m\nRecommendation: Maintain current levels. Lime application needed to raise pH."
+        }
+      },
+      {
+        "type": "Field",
+        "label": "Field B (South)",
+        "date": null,
+        "properties": {
+          "crop": "Wheat",
+          "size_ha": 8.0,
+          "farm_id": "farm-001",
+          "plot_id": "plot-001b"
+        }
+      }
+    ],
+    "graph_hops": 1,
+    "nodes_visited": 5,
+    "query_id": "demo-query-003",
+    "expected_insight": "Repeated application of Ammonium Sulphate (120-180 kg/ha) across 2020-2026 without lime application caused progressive pH decline from ~6.2 to ~5.2."
+  },
+  {
+    "query_text": "What caused the cotton yield crash in Farm 4 (Vidarbha)?",
+    "confidence_label": "unconfirmed_hypothesis",
+    "confidence_score": 0.25,
+    "evidence_trail": [],
+    "relevant_nodes": [],
+    "graph_hops": 0,
+    "nodes_visited": 0,
+    "query_id": "demo-query-004",
+    "expected_insight": "2026 heatwave (48\u00b0C, 18 days) combined with 2025 fertilizer reduction (-60%) and excessive pesticide use created a compound crisis."
+  },
+  {
+    "query_text": "Which plots are most at risk for yield decline next season?",
+    "confidence_label": "statistical_association",
+    "confidence_score": 0.55,
+    "evidence_trail": [
+      {
+        "relationship_type": "PRODUCED",
+        "source": "node-00664",
+        "target": "node-00006",
+        "confirmed": false,
+        "date": null,
+        "hop": 0
+      },
+      {
+        "relationship_type": "PRECEDED",
+        "source": "node-00664",
+        "target": "node-00665",
+        "confirmed": false,
+        "date": "2021-01-01",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00664",
+        "target": "node-00128",
+        "confirmed": false,
+        "date": "2020-07-08",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00664",
+        "target": "node-00129",
+        "confirmed": false,
+        "date": "2020-05-01",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00664",
+        "target": "node-00130",
+        "confirmed": false,
+        "date": "2020-08-08",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00664",
+        "target": "node-00131",
+        "confirmed": false,
+        "date": "2020-06-23",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00664",
+        "target": "node-00132",
+        "confirmed": false,
+        "date": "2020-09-04",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00664",
+        "target": "node-00021",
+        "confirmed": false,
+        "date": "2020-10-24",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00664",
+        "target": "node-00022",
+        "confirmed": false,
+        "date": "2020-05-18",
+        "hop": 0
+      },
+      {
+        "relationship_type": "PRODUCED",
+        "source": "node-00665",
+        "target": "node-00006",
+        "confirmed": false,
+        "date": null,
+        "hop": 0
+      }
+    ],
+    "relevant_nodes": [
+      {
+        "type": "YieldMeasurement",
+        "label": "yield_plot-001a_2020",
+        "date": "2020-10-25",
+        "properties": {
+          "yield_per_ha": 30.1,
+          "plot_id": "plot-001a",
+          "text": "Harvested Rice from Field A (North) today. Got about 375.7 quintals from 12.5 ha (30.1 q/ha). Excellent quality, good grain fill. Similar to last year (32.9 q/ha)."
+        }
+      },
+      {
+        "type": "YieldMeasurement",
+        "label": "yield_plot-001a_2021",
+        "date": "2021-12-20",
+        "properties": {
+          "yield_per_ha": 26.9,
+          "plot_id": "plot-001a",
+          "text": "Harvest report Field A (North): Yield = 26.9 q/ha (335.7q from 12.5ha). Mixed quality - some sections affected by disease. Similar to last year (28.0 q/ha).. Sold 226.2q @ Rs.1793/q."
+        }
+      },
+      {
+        "type": "YieldMeasurement",
+        "label": "yield_plot-001a_2022",
+        "date": "2022-12-19",
+        "properties": {
+          "yield_per_ha": 23.0,
+          "plot_id": "plot-001a",
+          "text": "Harvested Rice from Field A (North) today. Got about 287.3 quintals from 12.5 ha (23.0 q/ha). Grain quality looks good - no moisture issues. Similar to last year (23.2 q/ha)."
+        }
+      }
+    ],
+    "graph_hops": 0,
+    "nodes_visited": 3,
+    "query_id": "demo-query-005",
+    "expected_insight": "Plots with declining soil health (pH drop), increasing chemical dependency, and exposure to climate volatility are highest risk."
+  },
+  {
+    "query_text": "How did the 2024 flood affect Block 1 in Farm 2?",
+    "confidence_label": "statistical_association",
+    "confidence_score": 0.55,
+    "evidence_trail": [
+      {
+        "relationship_type": "OCCURRED_DURING",
+        "source": "node-00045",
+        "target": "node-00009",
+        "confirmed": false,
+        "date": "2024-09-16",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00045",
+        "target": "node-00689",
+        "confirmed": false,
+        "date": "2024-09-16",
+        "hop": 0
+      },
+      {
+        "relationship_type": "OCCURRED_DURING",
+        "source": "node-00046",
+        "target": "node-00009",
+        "confirmed": false,
+        "date": "2024-06-02",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00046",
+        "target": "node-00689",
+        "confirmed": false,
+        "date": "2024-06-02",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CONTAINS",
+        "source": "node-00009",
+        "target": "node-00002",
+        "confirmed": false,
+        "date": null,
+        "hop": 1
+      },
+      {
+        "relationship_type": "OCCURRED_DURING",
+        "source": "node-00009",
+        "target": "node-00042",
+        "confirmed": false,
+        "date": "2020-05-15",
+        "hop": 1
+      },
+      {
+        "relationship_type": "OCCURRED_DURING",
+        "source": "node-00009",
+        "target": "node-00043",
+        "confirmed": false,
+        "date": "2020-08-16",
+        "hop": 1
+      },
+      {
+        "relationship_type": "OCCURRED_DURING",
+        "source": "node-00009",
+        "target": "node-00044",
+        "confirmed": false,
+        "date": "2023-10-26",
+        "hop": 1
+      },
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00009",
+        "target": "node-00230",
+        "confirmed": false,
+        "date": "2020-06-21",
+        "hop": 1
+      },
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00009",
+        "target": "node-00231",
+        "confirmed": false,
+        "date": "2020-07-20",
+        "hop": 1
+      }
+    ],
+    "relevant_nodes": [
+      {
+        "type": "WeatherEvent",
+        "label": "flood_Karnataka_2024",
+        "date": "2024-09-16",
+        "properties": {
+          "event_type": "flood",
+          "severity": "mild",
+          "duration_days": 4,
+          "description": "Heavy continuous rainfall \u2014 1477mm in 4 days. Waterlogging in low-lying fields.",
+          "state": "Karnataka"
+        }
+      },
+      {
+        "type": "WeatherEvent",
+        "label": "flood_Karnataka_2024",
+        "date": "2024-06-02",
+        "properties": {
+          "event_type": "flood",
+          "severity": "moderate",
+          "duration_days": 15,
+          "description": "Heavy unseasonal flooding in Block 1. 180mm rainfall in 5 days. Rice paddies submerged for 8 days. Significant yield loss expected.",
+          "state": "Karnataka"
+        }
+      },
+      {
+        "type": "Field",
+        "label": "Block 1",
+        "date": null,
+        "properties": {
+          "crop": "Rice",
+          "size_ha": 10.0,
+          "farm_id": "farm-002",
+          "plot_id": "plot-002a"
+        }
+      }
+    ],
+    "graph_hops": 1,
+    "nodes_visited": 3,
+    "query_id": "demo-query-006",
+    "expected_insight": "Moderate flooding (180mm in 5 days) caused rice paddy submersion for 8 days, leading to root rot and 25% yield reduction."
+  },
+  {
+    "query_text": "What is the long-term trend of fertilizer effectiveness?",
+    "confidence_label": "statistical_association",
+    "confidence_score": 0.55,
+    "evidence_trail": [
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00128",
+        "target": "node-00006",
+        "confirmed": false,
+        "date": "2020-07-08",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00128",
+        "target": "node-00664",
+        "confirmed": false,
+        "date": "2020-07-08",
+        "hop": 0
+      },
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00129",
+        "target": "node-00006",
+        "confirmed": false,
+        "date": "2020-05-01",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00129",
+        "target": "node-00664",
+        "confirmed": false,
+        "date": "2020-05-01",
+        "hop": 0
+      },
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00130",
+        "target": "node-00006",
+        "confirmed": false,
+        "date": "2020-08-08",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00130",
+        "target": "node-00664",
+        "confirmed": false,
+        "date": "2020-08-08",
+        "hop": 0
+      },
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00131",
+        "target": "node-00006",
+        "confirmed": false,
+        "date": "2020-06-23",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00131",
+        "target": "node-00664",
+        "confirmed": false,
+        "date": "2020-06-23",
+        "hop": 0
+      },
+      {
+        "relationship_type": "APPLIED_TO",
+        "source": "node-00132",
+        "target": "node-00006",
+        "confirmed": false,
+        "date": "2020-09-04",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00132",
+        "target": "node-00664",
+        "confirmed": false,
+        "date": "2020-09-04",
+        "hop": 0
+      }
+    ],
+    "relevant_nodes": [
+      {
+        "type": "ChemicalProduct",
+        "label": "DAP (18-46-0)_plot-001a_2020",
+        "date": "2020-07-08",
+        "properties": {
+          "chemical_name": "DAP (18-46-0)",
+          "chemical_type": "fertilizer",
+          "application_rate": 51.3,
+          "unit": "kg/ha",
+          "method": "band"
+        }
+      },
+      {
+        "type": "ChemicalProduct",
+        "label": "DAP (18-46-0)_plot-001a_2020",
+        "date": "2020-05-01",
+        "properties": {
+          "chemical_name": "DAP (18-46-0)",
+          "chemical_type": "fertilizer",
+          "application_rate": 79.5,
+          "unit": "kg/ha",
+          "method": "broadcast"
+        }
+      },
+      {
+        "type": "ChemicalProduct",
+        "label": "Urea (46-0-0)_plot-001a_2020",
+        "date": "2020-08-08",
+        "properties": {
+          "chemical_name": "Urea (46-0-0)",
+          "chemical_type": "fertilizer",
+          "application_rate": 119.3,
+          "unit": "kg/ha",
+          "method": "drip"
+        }
+      },
+      {
+        "type": "ChemicalProduct",
+        "label": "Urea (46-0-0)_plot-001a_2020",
+        "date": "2020-06-23",
+        "properties": {
+          "chemical_name": "Urea (46-0-0)",
+          "chemical_type": "fertilizer",
+          "application_rate": 133.1,
+          "unit": "kg/ha",
+          "method": "drip"
+        }
+      },
+      {
+        "type": "ChemicalProduct",
+        "label": "Propiconazole 25EC_plot-001a_2020",
+        "date": "2020-09-04",
+        "properties": {
+          "chemical_name": "Propiconazole 25EC",
+          "chemical_type": "pesticide",
+          "application_rate": 440.9,
+          "unit": "ml/ha",
+          "method": "power sprayer"
+        }
+      },
+      {
+        "type": "ChemicalProduct",
+        "label": "Borax_plot-001a_2021",
+        "date": "2021-08-03",
+        "properties": {
+          "chemical_name": "Borax",
+          "chemical_type": "fertilizer",
+          "application_rate": 10.4,
+          "unit": "kg/ha",
+          "method": "foliar"
+        }
+      },
+      {
+        "type": "ChemicalProduct",
+        "label": "DAP (18-46-0)_plot-001a_2021",
+        "date": "2021-06-25",
+        "properties": {
+          "chemical_name": "DAP (18-46-0)",
+          "chemical_type": "fertilizer",
+          "application_rate": 52.3,
+          "unit": "kg/ha",
+          "method": "foliar"
+        }
+      }
+    ],
+    "graph_hops": 0,
+    "nodes_visited": 7,
+    "query_id": "demo-query-007",
+    "expected_insight": "Lag analysis shows fertilizer-yield correlation weakening over time (r=0.15 at lag-0 to r=0.08 at lag-2), suggesting diminishing returns from increasing application rates."
+  },
+  {
+    "query_text": "Are there recurring weather patterns that precede yield drops?",
+    "confidence_label": "statistical_association",
+    "confidence_score": 0.55,
+    "evidence_trail": [
+      {
+        "relationship_type": "OCCURRED_DURING",
+        "source": "node-00021",
+        "target": "node-00006",
+        "confirmed": false,
+        "date": "2020-10-24",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00021",
+        "target": "node-00664",
+        "confirmed": false,
+        "date": "2020-10-24",
+        "hop": 0
+      },
+      {
+        "relationship_type": "OCCURRED_DURING",
+        "source": "node-00022",
+        "target": "node-00006",
+        "confirmed": false,
+        "date": "2020-05-18",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00022",
+        "target": "node-00664",
+        "confirmed": false,
+        "date": "2020-05-18",
+        "hop": 0
+      },
+      {
+        "relationship_type": "OCCURRED_DURING",
+        "source": "node-00023",
+        "target": "node-00006",
+        "confirmed": false,
+        "date": "2021-05-25",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00023",
+        "target": "node-00665",
+        "confirmed": false,
+        "date": "2021-05-25",
+        "hop": 0
+      },
+      {
+        "relationship_type": "OCCURRED_DURING",
+        "source": "node-00024",
+        "target": "node-00006",
+        "confirmed": false,
+        "date": "2021-05-12",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00024",
+        "target": "node-00665",
+        "confirmed": false,
+        "date": "2021-05-12",
+        "hop": 0
+      },
+      {
+        "relationship_type": "OCCURRED_DURING",
+        "source": "node-00025",
+        "target": "node-00006",
+        "confirmed": false,
+        "date": "2023-09-28",
+        "hop": 0
+      },
+      {
+        "relationship_type": "CORRELATED_WITH",
+        "source": "node-00025",
+        "target": "node-00667",
+        "confirmed": false,
+        "date": "2023-09-28",
+        "hop": 0
+      }
+    ],
+    "relevant_nodes": [
+      {
+        "type": "WeatherEvent",
+        "label": "drought_Punjab_2020",
+        "date": "2020-10-24",
+        "properties": {
+          "event_type": "drought",
+          "severity": "mild",
+          "duration_days": 23,
+          "description": "Extended dry spell of 23 days. No significant rainfall recorded. Soil moisture critically low.",
+          "state": "Punjab"
+        }
+      },
+      {
+        "type": "WeatherEvent",
+        "label": "frost_Punjab_2020",
+        "date": "2020-05-18",
+        "properties": {
+          "event_type": "frost",
+          "severity": "mild",
+          "duration_days": 1,
+          "description": "Unexpected frost event. Temperature dropped to 3.5\u00b0C. Frost damage on Wheat plants.",
+          "state": "Punjab"
+        }
+      },
+      {
+        "type": "WeatherEvent",
+        "label": "unseasonal_rain_Punjab_2021",
+        "date": "2021-05-25",
+        "properties": {
+          "event_type": "unseasonal_rain",
+          "severity": "mild",
+          "duration_days": 5,
+          "description": "Off-season wet spell \u2014 55mm over 5 days. Stored grain at risk of moisture damage.",
+          "state": "Punjab"
+        }
+      },
+      {
+        "type": "WeatherEvent",
+        "label": "heatwave_Punjab_2021",
+        "date": "2021-05-12",
+        "properties": {
+          "event_type": "heatwave",
+          "severity": "mild",
+          "duration_days": 4,
+          "description": "Extreme heat event in Punjab. Max temp 40.3\u00b0C. Significant evapotranspiration stress.",
+          "state": "Punjab"
+        }
+      },
+      {
+        "type": "WeatherEvent",
+        "label": "frost_Punjab_2023",
+        "date": "2023-09-28",
+        "properties": {
+          "event_type": "frost",
+          "severity": "moderate",
+          "duration_days": 6,
+          "description": "Unexpected frost event. Temperature dropped to 1.7\u00b0C. Frost damage on Cotton plants.",
+          "state": "Punjab"
+        }
+      },
+      {
+        "type": "WeatherEvent",
+        "label": "drought_Punjab_2023",
+        "date": "2023-08-09",
+        "properties": {
+          "event_type": "drought",
+          "severity": "mild",
+          "duration_days": 22,
+          "description": "Severe drought conditions. Rainfall deficit of 343mm vs normal. Crop stress visible across all plots.",
+          "state": "Punjab"
+        }
+      },
+      {
+        "type": "WeatherEvent",
+        "label": "flood_Punjab_2024",
+        "date": "2024-09-21",
+        "properties": {
+          "event_type": "flood",
+          "severity": "mild",
+          "duration_days": 4,
+          "description": "Excessive monsoon rain (2240mm vs 1499mm normal). Crop submersion in multiple plots.",
+          "state": "Punjab"
+        }
+      }
+    ],
+    "graph_hops": 0,
+    "nodes_visited": 7,
+    "query_id": "demo-query-008",
+    "expected_insight": "Drought events followed by excess rain in consecutive years show the strongest correlation with yield crashes (pattern found in 5+ states)."
+  },
+  {
+    "query_text": "How do soil nutrients interact with weather to affect Rice yields?",
+    "confidence_label": "unconfirmed_hypothesis",
+    "confidence_score": 0.25,
+    "evidence_trail": [],
+    "relevant_nodes": [],
+    "graph_hops": 0,
+    "nodes_visited": 0,
+    "query_id": "demo-query-009",
+    "expected_insight": "Low soil phosphorus (<25 kg/ha) combined with below-average rainfall creates compounding stress. States with higher NPK totals show more resilience to drought."
+  },
+  {
+    "query_text": "What is the optimal fertilizer-pesticide balance for wheat in Punjab?",
+    "confidence_label": "unconfirmed_hypothesis",
+    "confidence_score": 0.25,
+    "evidence_trail": [],
+    "relevant_nodes": [],
+    "graph_hops": 0,
+    "nodes_visited": 0,
+    "query_id": "demo-query-010",
+    "expected_insight": "Historical data shows peak wheat yields at 100-120 kg/ha fertilizer and minimal pesticide (<500 ml/ha). Over-application of either shows negative returns."
+  }
+]

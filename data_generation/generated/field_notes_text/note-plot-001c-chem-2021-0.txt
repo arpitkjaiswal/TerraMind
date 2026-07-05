@@ -1,0 +1,7 @@
+Date: 2021-05-15
+Farm: farm-001
+Plot: plot-001c
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Applied Carbendazim 50WP (fungicide) on Field C (East) @ 2g/L. Pest pressure was moderate. Sprayed 15.0 ha. Weather: clear. Note: Mixed with sticker

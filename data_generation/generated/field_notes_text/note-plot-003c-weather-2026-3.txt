@@ -1,0 +1,7 @@
+Date: 2026-10-05
+Farm: farm-003
+Plot: plot-003c
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Heavy rainfall last 26 days in Vegetable Patch area. Measured approx 174mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

@@ -1,0 +1,7 @@
+Date: 2026-06-17
+Farm: farm-004
+Plot: plot-004b
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Chlorpyrifos 20EC on Soybean Plot. Rate: 2ml/L. Target: aphid colony buildup. Applied early morning, wind was moderate. 

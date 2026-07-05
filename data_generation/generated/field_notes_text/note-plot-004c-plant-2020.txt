@@ -1,0 +1,7 @@
+Date: 2020-10-21
+Farm: farm-004
+Plot: plot-004c
+Category: planting_record
+Farmer: Suresh Patil
+---
+Sowed Onion in Onion Beds today. Used Co-0238 variety. Soil was moist. Applied DAP at 71 kg/ha before sowing. Weather clear, temp around 28°C.

@@ -1,0 +1,7 @@
+Date: 2021-09-21
+Farm: farm-003
+Plot: plot-003c
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Vegetable Patch - sprayed Propiconazole 25EC today (1ml/L). Noticed blast disease symptoms on Potato. 50% coverage. Will check results in 3-5 days.

@@ -1,0 +1,7 @@
+Date: 2024-10-05
+Farm: farm-005
+Plot: plot-005a
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Heavy rainfall last 5 days in Wheat Field Alpha area. Measured approx 25mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

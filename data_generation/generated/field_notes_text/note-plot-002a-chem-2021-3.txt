@@ -1,0 +1,7 @@
+Date: 2021-09-12
+Farm: farm-002
+Plot: plot-002a
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Applied 2,4-D Sodium Salt (herbicide) on Block 1 @ 2.5ml/L. Pest pressure was severe. Sprayed 10.0 ha. Weather: light drizzle. Note: Worker used full PPE

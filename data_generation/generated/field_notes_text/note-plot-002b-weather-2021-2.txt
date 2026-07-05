@@ -1,0 +1,7 @@
+Date: 2021-08-01
+Farm: farm-002
+Plot: plot-002b
+Category: weather_observation
+Farmer: Venkatesh Rao
+---
+Heavy rainfall last 9 days in Block 2 area. Measured approx 188mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

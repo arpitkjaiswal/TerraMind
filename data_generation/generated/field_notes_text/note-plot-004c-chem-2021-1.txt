@@ -1,0 +1,7 @@
+Date: 2021-06-12
+Farm: farm-004
+Plot: plot-004c
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: 2,4-D Sodium Salt on Onion Beds. Rate: 2.5ml/L. Target: whitefly attack. Applied early morning, wind was moderate. Mixed with sticker

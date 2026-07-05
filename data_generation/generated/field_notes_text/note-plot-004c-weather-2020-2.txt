@@ -1,0 +1,7 @@
+Date: 2020-10-09
+Farm: farm-004
+Plot: plot-004c
+Category: weather_observation
+Farmer: Suresh Patil
+---
+Heatwave warning: 26°C recorded near Onion Beds. Irrigated urgently. Onion showing wilting. Applied foliar spray to reduce transpiration stress.

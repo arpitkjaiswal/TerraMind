@@ -1,0 +1,7 @@
+Date: 2022-06-25
+Farm: farm-001
+Plot: plot-001c
+Category: planting_record
+Farmer: Rajinder Singh
+---
+Planted PR-126 Rice in Field C (East) - 15.0 hectares total. Pre-treated seeds w/ Thiram. Applied SSP @ 60kg/ha. slightly wet soil conditions.

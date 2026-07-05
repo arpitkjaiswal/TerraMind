@@ -1,0 +1,7 @@
+Date: 2023-11-11
+Farm: farm-004
+Plot: plot-004b
+Category: planting_record
+Farmer: Suresh Patil
+---
+Soybean Plot: sowing done. Arhar/Tur - UP-262. Fert: SSP (56 kg/ha). Notes: dry texture, need irrigation in 3 days. Temp was 22C today.

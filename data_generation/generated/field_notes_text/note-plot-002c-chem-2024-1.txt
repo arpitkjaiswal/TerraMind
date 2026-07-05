@@ -1,0 +1,7 @@
+Date: 2024-06-27
+Farm: farm-002
+Plot: plot-002c
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Block 3 - sprayed Lambda Cyhalothrin today (1ml/L). Noticed leaf blight symptoms on Sugarcane. Border coverage. Will check results in 3-5 days.

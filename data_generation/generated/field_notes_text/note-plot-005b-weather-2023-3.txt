@@ -1,0 +1,7 @@
+Date: 2023-08-25
+Farm: farm-005
+Plot: plot-005b
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Good monsoon so far - Sugarcane Block getting steady rain. About 156mm this week. Crop looking healthy. Humidity around 81%.

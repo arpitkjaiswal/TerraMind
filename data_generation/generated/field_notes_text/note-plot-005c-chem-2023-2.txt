@@ -1,0 +1,7 @@
+Date: 2023-07-14
+Farm: farm-005
+Plot: plot-005c
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Chemical application log: Carbendazim 50WP on Mustard Plot. Rate: 2g/L. Target: weed pressure. Applied early morning, wind was light. Mixed with sticker

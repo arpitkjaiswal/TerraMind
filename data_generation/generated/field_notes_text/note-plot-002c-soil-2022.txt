@@ -1,0 +1,12 @@
+Date: 2022-02-16
+Farm: farm-002
+Plot: plot-002c
+Category: soil_test
+Farmer: Venkatesh Rao
+---
+Soil test results for Block 3 (sample date: 2022-02-05).
+Lab: State Agricultural Lab, Karnataka.
+Results: N=101 kg/ha, P=32 kg/ha, K=42 kg/ha, pH=6.6
+Organic Carbon: 0.32%
+EC: 0.11 dS/m
+Recommendation: Maintain current levels. pH adequate.

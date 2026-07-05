@@ -1,0 +1,7 @@
+Date: 2025-10-01
+Farm: farm-004
+Plot: plot-004a
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Cotton Field 1 - sprayed Glyphosate 41SL today (10ml/L). Noticed aphid colony buildup on Cotton(lint). 50% coverage. Will check results in 3-5 days.

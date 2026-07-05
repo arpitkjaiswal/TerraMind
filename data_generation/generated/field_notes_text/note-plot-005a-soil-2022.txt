@@ -1,0 +1,12 @@
+Date: 2022-02-21
+Farm: farm-005
+Plot: plot-005a
+Category: soil_test
+Farmer: Arun Kumar
+---
+Soil test results for Wheat Field Alpha (sample date: 2022-02-05).
+Lab: State Agricultural Lab, Uttar Pradesh.
+Results: N=82 kg/ha, P=38 kg/ha, K=38 kg/ha, pH=6.9
+Organic Carbon: 0.79%
+EC: 0.20 dS/m
+Recommendation: Maintain current levels. pH adequate.

@@ -1,0 +1,7 @@
+Date: 2026-11-11
+Farm: farm-003
+Plot: plot-003a
+Category: harvest_report
+Farmer: Ranjit Das
+---
+Paddy Field 1 harvest done - Rice: 516.1q total, 25.8 q/ha. Excellent quality, good grain fill. Stored in godown. Similar to last year (23.5 q/ha).

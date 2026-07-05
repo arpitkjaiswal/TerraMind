@@ -1,0 +1,7 @@
+Date: 2025-06-12
+Farm: farm-005
+Plot: plot-005b
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Applied Lambda Cyhalothrin (insecticide) on Sugarcane Block @ 1ml/L. Pest pressure was moderate. Sprayed 15.0 ha. Weather: clear. Note: Worker used full PPE

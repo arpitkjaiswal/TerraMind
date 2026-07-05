@@ -1,0 +1,7 @@
+Date: 2021-08-26
+Farm: farm-004
+Plot: plot-004a
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Lambda Cyhalothrin on Cotton Field 1. Rate: 1ml/L. Target: weed pressure. Applied early morning, wind was moderate. Mixed with sticker

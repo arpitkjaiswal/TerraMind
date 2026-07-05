@@ -1,0 +1,7 @@
+Date: 2022-09-18
+Farm: farm-003
+Plot: plot-003c
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Vegetable Patch: No rain for 13 days straight. Soil cracking badly. Temp hitting 42°C. Crops showing stress - leaves curling. Need to arrange irrigation ASAP.

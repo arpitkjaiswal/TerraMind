@@ -1,0 +1,7 @@
+Date: 2023-09-11
+Farm: farm-005
+Plot: plot-005c
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Chemical application log: Glyphosate 41SL on Mustard Plot. Rate: 10ml/L. Target: whitefly attack. Applied early morning, wind was moderate. Double dose due to severity

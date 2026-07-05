@@ -1,0 +1,7 @@
+Date: 2023-08-06
+Farm: farm-004
+Plot: plot-004b
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Applied Imidacloprid 17.8SL (insecticide) on Soybean Plot @ 0.5ml/L. Pest pressure was low. Sprayed 12.0 ha. Weather: light drizzle. Note: Mixed with sticker

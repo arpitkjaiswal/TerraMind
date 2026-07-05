@@ -1,0 +1,7 @@
+Date: 2022-08-22
+Farm: farm-003
+Plot: plot-003c
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Good monsoon so far - Vegetable Patch getting steady rain. About 160mm this week. Crop looking healthy. Humidity around 74%.

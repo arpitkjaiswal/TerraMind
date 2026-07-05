@@ -1,0 +1,7 @@
+Date: 2024-10-18
+Farm: farm-003
+Plot: plot-003a
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Chemical application log: Propiconazole 25EC on Paddy Field 1. Rate: 1ml/L. Target: fungal spots on leaves. Applied early morning, wind was moderate. Mixed with sticker

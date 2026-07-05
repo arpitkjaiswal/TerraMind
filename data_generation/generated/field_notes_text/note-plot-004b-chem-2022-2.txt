@@ -1,0 +1,7 @@
+Date: 2022-08-08
+Farm: farm-004
+Plot: plot-004b
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Lambda Cyhalothrin on Soybean Plot. Rate: 1ml/L. Target: blast disease symptoms. Applied early morning, wind was moderate. Mixed with sticker

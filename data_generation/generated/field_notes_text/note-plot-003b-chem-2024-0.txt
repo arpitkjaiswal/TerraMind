@@ -1,0 +1,7 @@
+Date: 2024-07-15
+Farm: farm-003
+Plot: plot-003b
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Chemical application log: Carbendazim 50WP on Tea Garden A. Rate: 2g/L. Target: whitefly attack. Applied early morning, wind was calm. 

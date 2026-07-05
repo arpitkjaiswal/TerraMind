@@ -1,0 +1,7 @@
+Date: 2023-06-24
+Farm: farm-002
+Plot: plot-002a
+Category: weather_observation
+Farmer: Venkatesh Rao
+---
+Heatwave warning: 32°C recorded near Block 1. Irrigated urgently. Rice showing wilting. Applied foliar spray to reduce transpiration stress.

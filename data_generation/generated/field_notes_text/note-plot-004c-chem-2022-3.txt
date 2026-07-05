@@ -1,0 +1,7 @@
+Date: 2022-06-28
+Farm: farm-004
+Plot: plot-004c
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Chlorpyrifos 20EC on Onion Beds. Rate: 2ml/L. Target: weed pressure. Applied early morning, wind was moderate. 

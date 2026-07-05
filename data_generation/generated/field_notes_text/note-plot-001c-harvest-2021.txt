@@ -1,0 +1,7 @@
+Date: 2021-12-09
+Farm: farm-001
+Plot: plot-001c
+Category: harvest_report
+Farmer: Rajinder Singh
+---
+Harvested Rice from Field C (East) today. Got about 506.4 quintals from 15.0 ha (33.8 q/ha). Grade A quality - expecting good price. Similar to last year (32.4 q/ha).

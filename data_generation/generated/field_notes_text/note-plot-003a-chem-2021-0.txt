@@ -1,0 +1,7 @@
+Date: 2021-09-19
+Farm: farm-003
+Plot: plot-003a
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Applied Imidacloprid 17.8SL (insecticide) on Paddy Field 1 @ 0.5ml/L. Pest pressure was moderate. Sprayed 20.0 ha. Weather: clear. Note: Worker used full PPE

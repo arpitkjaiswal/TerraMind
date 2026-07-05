@@ -1,0 +1,7 @@
+Date: 2022-12-19
+Farm: farm-003
+Plot: plot-003c
+Category: planting_record
+Farmer: Ranjit Das
+---
+Planted DWR-162 Potato in Vegetable Patch - 3.5 hectares total. Pre-treated seeds w/ Carbendazim. Applied DAP @ 78kg/ha. cracked soil conditions.

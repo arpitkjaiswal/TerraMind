@@ -1,0 +1,7 @@
+Date: 2026-09-28
+Farm: farm-001
+Plot: plot-001b
+Category: weather_observation
+Farmer: Rajinder Singh
+---
+Unusual cold snap in Field B (South) region. Temp dropped to 25°C overnight. Some frost damage visible on young Wheat plants. Applied straw mulching.

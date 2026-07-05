@@ -1,0 +1,7 @@
+Date: 2021-06-10
+Farm: farm-002
+Plot: plot-002c
+Category: weather_observation
+Farmer: Venkatesh Rao
+---
+Unusual cold snap in Block 3 region. Temp dropped to 19°C overnight. Some frost damage visible on young Sugarcane plants. Applied straw mulching.

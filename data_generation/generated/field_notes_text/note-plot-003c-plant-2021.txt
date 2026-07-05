@@ -1,0 +1,7 @@
+Date: 2021-11-23
+Farm: farm-003
+Plot: plot-003c
+Category: planting_record
+Farmer: Ranjit Das
+---
+Planted Swarna Potato in Vegetable Patch - 3.5 hectares total. Pre-treated seeds w/ Carbendazim. Applied Urea @ 93kg/ha. dry soil conditions.

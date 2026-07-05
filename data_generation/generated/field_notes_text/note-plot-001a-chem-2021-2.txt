@@ -1,0 +1,7 @@
+Date: 2021-07-12
+Farm: farm-001
+Plot: plot-001a
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Applied Glyphosate 41SL (herbicide) on Field A (North) @ 10ml/L. Pest pressure was low. Sprayed 12.5 ha. Weather: clear. Note: Mixed with sticker

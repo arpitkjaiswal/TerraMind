@@ -1,0 +1,7 @@
+Date: 2023-06-15
+Farm: farm-002
+Plot: plot-002c
+Category: weather_observation
+Farmer: Venkatesh Rao
+---
+Block 3: No rain for 30 days straight. Soil cracking badly. Temp hitting 46°C. Crops showing stress - leaves curling. Need to arrange irrigation ASAP.

@@ -1,0 +1,7 @@
+Date: 2023-08-19
+Farm: farm-004
+Plot: plot-004a
+Category: weather_observation
+Farmer: Suresh Patil
+---
+Good monsoon so far - Cotton Field 1 getting steady rain. About 60mm this week. Crop looking healthy. Humidity around 71%.

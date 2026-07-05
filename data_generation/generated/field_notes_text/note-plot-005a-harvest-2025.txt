@@ -1,0 +1,7 @@
+Date: 2025-04-10
+Farm: farm-005
+Plot: plot-005a
+Category: harvest_report
+Farmer: Arun Kumar
+---
+Harvest report Wheat Field Alpha: Yield = 20.9 q/ha (521.7q from 25.0ha). Grade A quality - expecting good price. Similar to last year (22.3 q/ha).. Sold 360.7q @ Rs.3280/q.

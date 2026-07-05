@@ -1,0 +1,7 @@
+Date: 2022-04-03
+Farm: farm-002
+Plot: plot-002b
+Category: planting_record
+Farmer: Venkatesh Rao
+---
+Started planting Maize (HKR-47) in Block 2. Prepared with SSP basal dose (101 kg/ha). Soil felt waterlogged. Hoping for good monsoon this yr.

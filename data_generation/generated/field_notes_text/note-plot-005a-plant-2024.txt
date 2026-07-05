@@ -1,0 +1,7 @@
+Date: 2024-10-17
+Farm: farm-005
+Plot: plot-005a
+Category: planting_record
+Farmer: Arun Kumar
+---
+Started planting Wheat (PR-126) in Wheat Field Alpha. Prepared with Ammonium Sulphate basal dose (92 kg/ha). Soil felt dry. Hoping for good monsoon this yr.
