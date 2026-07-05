@@ -1,0 +1,11 @@
+{
+  "python.defaultInterpreterPath": "/home/shashank/Desktop/projects/Terramind/backend/venv/bin/python",
+  "python.analysis.extraPaths": [
+    "/home/shashank/Desktop/projects/Terramind/backend"
+  ],
+  "python.terminal.activateEnvironment": true,
+  "terminal.integrated.env.linux": {
+    "VIRTUAL_ENV": "/home/shashank/Desktop/projects/Terramind/backend/venv",
+    "PATH": "/home/shashank/Desktop/projects/Terramind/backend/venv/bin:${env:PATH}"
+  }
+}
