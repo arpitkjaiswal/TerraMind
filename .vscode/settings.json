@@ -7,5 +7,6 @@
   "terminal.integrated.env.linux": {
     "VIRTUAL_ENV": "/home/shashank/Desktop/projects/Terramind/backend/venv",
     "PATH": "/home/shashank/Desktop/projects/Terramind/backend/venv/bin:${env:PATH}"
-  }
+  },
+  "python.terminal.useEnvFile": true
 }

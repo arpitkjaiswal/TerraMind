@@ -11,6 +11,9 @@ Provides:
 from typing import AsyncGenerator
 from unittest.mock import AsyncMock, MagicMock, patch
 
+from app.core.config import settings
+settings.DEMO_MODE = False
+
 import pytest
 import pytest_asyncio
 from httpx import AsyncClient, ASGITransport

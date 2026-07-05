@@ -52,10 +52,16 @@ async def lifespan(app: FastAPI):
     """Startup / shutdown lifecycle."""
     log.info("aegis.startup", version=settings.APP_VERSION, env=settings.APP_ENV)
 
-    # Create Postgres tables (in production, use Alembic migrations instead)
+    # Create tables
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     log.info("aegis.db.tables_ready")
+
+    if settings.DEMO_MODE:
+        log.info("aegis.demo_mode.active - skipping external database connection checks")
+        yield
+        await engine.dispose()
+        return
 
     # Verify Neo4j connectivity and ensure schema
     async with neo4j_driver.session() as session:

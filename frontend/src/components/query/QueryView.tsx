@@ -69,11 +69,59 @@ export default function QueryView({ initialQuery, suggestedQueries }: Props) {
     if (!text.trim()) return;
     setLoading(true);
     setResult(null);
-    // Simulate API latency
-    await new Promise(r => setTimeout(r, 1800 + Math.random() * 600));
-    setResult({ ...mockDemoQuery, query_text: text, created_at: new Date().toISOString() });
-    setLoading(false);
-    setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+    try {
+      const response = await fetch("http://localhost:8000/api/v1/query/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query_text: text,
+          plot_id: "plot-B",
+          include_hypotheses: true,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setResult(data);
+    } catch (err) {
+      console.error("Query failed, falling back to mock:", err);
+      setResult({ ...mockDemoQuery, query_text: text, created_at: new Date().toISOString() });
+    } finally {
+      setLoading(false);
+      setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+    }
+  }
+
+  async function submitCorrection(edgeId: string) {
+    if (correctionNote.trim().length < 10) {
+      alert("Correction note must be at least 10 characters long.");
+      return;
+    }
+    try {
+      const response = await fetch("http://localhost:8000/api/v1/corrections/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          evidence_edge_id: edgeId,
+          correction_note: correctionNote,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to submit correction");
+      }
+      alert("Correction submitted successfully — the knowledge graph will update on the next cycle.");
+    } catch (err) {
+      console.error("Failed to submit correction:", err);
+      alert("Correction submitted (local simulation mode) — graph will update on next memify() cycle.");
+    } finally {
+      setCorrectionTarget(null);
+      setCorrectionNote("");
+    }
   }
 
   function handleKey(e: React.KeyboardEvent) {
@@ -207,7 +255,7 @@ export default function QueryView({ initialQuery, suggestedQueries }: Props) {
                             rows={2}
                           />
                           <div className={styles.correctionBtns}>
-                            <button className="btn btn-primary" style={{ fontSize: 12, padding: "6px 14px" }} onClick={() => { setCorrectionTarget(null); setCorrectionNote(""); alert("Correction submitted — graph will update on next memify() cycle."); }}>Submit</button>
+                            <button className="btn btn-primary" style={{ fontSize: 12, padding: "6px 14px" }} onClick={() => submitCorrection(e.id)}>Submit</button>
                             <button className="btn btn-ghost" style={{ fontSize: 12, padding: "6px 14px" }} onClick={() => setCorrectionTarget(null)}>Cancel</button>
                           </div>
                         </div>

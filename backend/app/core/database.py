@@ -8,12 +8,22 @@ from sqlalchemy.orm import DeclarativeBase
 
 from app.core.config import settings
 
+db_url = settings.DATABASE_URL
+if settings.DEMO_MODE:
+    db_url = "sqlite+aiosqlite:///./test.db"
+
+is_sqlite = db_url.startswith("sqlite")
+
 engine = create_async_engine(
-    settings.DATABASE_URL,
+    db_url,
     echo=settings.DEBUG,
-    pool_pre_ping=True,
-    pool_size=10,
-    max_overflow=20,
+    **(
+        {} if is_sqlite else {
+            "pool_pre_ping": True,
+            "pool_size": 10,
+            "max_overflow": 20,
+        }
+    )
 )
 
 AsyncSessionLocal = async_sessionmaker(

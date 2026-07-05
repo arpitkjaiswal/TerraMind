@@ -22,11 +22,14 @@ Confidence labeling:
 
 from __future__ import annotations
 
+import os
 import hashlib
 import time
 import uuid
+import json
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
+from app.core.config import settings
 
 import structlog
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -156,12 +159,117 @@ def _evidence_to_schema(
     return result
 
 
+async def execute_demo_query(request: QueryRequest) -> QueryResponse:
+    # Load demo queries
+    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    path = os.path.join(base_dir, "outputs", "reports", "demo_queries.json")
+    
+    demo_queries = []
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            demo_queries = json.load(f)
+            
+    # Find match
+    best_match = None
+    best_overlap = -1
+    req_words = set(request.query_text.lower().split())
+    for dq in demo_queries:
+        dq_words = set(dq["query_text"].lower().split())
+        overlap = len(req_words.intersection(dq_words))
+        if overlap > best_overlap:
+            best_overlap = overlap
+            best_match = dq
+            
+    # If no match or very poor match (overlap < 2), fallback to default
+    if not best_match or best_overlap < 2:
+        answer_text = (
+            "The offline knowledge graph does not contain a confident path to answer this question "
+            "given your current field records. Try asking: 'Why did Field B's yield drop by 30% in 2025?' "
+            "or 'Why is soil pH declining in Field B (plot-001b)?'"
+        )
+        return QueryResponse(
+            query_id=str(uuid.uuid4()),
+            query_text=request.query_text,
+            answer_text=answer_text,
+            confidence_label="unconfirmed_hypothesis",
+            confidence_score=0.2,
+            evidence_trail=[],
+            graph_hops=0,
+            latency_ms=45,
+            cache_hit=False,
+            created_at=datetime.now(timezone.utc),
+        )
+        
+    # Map nodes to EvidenceEdgeRead
+    evidence_trail = []
+    relevant_nodes = best_match.get("relevant_nodes", [])
+    
+    for idx, n in enumerate(relevant_nodes):
+        doc_label = "Pesticide Application Log" if n["type"] == "ChemicalProduct" else (
+            "Soil Test Record" if n["type"] == "Practice" else (
+                "Weather Station Log" if n["type"] == "WeatherEvent" else "Field Log"
+            )
+        )
+        evidence_trail.append(
+            EvidenceEdgeRead(
+                id=str(uuid.uuid4()),
+                graph_node_id=f"node-{idx:05d}",
+                node_label=n["label"],
+                node_type=n["type"],
+                relationship_type="CORRELATED_WITH",
+                source_document_id=f"doc-{idx:05d}",
+                source_document_label=doc_label,
+                date=n.get("date") or "2024-02-13",
+            )
+        )
+        
+    if not evidence_trail:
+        evidence_trail = [
+            EvidenceEdgeRead(
+                id=str(uuid.uuid4()),
+                graph_node_id="node-00001",
+                node_label="Chlorpyrifos 20EC (plot-001b)",
+                node_type="ChemicalProduct",
+                relationship_type="APPLIED_TO",
+                source_document_id="doc-00001",
+                source_document_label="Chemical Application Log",
+                date="2024-02-13",
+            ),
+            EvidenceEdgeRead(
+                id=str(uuid.uuid4()),
+                graph_node_id="node-00002",
+                node_label="Drought 2025 (Punjab)",
+                node_type="WeatherEvent",
+                relationship_type="OCCURRED_DURING",
+                source_document_id="doc-00002",
+                source_document_label="Punjab Weather Report",
+                date="2025-06-15",
+            )
+        ]
+        
+    return QueryResponse(
+        query_id=str(uuid.uuid4()),
+        query_text=request.query_text,
+        answer_text=best_match.get("expected_insight", ""),
+        confidence_label=best_match.get("confidence_label", "statistical_association"),
+        confidence_score=best_match.get("confidence_score", 0.55),
+        evidence_trail=evidence_trail,
+        graph_hops=best_match.get("graph_hops", 2),
+        latency_ms=120,
+        cache_hit=False,
+        created_at=datetime.now(timezone.utc),
+    )
+
+
 async def execute_query(
     request: QueryRequest,
     farm_id: str,
     user_id: str,
     db: AsyncSession,
 ) -> QueryResponse:
+    if settings.DEMO_MODE:
+        return await execute_demo_query(request)
+
     start = time.perf_counter()
     query_id = str(uuid.uuid4())
     q_hash = _query_hash(request.query_text, request.plot_id, request.date_from, request.date_to)

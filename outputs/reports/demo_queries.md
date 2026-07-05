@@ -1,6 +1,6 @@
 # TerraMind — Demo Query Results
 
-Generated: 2026-07-05T22:50:56.874364
+Generated: 2026-07-05T23:08:16.922998
 
 ## demo-query-001: Why did Field B's yield drop by 30% in 2025?
 

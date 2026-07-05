@@ -99,6 +99,23 @@ python cognee_pipeline/ingest_data.py --mode offline
 python cognee_pipeline/query_examples.py
 ```
 
+### 6. Run Backend Web API (FastAPI)
+Configure your `.env` file inside the `backend` directory (see `backend/.env.example` as a template), then start the dev server:
+```bash
+cd backend
+source venv/bin/activate
+python -m uvicorn app.main:app --reload --port 8000
+```
+
+### 7. Run Frontend Dashboard (Next.js)
+Install node modules and start the development server:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Open `http://localhost:3000` in your browser.
+
 ---
 
 ## 📈 Key Findings

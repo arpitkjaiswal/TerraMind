@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     LOG_LEVEL: str = "INFO"
     ALLOWED_HOSTS: List[str] = ["*"]
+    DEMO_MODE: bool = False
 
     # ── Security ──────────────────────────────────────────────────────────────
     SECRET_KEY: str

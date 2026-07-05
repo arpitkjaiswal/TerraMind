@@ -44,7 +44,7 @@ if not hasattr(bcrypt, "__about__"):
     bcrypt.__about__ = About()
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login", auto_error=not settings.DEMO_MODE)
 
 
 # ── Password helpers ──────────────────────────────────────────────────────────
@@ -120,10 +120,12 @@ class TokenData:
 
 
 async def get_current_user(
-    token: str = Depends(oauth2_scheme),
+    token: Optional[str] = Depends(oauth2_scheme),
     db: AsyncSession = Depends(get_db),
 ) -> User:
-    payload = decode_token(token)
+    if settings.DEMO_MODE and not token:
+        return User(id="demo-user", farm_id="farm-001", role="farmer", is_active=True, email="demo@example.com")
+    payload = decode_token(token)  # type: ignore
     user_id = payload.get("sub")
     if not user_id:
         raise HTTPException(status_code=401, detail="Invalid token payload")
@@ -137,9 +139,11 @@ async def get_current_user(
     return user
 
 
-async def get_current_token_data(token: str = Depends(oauth2_scheme)) -> TokenData:
+async def get_current_token_data(token: Optional[str] = Depends(oauth2_scheme)) -> TokenData:
     """Lightweight dependency — only decodes the JWT, no DB hit."""
-    payload = decode_token(token)
+    if settings.DEMO_MODE and not token:
+        return TokenData(user_id="demo-user", farm_id="farm-001", role="farmer")
+    payload = decode_token(token)  # type: ignore
     return TokenData(
         user_id=payload["sub"],
         farm_id=payload["farm_id"],
