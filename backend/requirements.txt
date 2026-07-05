@@ -44,7 +44,7 @@ google-cloud-vision==3.8.1       # fallback: Google Cloud Vision
 
 # ── LLM provider clients ────────────────────────────────────────────────────
 anthropic==0.40.0          # Claude
-openai==1.59.5             # GPT fallback
+openai>=1.80.1         # GPT fallback
 
 # ── Object storage (S3-compatible) ───────────────────────────────────────────
 boto3==1.35.36
