@@ -57,10 +57,13 @@ async def lifespan(app: FastAPI):
         await conn.run_sync(Base.metadata.create_all)
     log.info("aegis.db.tables_ready")
 
-    # Verify Neo4j connectivity
+    # Verify Neo4j connectivity and ensure schema
     async with neo4j_driver.session() as session:
         await session.run("RETURN 1")
     log.info("aegis.neo4j.connected", uri=settings.NEO4J_URI)
+    
+    from app.core.neo4j_client import ensure_graph_schema
+    await ensure_graph_schema()
 
     # Verify Qdrant
     qdrant = get_qdrant_client()
