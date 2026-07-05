@@ -1,0 +1,7 @@
+Date: 2021-07-10
+Farm: farm-005
+Plot: plot-005b
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Heavy rainfall last 30 days in Sugarcane Block area. Measured approx 34mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

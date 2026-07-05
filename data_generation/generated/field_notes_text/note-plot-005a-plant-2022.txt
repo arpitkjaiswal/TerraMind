@@ -1,0 +1,7 @@
+Date: 2022-12-22
+Farm: farm-005
+Plot: plot-005a
+Category: planting_record
+Farmer: Arun Kumar
+---
+Wheat Field Alpha: sowing done. Wheat - PBW-343. Fert: SSP (148 kg/ha). Notes: moist texture, need irrigation in 3 days. Temp was 32C today.

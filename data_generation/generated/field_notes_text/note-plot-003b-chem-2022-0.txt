@@ -1,0 +1,7 @@
+Date: 2022-05-26
+Farm: farm-003
+Plot: plot-003b
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Applied Lambda Cyhalothrin (insecticide) on Tea Garden A @ 1ml/L. Pest pressure was severe. Sprayed 6.0 ha. Weather: clear. Note: Worker used full PPE

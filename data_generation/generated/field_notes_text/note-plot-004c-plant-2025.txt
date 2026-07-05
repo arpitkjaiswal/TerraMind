@@ -1,0 +1,7 @@
+Date: 2025-10-12
+Farm: farm-004
+Plot: plot-004c
+Category: planting_record
+Farmer: Suresh Patil
+---
+Onion Beds: sowing done. Onion - Co-0238. Fert: DAP (104 kg/ha). Notes: slightly wet texture, need irrigation in 3 days. Temp was 32C today.

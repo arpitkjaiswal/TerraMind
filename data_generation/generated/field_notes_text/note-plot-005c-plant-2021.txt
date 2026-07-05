@@ -1,0 +1,7 @@
+Date: 2021-10-18
+Farm: farm-005
+Plot: plot-005c
+Category: planting_record
+Farmer: Arun Kumar
+---
+Mustard Plot: sowing done. Rapeseed &Mustard - MTU-1010. Fert: MOP (68 kg/ha). Notes: cracked texture, need irrigation in 3 days. Temp was 38C today.

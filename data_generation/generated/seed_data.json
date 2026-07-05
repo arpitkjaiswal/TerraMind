@@ -1,0 +1,173 @@
+{
+  "farms": [
+    {
+      "id": "farm-001",
+      "name": "Greenfield Agro",
+      "state": "Punjab",
+      "owner": "Rajinder Singh"
+    },
+    {
+      "id": "farm-002",
+      "name": "Deccan Harvest",
+      "state": "Karnataka",
+      "owner": "Venkatesh Rao"
+    },
+    {
+      "id": "farm-003",
+      "name": "Brahmaputra Fields",
+      "state": "Assam",
+      "owner": "Ranjit Das"
+    },
+    {
+      "id": "farm-004",
+      "name": "Vidarbha Crops",
+      "state": "Maharashtra",
+      "owner": "Suresh Patil"
+    },
+    {
+      "id": "farm-005",
+      "name": "Indo-Gangetic Farms",
+      "state": "Uttar Pradesh",
+      "owner": "Arun Kumar"
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot-001a",
+      "farm_id": "farm-001",
+      "name": "Field A (North)",
+      "crop": "Rice",
+      "size_ha": 12.5
+    },
+    {
+      "id": "plot-001b",
+      "farm_id": "farm-001",
+      "name": "Field B (South)",
+      "crop": "Wheat",
+      "size_ha": 8.0
+    },
+    {
+      "id": "plot-001c",
+      "farm_id": "farm-001",
+      "name": "Field C (East)",
+      "crop": "Rice",
+      "size_ha": 15.0
+    },
+    {
+      "id": "plot-002a",
+      "farm_id": "farm-002",
+      "name": "Block 1",
+      "crop": "Rice",
+      "size_ha": 10.0
+    },
+    {
+      "id": "plot-002b",
+      "farm_id": "farm-002",
+      "name": "Block 2",
+      "crop": "Maize",
+      "size_ha": 7.5
+    },
+    {
+      "id": "plot-002c",
+      "farm_id": "farm-002",
+      "name": "Block 3",
+      "crop": "Sugarcane",
+      "size_ha": 5.0
+    },
+    {
+      "id": "plot-003a",
+      "farm_id": "farm-003",
+      "name": "Paddy Field 1",
+      "crop": "Rice",
+      "size_ha": 20.0
+    },
+    {
+      "id": "plot-003b",
+      "farm_id": "farm-003",
+      "name": "Tea Garden A",
+      "crop": "Arecanut",
+      "size_ha": 6.0
+    },
+    {
+      "id": "plot-003c",
+      "farm_id": "farm-003",
+      "name": "Vegetable Patch",
+      "crop": "Potato",
+      "size_ha": 3.5
+    },
+    {
+      "id": "plot-004a",
+      "farm_id": "farm-004",
+      "name": "Cotton Field 1",
+      "crop": "Cotton(lint)",
+      "size_ha": 18.0
+    },
+    {
+      "id": "plot-004b",
+      "farm_id": "farm-004",
+      "name": "Soybean Plot",
+      "crop": "Arhar/Tur",
+      "size_ha": 12.0
+    },
+    {
+      "id": "plot-004c",
+      "farm_id": "farm-004",
+      "name": "Onion Beds",
+      "crop": "Onion",
+      "size_ha": 4.0
+    },
+    {
+      "id": "plot-005a",
+      "farm_id": "farm-005",
+      "name": "Wheat Field Alpha",
+      "crop": "Wheat",
+      "size_ha": 25.0
+    },
+    {
+      "id": "plot-005b",
+      "farm_id": "farm-005",
+      "name": "Sugarcane Block",
+      "crop": "Sugarcane",
+      "size_ha": 15.0
+    },
+    {
+      "id": "plot-005c",
+      "farm_id": "farm-005",
+      "name": "Mustard Plot",
+      "crop": "Rapeseed &Mustard",
+      "size_ha": 8.0
+    }
+  ],
+  "demo_scenarios": [
+    {
+      "question": "Why did Field B's yield drop by 30% in 2025?",
+      "plot_id": "plot-001b",
+      "year": 2025,
+      "expected_graph_traversal": [
+        "YieldMeasurement(plot-001b, 2025) \u2190 CORRELATED_WITH \u2192 ChemicalProduct(Chlorpyrifos, 2024)",
+        "ChemicalProduct(Chlorpyrifos, 2024) \u2190 APPLIED_TO \u2192 Field(plot-001b)",
+        "WeatherEvent(drought, 2025) \u2190 OCCURRED_DURING \u2192 Field(plot-001b)",
+        "SoilTest(pH_decline, 2024) \u2190 PRECEDED \u2192 YieldMeasurement(2025)"
+      ]
+    },
+    {
+      "question": "Why is soil pH declining in Field B?",
+      "plot_id": "plot-001b",
+      "expected_graph_traversal": [
+        "SoilTest(pH=5.6, 2026) \u2190 PRECEDED \u2192 SoilTest(pH=6.2, 2024)",
+        "ChemicalProduct(Ammonium Sulphate) \u2190 APPLIED_TO \u2192 Field(plot-001b) (repeated)",
+        "Practice(no_lime_application) \u2190 CORRELATED_WITH \u2192 pH_decline"
+      ]
+    },
+    {
+      "question": "What caused the cotton yield crash in Farm 4?",
+      "plot_id": "plot-004a",
+      "year": 2026,
+      "expected_graph_traversal": [
+        "YieldMeasurement(plot-004a, 2026, -40%) \u2190 CORRELATED_WITH \u2192 WeatherEvent(heatwave, 2026)",
+        "WeatherEvent(heatwave, 2026) \u2190 PRECEDED \u2192 WeatherEvent(low_rainfall, 2025)",
+        "ChemicalProduct(excessive_pesticide, 2025) \u2190 APPLIED_TO \u2192 Field(plot-004a)"
+      ]
+    }
+  ]
+}

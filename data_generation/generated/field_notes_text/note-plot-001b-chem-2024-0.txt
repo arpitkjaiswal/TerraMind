@@ -1,0 +1,7 @@
+Date: 2024-05-08
+Farm: farm-001
+Plot: plot-001b
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Field B (South) - sprayed Carbendazim 50WP today (2g/L). Noticed aphid colony buildup on Wheat. 50% coverage. Will check results in 3-5 days.

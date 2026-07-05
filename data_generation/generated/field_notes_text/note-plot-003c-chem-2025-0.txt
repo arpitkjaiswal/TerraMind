@@ -1,0 +1,7 @@
+Date: 2025-09-18
+Farm: farm-003
+Plot: plot-003c
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Chemical application log: Imidacloprid 17.8SL on Vegetable Patch. Rate: 0.5ml/L. Target: whitefly attack. Applied early morning, wind was moderate. 

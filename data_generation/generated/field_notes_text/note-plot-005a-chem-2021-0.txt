@@ -1,0 +1,7 @@
+Date: 2021-09-09
+Farm: farm-005
+Plot: plot-005a
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Applied Imidacloprid 17.8SL (insecticide) on Wheat Field Alpha @ 0.5ml/L. Pest pressure was high. Sprayed 25.0 ha. Weather: cloudy. Note: Mixed with sticker

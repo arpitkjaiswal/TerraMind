@@ -1,0 +1,7 @@
+Date: 2026-03-23
+Farm: farm-004
+Plot: plot-004b
+Category: harvest_report
+Farmer: Suresh Patil
+---
+Harvest report Soybean Plot: Yield = 33.5 q/ha (401.9q from 12.0ha). Mixed quality - some sections affected by disease. Similar to last year (32.8 q/ha).. Sold 250.6q @ Rs.3407/q.

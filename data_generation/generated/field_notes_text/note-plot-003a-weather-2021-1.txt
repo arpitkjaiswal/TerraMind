@@ -1,0 +1,7 @@
+Date: 2021-09-17
+Farm: farm-003
+Plot: plot-003a
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Heatwave warning: 48°C recorded near Paddy Field 1. Irrigated urgently. Rice showing wilting. Applied foliar spray to reduce transpiration stress.

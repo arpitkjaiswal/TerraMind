@@ -1,0 +1,7 @@
+Date: 2020-10-05
+Farm: farm-003
+Plot: plot-003c
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Unusual cold snap in Vegetable Patch region. Temp dropped to 29°C overnight. Some frost damage visible on young Potato plants. Applied straw mulching.

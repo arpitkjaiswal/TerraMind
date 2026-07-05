@@ -1,0 +1,7 @@
+Date: 2024-05-28
+Farm: farm-002
+Plot: plot-002c
+Category: harvest_report
+Farmer: Venkatesh Rao
+---
+Harvest report Block 3: Yield = 38.0 q/ha (190.2q from 5.0ha). Some grain damage from late rain. Similar to last year (42.9 q/ha).. Sold 123.4q @ Rs.2092/q.

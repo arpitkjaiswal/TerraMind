@@ -1,0 +1,7 @@
+Date: 2021-08-26
+Farm: farm-002
+Plot: plot-002c
+Category: weather_observation
+Farmer: Venkatesh Rao
+---
+Good monsoon so far - Block 3 getting steady rain. About 110mm this week. Crop looking healthy. Humidity around 72%.

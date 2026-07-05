@@ -1,0 +1,7 @@
+Date: 2024-05-10
+Farm: farm-005
+Plot: plot-005c
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Applied Lambda Cyhalothrin (insecticide) on Mustard Plot @ 1ml/L. Pest pressure was moderate. Sprayed 8.0 ha. Weather: cloudy. Note: 

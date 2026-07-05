@@ -1,0 +1,7 @@
+Date: 2025-09-18
+Farm: farm-004
+Plot: plot-004b
+Category: weather_observation
+Farmer: Suresh Patil
+---
+Good monsoon so far - Soybean Plot getting steady rain. About 193mm this week. Crop looking healthy. Humidity around 89%.

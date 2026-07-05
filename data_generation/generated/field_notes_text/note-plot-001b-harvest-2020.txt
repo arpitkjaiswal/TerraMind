@@ -1,0 +1,7 @@
+Date: 2020-03-24
+Farm: farm-001
+Plot: plot-001b
+Category: harvest_report
+Farmer: Rajinder Singh
+---
+Harvest report Field B (South): Yield = 28.5 q/ha (228.0q from 8.0ha). Some grain damage from late rain. Up from last year (25.8 q/ha). Happy with results.. Sold 150.7q @ Rs.3643/q.

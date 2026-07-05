@@ -1,0 +1,7 @@
+Date: 2020-07-20
+Farm: farm-003
+Plot: plot-003a
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Unusual cold snap in Paddy Field 1 region. Temp dropped to 23°C overnight. Some frost damage visible on young Rice plants. Applied straw mulching.

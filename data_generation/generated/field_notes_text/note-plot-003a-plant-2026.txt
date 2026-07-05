@@ -1,0 +1,7 @@
+Date: 2026-05-08
+Farm: farm-003
+Plot: plot-003a
+Category: planting_record
+Farmer: Ranjit Das
+---
+Started planting Rice (HKR-47) in Paddy Field 1. Prepared with DAP basal dose (62 kg/ha). Soil felt waterlogged. Hoping for good monsoon this yr.

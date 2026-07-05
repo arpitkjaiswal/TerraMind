@@ -1,0 +1,7 @@
+Date: 2023-06-27
+Farm: farm-003
+Plot: plot-003c
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Chemical application log: 2,4-D Sodium Salt on Vegetable Patch. Rate: 2.5ml/L. Target: weed pressure. Applied early morning, wind was calm. Mixed with sticker

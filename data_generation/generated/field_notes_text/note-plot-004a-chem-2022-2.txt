@@ -1,0 +1,7 @@
+Date: 2022-09-24
+Farm: farm-004
+Plot: plot-004a
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Cotton Field 1 - sprayed Lambda Cyhalothrin today (1ml/L). Noticed blast disease symptoms on Cotton(lint). 50% coverage. Will check results in 3-5 days.

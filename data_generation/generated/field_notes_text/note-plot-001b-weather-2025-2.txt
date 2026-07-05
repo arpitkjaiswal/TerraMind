@@ -1,0 +1,7 @@
+Date: 2025-10-06
+Farm: farm-001
+Plot: plot-001b
+Category: weather_observation
+Farmer: Rajinder Singh
+---
+Field B (South): No rain for 19 days straight. Soil cracking badly. Temp hitting 48°C. Crops showing stress - leaves curling. Need to arrange irrigation ASAP.

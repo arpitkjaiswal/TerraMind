@@ -1,0 +1,7 @@
+Date: 2022-09-15
+Farm: farm-002
+Plot: plot-002b
+Category: weather_observation
+Farmer: Venkatesh Rao
+---
+Good monsoon so far - Block 2 getting steady rain. About 99mm this week. Crop looking healthy. Humidity around 86%.

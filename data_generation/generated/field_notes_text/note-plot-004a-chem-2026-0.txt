@@ -1,0 +1,7 @@
+Date: 2026-07-07
+Farm: farm-004
+Plot: plot-004a
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Mancozeb 75WP on Cotton Field 1. Rate: 2.5g/L. Target: aphid colony buildup. Applied early morning, wind was calm. Double dose due to severity

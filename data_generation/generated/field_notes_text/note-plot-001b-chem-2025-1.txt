@@ -1,0 +1,7 @@
+Date: 2025-09-17
+Farm: farm-001
+Plot: plot-001b
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Chemical application log: Glyphosate 41SL on Field B (South). Rate: 10ml/L. Target: brown plant hopper. Applied early morning, wind was light. Double dose due to severity

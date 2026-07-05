@@ -1,0 +1,12 @@
+Date: 2022-02-16
+Farm: farm-005
+Plot: plot-005b
+Category: soil_test
+Farmer: Arun Kumar
+---
+Soil test results for Sugarcane Block (sample date: 2022-03-03).
+Lab: State Agricultural Lab, Uttar Pradesh.
+Results: N=114 kg/ha, P=31 kg/ha, K=22 kg/ha, pH=7.7
+Organic Carbon: 0.35%
+EC: 0.21 dS/m
+Recommendation: Maintain current levels. pH adequate.

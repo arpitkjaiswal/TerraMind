@@ -1,0 +1,7 @@
+Date: 2026-06-25
+Farm: farm-002
+Plot: plot-002a
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Chemical application log: Propiconazole 25EC on Block 1. Rate: 1ml/L. Target: aphid colony buildup. Applied early morning, wind was light. 

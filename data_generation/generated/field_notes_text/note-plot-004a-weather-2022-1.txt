@@ -1,0 +1,7 @@
+Date: 2022-06-09
+Farm: farm-004
+Plot: plot-004a
+Category: weather_observation
+Farmer: Suresh Patil
+---
+Unusual cold snap in Cotton Field 1 region. Temp dropped to 22°C overnight. Some frost damage visible on young Cotton(lint) plants. Applied straw mulching.

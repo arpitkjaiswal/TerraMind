@@ -1,0 +1,12 @@
+Date: 2026-02-04
+Farm: farm-003
+Plot: plot-003a
+Category: soil_test
+Farmer: Ranjit Das
+---
+Soil test results for Paddy Field 1 (sample date: 2026-02-25).
+Lab: State Agricultural Lab, Assam.
+Results: N=67 kg/ha, P=39 kg/ha, K=34 kg/ha, pH=6.3
+Organic Carbon: 0.32%
+EC: 0.17 dS/m
+Recommendation: Maintain current levels. pH adequate.

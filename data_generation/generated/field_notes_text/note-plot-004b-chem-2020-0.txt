@@ -1,0 +1,7 @@
+Date: 2020-09-22
+Farm: farm-004
+Plot: plot-004b
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Soybean Plot - sprayed Carbendazim 50WP today (2g/L). Noticed whitefly attack on Arhar/Tur. 50% coverage. Will check results in 3-5 days.

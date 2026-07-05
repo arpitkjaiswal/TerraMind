@@ -1,0 +1,7 @@
+Date: 2023-08-11
+Farm: farm-001
+Plot: plot-001c
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Chemical application log: 2,4-D Sodium Salt on Field C (East). Rate: 2.5ml/L. Target: blast disease symptoms. Applied early morning, wind was calm. 

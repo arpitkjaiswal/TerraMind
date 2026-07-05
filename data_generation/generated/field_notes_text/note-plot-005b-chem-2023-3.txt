@@ -1,0 +1,7 @@
+Date: 2023-08-25
+Farm: farm-005
+Plot: plot-005b
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Sugarcane Block - sprayed Propiconazole 25EC today (1ml/L). Noticed weed pressure on Sugarcane. 50% coverage. Will check results in 3-5 days.

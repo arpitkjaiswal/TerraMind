@@ -1,0 +1,7 @@
+Date: 2024-08-19
+Farm: farm-005
+Plot: plot-005c
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Mustard Plot: No rain for 21 days straight. Soil cracking badly. Temp hitting 47°C. Crops showing stress - leaves curling. Need to arrange irrigation ASAP.

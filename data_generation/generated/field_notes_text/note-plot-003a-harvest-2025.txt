@@ -1,0 +1,7 @@
+Date: 2025-12-19
+Farm: farm-003
+Plot: plot-003a
+Category: harvest_report
+Farmer: Ranjit Das
+---
+Harvest report Paddy Field 1: Yield = 33.3 q/ha (666.7q from 20.0ha). Some grain damage from late rain. Similar to last year (35.8 q/ha).. Sold 593.3q @ Rs.3871/q.

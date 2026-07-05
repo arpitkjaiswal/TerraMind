@@ -1,0 +1,7 @@
+Date: 2025-06-09
+Farm: farm-005
+Plot: plot-005b
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Heatwave warning: 36°C recorded near Sugarcane Block. Irrigated urgently. Sugarcane showing wilting. Applied foliar spray to reduce transpiration stress.

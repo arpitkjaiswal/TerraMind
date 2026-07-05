@@ -1,0 +1,7 @@
+Date: 2022-09-26
+Farm: farm-004
+Plot: plot-004c
+Category: weather_observation
+Farmer: Suresh Patil
+---
+Unusual cold snap in Onion Beds region. Temp dropped to 47°C overnight. Some frost damage visible on young Onion plants. Applied straw mulching.

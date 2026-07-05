@@ -1,0 +1,7 @@
+Date: 2025-12-28
+Farm: farm-005
+Plot: plot-005b
+Category: planting_record
+Farmer: Arun Kumar
+---
+Sugarcane Block: sowing done. Sugarcane - PR-126. Fert: MOP (76 kg/ha). Notes: moist texture, need irrigation in 3 days. Temp was 37C today.

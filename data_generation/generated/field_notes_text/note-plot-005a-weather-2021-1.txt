@@ -1,0 +1,7 @@
+Date: 2021-06-22
+Farm: farm-005
+Plot: plot-005a
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Heavy rainfall last 27 days in Wheat Field Alpha area. Measured approx 145mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

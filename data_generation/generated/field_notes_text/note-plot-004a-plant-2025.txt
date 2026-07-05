@@ -1,0 +1,7 @@
+Date: 2025-05-09
+Farm: farm-004
+Plot: plot-004a
+Category: planting_record
+Farmer: Suresh Patil
+---
+Planted PBW-343 Cotton(lint) in Cotton Field 1 - 18.0 hectares total. Pre-treated seeds w/ Carbendazim. Applied DAP @ 57kg/ha. cracked soil conditions.

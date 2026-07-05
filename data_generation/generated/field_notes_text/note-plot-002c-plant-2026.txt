@@ -1,0 +1,7 @@
+Date: 2026-11-04
+Farm: farm-002
+Plot: plot-002c
+Category: planting_record
+Farmer: Venkatesh Rao
+---
+Sowed Sugarcane in Block 3 today. Used UP-262 variety. Soil was cracked. Applied Urea at 74 kg/ha before sowing. Weather clear, temp around 31°C.

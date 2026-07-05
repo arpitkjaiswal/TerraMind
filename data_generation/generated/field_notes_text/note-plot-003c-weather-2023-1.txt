@@ -1,0 +1,7 @@
+Date: 2023-07-26
+Farm: farm-003
+Plot: plot-003c
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Good monsoon so far - Vegetable Patch getting steady rain. About 51mm this week. Crop looking healthy. Humidity around 52%.

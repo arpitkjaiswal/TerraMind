@@ -1,0 +1,7 @@
+Date: 2026-09-20
+Farm: farm-002
+Plot: plot-002c
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Block 3 - sprayed 2,4-D Sodium Salt today (2.5ml/L). Noticed brown plant hopper on Sugarcane. Spot coverage. Will check results in 3-5 days.

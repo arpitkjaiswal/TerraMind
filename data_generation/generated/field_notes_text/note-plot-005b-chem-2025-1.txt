@@ -1,0 +1,7 @@
+Date: 2025-07-19
+Farm: farm-005
+Plot: plot-005b
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Applied Imidacloprid 17.8SL (insecticide) on Sugarcane Block @ 0.5ml/L. Pest pressure was severe. Sprayed 15.0 ha. Weather: clear. Note: 

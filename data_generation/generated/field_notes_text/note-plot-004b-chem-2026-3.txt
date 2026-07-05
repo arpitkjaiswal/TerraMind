@@ -1,0 +1,7 @@
+Date: 2026-09-17
+Farm: farm-004
+Plot: plot-004b
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Applied Chlorpyrifos 20EC (insecticide) on Soybean Plot @ 2ml/L. Pest pressure was low. Sprayed 12.0 ha. Weather: cloudy. Note: Worker used full PPE

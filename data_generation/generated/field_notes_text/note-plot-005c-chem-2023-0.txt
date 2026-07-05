@@ -1,0 +1,7 @@
+Date: 2023-10-19
+Farm: farm-005
+Plot: plot-005c
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Mustard Plot - sprayed Mancozeb 75WP today (2.5g/L). Noticed leaf blight symptoms on Rapeseed &Mustard. Spot coverage. Will check results in 3-5 days.

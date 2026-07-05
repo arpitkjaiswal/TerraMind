@@ -1,0 +1,7 @@
+Date: 2023-10-04
+Farm: farm-005
+Plot: plot-005a
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Wheat Field Alpha - sprayed 2,4-D Sodium Salt today (2.5ml/L). Noticed whitefly attack on Wheat. Border coverage. Will check results in 3-5 days.

@@ -1,0 +1,7 @@
+Date: 2022-11-15
+Farm: farm-005
+Plot: plot-005c
+Category: planting_record
+Farmer: Arun Kumar
+---
+Planted MTU-1010 Rapeseed &Mustard in Mustard Plot - 8.0 hectares total. Pre-treated seeds w/ no treatment. Applied NPK 20:20:0 @ 112kg/ha. waterlogged soil conditions.

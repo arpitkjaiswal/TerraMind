@@ -1,0 +1,7 @@
+Date: 2026-05-26
+Farm: farm-003
+Plot: plot-003b
+Category: harvest_report
+Farmer: Ranjit Das
+---
+Harvest report Tea Garden A: Yield = 27.4 q/ha (164.5q from 6.0ha). Some grain damage from late rain. Similar to last year (27.0 q/ha).. Sold 99.3q @ Rs.2324/q.

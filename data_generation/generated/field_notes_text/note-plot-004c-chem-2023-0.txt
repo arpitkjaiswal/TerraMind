@@ -1,0 +1,7 @@
+Date: 2023-06-21
+Farm: farm-004
+Plot: plot-004c
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Applied Carbendazim 50WP (fungicide) on Onion Beds @ 2g/L. Pest pressure was moderate. Sprayed 4.0 ha. Weather: clear. Note: Mixed with sticker

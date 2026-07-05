@@ -1,0 +1,7 @@
+Date: 2025-08-04
+Farm: farm-003
+Plot: plot-003b
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Tea Garden A: No rain for 15 days straight. Soil cracking badly. Temp hitting 39°C. Crops showing stress - leaves curling. Need to arrange irrigation ASAP.

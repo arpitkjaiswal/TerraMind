@@ -1,0 +1,7 @@
+Date: 2024-10-01
+Farm: farm-001
+Plot: plot-001a
+Category: weather_observation
+Farmer: Rajinder Singh
+---
+Heatwave warning: 20°C recorded near Field A (North). Irrigated urgently. Rice showing wilting. Applied foliar spray to reduce transpiration stress.

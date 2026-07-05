@@ -1,0 +1,7 @@
+Date: 2024-07-13
+Farm: farm-002
+Plot: plot-002c
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Block 3 - sprayed Imidacloprid 17.8SL today (0.5ml/L). Noticed fungal spots on leaves on Sugarcane. 50% coverage. Will check results in 3-5 days.

@@ -1,0 +1,7 @@
+Date: 2021-05-11
+Farm: farm-002
+Plot: plot-002a
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Block 1 - sprayed Mancozeb 75WP today (2.5g/L). Noticed fungal spots on leaves on Rice. Full field coverage. Will check results in 3-5 days.

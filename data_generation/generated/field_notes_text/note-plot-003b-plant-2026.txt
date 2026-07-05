@@ -1,0 +1,7 @@
+Date: 2026-10-17
+Farm: farm-003
+Plot: plot-003b
+Category: planting_record
+Farmer: Ranjit Das
+---
+Started planting Arecanut (PBW-343) in Tea Garden A. Prepared with DAP basal dose (125 kg/ha). Soil felt waterlogged. Hoping for good monsoon this yr.

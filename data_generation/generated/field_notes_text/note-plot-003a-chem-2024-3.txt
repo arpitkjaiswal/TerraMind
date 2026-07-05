@@ -1,0 +1,7 @@
+Date: 2024-06-12
+Farm: farm-003
+Plot: plot-003a
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Applied Mancozeb 75WP (fungicide) on Paddy Field 1 @ 2.5g/L. Pest pressure was high. Sprayed 20.0 ha. Weather: cloudy. Note: Mixed with sticker

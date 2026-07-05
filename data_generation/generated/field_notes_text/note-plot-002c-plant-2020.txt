@@ -1,0 +1,7 @@
+Date: 2020-10-19
+Farm: farm-002
+Plot: plot-002c
+Category: planting_record
+Farmer: Venkatesh Rao
+---
+Started planting Sugarcane (MTU-1010) in Block 3. Prepared with DAP basal dose (119 kg/ha). Soil felt cracked. Hoping for good monsoon this yr.

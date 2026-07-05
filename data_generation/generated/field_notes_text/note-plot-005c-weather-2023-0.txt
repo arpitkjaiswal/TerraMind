@@ -1,0 +1,7 @@
+Date: 2023-08-26
+Farm: farm-005
+Plot: plot-005c
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Unusual cold snap in Mustard Plot region. Temp dropped to 29°C overnight. Some frost damage visible on young Rapeseed &Mustard plants. Applied straw mulching.

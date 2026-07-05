@@ -1,0 +1,7 @@
+Date: 2024-07-02
+Farm: farm-002
+Plot: plot-002b
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Block 2 - sprayed Chlorpyrifos 20EC today (2ml/L). Noticed aphid colony buildup on Maize. Full field coverage. Will check results in 3-5 days.

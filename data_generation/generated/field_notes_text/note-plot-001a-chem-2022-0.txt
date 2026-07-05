@@ -1,0 +1,7 @@
+Date: 2022-05-06
+Farm: farm-001
+Plot: plot-001a
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Field A (North) - sprayed Imidacloprid 17.8SL today (0.5ml/L). Noticed leaf blight symptoms on Rice. Full field coverage. Will check results in 3-5 days.

@@ -1,0 +1,7 @@
+Date: 2024-11-01
+Farm: farm-005
+Plot: plot-005b
+Category: planting_record
+Farmer: Arun Kumar
+---
+Started planting Sugarcane (HD-2967) in Sugarcane Block. Prepared with DAP basal dose (110 kg/ha). Soil felt moist. Hoping for good monsoon this yr.

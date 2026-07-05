@@ -1,0 +1,7 @@
+Date: 2021-04-19
+Farm: farm-001
+Plot: plot-001a
+Category: planting_record
+Farmer: Rajinder Singh
+---
+Field A (North): sowing done. Rice - Pusa-44. Fert: DAP (67 kg/ha). Notes: moist texture, need irrigation in 3 days. Temp was 29C today.

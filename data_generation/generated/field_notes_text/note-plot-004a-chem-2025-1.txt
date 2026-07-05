@@ -1,0 +1,7 @@
+Date: 2025-07-26
+Farm: farm-004
+Plot: plot-004a
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Mancozeb 75WP on Cotton Field 1. Rate: 2.5g/L. Target: fungal spots on leaves. Applied early morning, wind was light. 

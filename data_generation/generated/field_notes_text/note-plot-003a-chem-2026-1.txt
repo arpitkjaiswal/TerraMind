@@ -1,0 +1,7 @@
+Date: 2026-08-14
+Farm: farm-003
+Plot: plot-003a
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Paddy Field 1 - sprayed Glyphosate 41SL today (10ml/L). Noticed weed pressure on Rice. Border coverage. Will check results in 3-5 days.

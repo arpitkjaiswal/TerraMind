@@ -1,0 +1,7 @@
+Date: 2020-12-17
+Farm: farm-005
+Plot: plot-005b
+Category: planting_record
+Farmer: Arun Kumar
+---
+Planted DWR-162 Sugarcane in Sugarcane Block - 15.0 hectares total. Pre-treated seeds w/ bio-agent treatment. Applied MOP @ 82kg/ha. well-drained soil conditions.

@@ -1,0 +1,7 @@
+Date: 2020-10-26
+Farm: farm-003
+Plot: plot-003a
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Heavy rainfall last 28 days in Paddy Field 1 area. Measured approx 31mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

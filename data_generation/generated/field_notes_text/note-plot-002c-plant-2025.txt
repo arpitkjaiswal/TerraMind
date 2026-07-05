@@ -1,0 +1,7 @@
+Date: 2025-12-17
+Farm: farm-002
+Plot: plot-002c
+Category: planting_record
+Farmer: Venkatesh Rao
+---
+Sowed Sugarcane in Block 3 today. Used Co-0238 variety. Soil was cracked. Applied NPK 20:20:0 at 124 kg/ha before sowing. Weather clear, temp around 25°C.

@@ -1,0 +1,7 @@
+Date: 2021-08-02
+Farm: farm-005
+Plot: plot-005c
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Heatwave warning: 39°C recorded near Mustard Plot. Irrigated urgently. Rapeseed &Mustard showing wilting. Applied foliar spray to reduce transpiration stress.

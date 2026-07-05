@@ -1,0 +1,7 @@
+Date: 2020-07-03
+Farm: farm-002
+Plot: plot-002a
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Block 1 - sprayed Imidacloprid 17.8SL today (0.5ml/L). Noticed aphid colony buildup on Rice. Border coverage. Will check results in 3-5 days.

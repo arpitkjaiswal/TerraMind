@@ -1,0 +1,12 @@
+Date: 2026-03-01
+Farm: farm-002
+Plot: plot-002a
+Category: soil_test
+Farmer: Venkatesh Rao
+---
+Soil test results for Block 1 (sample date: 2026-02-03).
+Lab: State Agricultural Lab, Karnataka.
+Results: N=99 kg/ha, P=47 kg/ha, K=38 kg/ha, pH=5.8
+Organic Carbon: 0.59%
+EC: 0.20 dS/m
+Recommendation: Maintain current levels. Lime application needed to raise pH.

@@ -1,0 +1,7 @@
+Date: 2025-10-27
+Farm: farm-003
+Plot: plot-003b
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Chemical application log: Chlorpyrifos 20EC on Tea Garden A. Rate: 2ml/L. Target: leaf blight symptoms. Applied early morning, wind was light. Double dose due to severity

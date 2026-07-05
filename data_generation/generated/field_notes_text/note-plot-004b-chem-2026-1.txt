@@ -1,0 +1,7 @@
+Date: 2026-08-20
+Farm: farm-004
+Plot: plot-004b
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Carbendazim 50WP on Soybean Plot. Rate: 2g/L. Target: brown plant hopper. Applied early morning, wind was calm. Double dose due to severity

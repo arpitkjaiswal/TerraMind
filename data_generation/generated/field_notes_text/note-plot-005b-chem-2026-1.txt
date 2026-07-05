@@ -1,0 +1,7 @@
+Date: 2026-08-23
+Farm: farm-005
+Plot: plot-005b
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Sugarcane Block - sprayed Chlorpyrifos 20EC today (2ml/L). Noticed weed pressure on Sugarcane. Spot coverage. Will check results in 3-5 days.

@@ -1,0 +1,7 @@
+Date: 2026-10-21
+Farm: farm-001
+Plot: plot-001c
+Category: harvest_report
+Farmer: Rajinder Singh
+---
+Harvest report Field C (East): Yield = 42.3 q/ha (634.3q from 15.0ha). Some grain damage from late rain. Similar to last year (42.6 q/ha).. Sold 441.0q @ Rs.3782/q.

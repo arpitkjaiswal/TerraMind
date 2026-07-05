@@ -1,0 +1,7 @@
+Date: 2024-08-13
+Farm: farm-005
+Plot: plot-005b
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Chemical application log: Propiconazole 25EC on Sugarcane Block. Rate: 1ml/L. Target: stem borer infestation. Applied early morning, wind was light. Worker used full PPE

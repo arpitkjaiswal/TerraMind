@@ -1,0 +1,7 @@
+Date: 2021-08-08
+Farm: farm-003
+Plot: plot-003c
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Vegetable Patch: No rain for 5 days straight. Soil cracking badly. Temp hitting 41°C. Crops showing stress - leaves curling. Need to arrange irrigation ASAP.

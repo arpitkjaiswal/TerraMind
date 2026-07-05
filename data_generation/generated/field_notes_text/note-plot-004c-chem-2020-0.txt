@@ -1,0 +1,7 @@
+Date: 2020-05-23
+Farm: farm-004
+Plot: plot-004c
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Carbendazim 50WP on Onion Beds. Rate: 2g/L. Target: brown plant hopper. Applied early morning, wind was moderate. Double dose due to severity

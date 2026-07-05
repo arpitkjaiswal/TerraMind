@@ -1,0 +1,7 @@
+Date: 2020-07-09
+Farm: farm-003
+Plot: plot-003a
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Paddy Field 1 - sprayed Lambda Cyhalothrin today (1ml/L). Noticed fungal spots on leaves on Rice. 50% coverage. Will check results in 3-5 days.

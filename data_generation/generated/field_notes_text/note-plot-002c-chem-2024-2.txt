@@ -1,0 +1,7 @@
+Date: 2024-09-08
+Farm: farm-002
+Plot: plot-002c
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Chemical application log: Glyphosate 41SL on Block 3. Rate: 10ml/L. Target: blast disease symptoms. Applied early morning, wind was light. Double dose due to severity

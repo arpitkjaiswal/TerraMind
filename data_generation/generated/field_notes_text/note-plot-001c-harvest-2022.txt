@@ -1,0 +1,7 @@
+Date: 2022-10-18
+Farm: farm-001
+Plot: plot-001c
+Category: harvest_report
+Farmer: Rajinder Singh
+---
+Field C (East) harvest done - Rice: 625.7q total, 41.7 q/ha. Some grain damage from late rain. Stored in godown. Similar to last year (46.0 q/ha).

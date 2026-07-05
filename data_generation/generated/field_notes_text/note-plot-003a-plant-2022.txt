@@ -1,0 +1,7 @@
+Date: 2022-04-11
+Farm: farm-003
+Plot: plot-003a
+Category: planting_record
+Farmer: Ranjit Das
+---
+Started planting Rice (Co-0238) in Paddy Field 1. Prepared with Urea basal dose (134 kg/ha). Soil felt slightly wet. Hoping for good monsoon this yr.

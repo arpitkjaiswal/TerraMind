@@ -1,0 +1,7 @@
+Date: 2023-04-27
+Farm: farm-005
+Plot: plot-005b
+Category: harvest_report
+Farmer: Arun Kumar
+---
+Sugarcane Block harvest done - Sugarcane: 438.7q total, 29.2 q/ha. Excellent quality, good grain fill. Stored in godown. Similar to last year (27.7 q/ha).

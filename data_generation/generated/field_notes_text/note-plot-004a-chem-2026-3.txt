@@ -1,0 +1,7 @@
+Date: 2026-10-21
+Farm: farm-004
+Plot: plot-004a
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Applied Imidacloprid 17.8SL (insecticide) on Cotton Field 1 @ 0.5ml/L. Pest pressure was low. Sprayed 18.0 ha. Weather: cloudy. Note: 

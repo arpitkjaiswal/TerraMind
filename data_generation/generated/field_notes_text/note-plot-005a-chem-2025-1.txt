@@ -1,0 +1,7 @@
+Date: 2025-05-09
+Farm: farm-005
+Plot: plot-005a
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Chemical application log: Mancozeb 75WP on Wheat Field Alpha. Rate: 2.5g/L. Target: fungal spots on leaves. Applied early morning, wind was calm. Double dose due to severity

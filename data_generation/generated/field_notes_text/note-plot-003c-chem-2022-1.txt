@@ -1,0 +1,7 @@
+Date: 2022-09-18
+Farm: farm-003
+Plot: plot-003c
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Applied Chlorpyrifos 20EC (insecticide) on Vegetable Patch @ 2ml/L. Pest pressure was low. Sprayed 3.5 ha. Weather: light drizzle. Note: Mixed with sticker

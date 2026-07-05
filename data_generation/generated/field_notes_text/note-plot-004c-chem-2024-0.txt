@@ -1,0 +1,7 @@
+Date: 2024-09-07
+Farm: farm-004
+Plot: plot-004c
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Glyphosate 41SL on Onion Beds. Rate: 10ml/L. Target: leaf blight symptoms. Applied early morning, wind was moderate. 

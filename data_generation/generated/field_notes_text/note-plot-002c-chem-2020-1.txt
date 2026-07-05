@@ -1,0 +1,7 @@
+Date: 2020-10-19
+Farm: farm-002
+Plot: plot-002c
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Applied Propiconazole 25EC (fungicide) on Block 3 @ 1ml/L. Pest pressure was severe. Sprayed 5.0 ha. Weather: clear. Note: Mixed with sticker

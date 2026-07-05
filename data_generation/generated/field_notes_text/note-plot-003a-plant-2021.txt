@@ -1,0 +1,7 @@
+Date: 2021-07-09
+Farm: farm-003
+Plot: plot-003a
+Category: planting_record
+Farmer: Ranjit Das
+---
+Sowed Rice in Paddy Field 1 today. Used PR-126 variety. Soil was well-drained. Applied SSP at 146 kg/ha before sowing. Weather clear, temp around 30°C.

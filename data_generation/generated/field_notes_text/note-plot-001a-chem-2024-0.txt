@@ -1,0 +1,7 @@
+Date: 2024-06-24
+Farm: farm-001
+Plot: plot-001a
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Chemical application log: Lambda Cyhalothrin on Field A (North). Rate: 1ml/L. Target: blast disease symptoms. Applied early morning, wind was calm. Worker used full PPE

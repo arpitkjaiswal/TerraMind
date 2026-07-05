@@ -1,0 +1,12 @@
+Date: 2020-03-06
+Farm: farm-005
+Plot: plot-005c
+Category: soil_test
+Farmer: Arun Kumar
+---
+Soil test results for Mustard Plot (sample date: 2020-03-15).
+Lab: State Agricultural Lab, Uttar Pradesh.
+Results: N=81 kg/ha, P=38 kg/ha, K=28 kg/ha, pH=7.0
+Organic Carbon: 0.45%
+EC: 0.15 dS/m
+Recommendation: Maintain current levels. pH adequate.

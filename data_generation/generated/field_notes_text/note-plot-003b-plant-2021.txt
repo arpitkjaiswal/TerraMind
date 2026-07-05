@@ -1,0 +1,7 @@
+Date: 2021-11-08
+Farm: farm-003
+Plot: plot-003b
+Category: planting_record
+Farmer: Ranjit Das
+---
+Started planting Arecanut (IR-64) in Tea Garden A. Prepared with NPK 20:20:0 basal dose (145 kg/ha). Soil felt slightly wet. Hoping for good monsoon this yr.

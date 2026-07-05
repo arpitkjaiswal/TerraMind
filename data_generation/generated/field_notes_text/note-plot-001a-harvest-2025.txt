@@ -1,0 +1,7 @@
+Date: 2025-12-28
+Farm: farm-001
+Plot: plot-001a
+Category: harvest_report
+Farmer: Rajinder Singh
+---
+Harvested Rice from Field A (North) today. Got about 262.4 quintals from 12.5 ha (21.0 q/ha). Grain quality looks good - no moisture issues. Similar to last year (20.9 q/ha).

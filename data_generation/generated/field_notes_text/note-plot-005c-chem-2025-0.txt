@@ -1,0 +1,7 @@
+Date: 2025-09-13
+Farm: farm-005
+Plot: plot-005c
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Chemical application log: Mancozeb 75WP on Mustard Plot. Rate: 2.5g/L. Target: whitefly attack. Applied early morning, wind was calm. 

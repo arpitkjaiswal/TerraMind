@@ -1,0 +1,7 @@
+Date: 2023-09-28
+Farm: farm-001
+Plot: plot-001c
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Field C (East) - sprayed Imidacloprid 17.8SL today (0.5ml/L). Noticed stem borer infestation on Rice. Full field coverage. Will check results in 3-5 days.

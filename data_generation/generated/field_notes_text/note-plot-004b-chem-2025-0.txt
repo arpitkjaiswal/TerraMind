@@ -1,0 +1,7 @@
+Date: 2025-06-21
+Farm: farm-004
+Plot: plot-004b
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Imidacloprid 17.8SL on Soybean Plot. Rate: 0.5ml/L. Target: stem borer infestation. Applied early morning, wind was light. Worker used full PPE

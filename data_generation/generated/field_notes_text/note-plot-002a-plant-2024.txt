@@ -1,0 +1,7 @@
+Date: 2024-05-09
+Farm: farm-002
+Plot: plot-002a
+Category: planting_record
+Farmer: Venkatesh Rao
+---
+Block 1: sowing done. Rice - Basmati-1509. Fert: Urea (132 kg/ha). Notes: cracked texture, need irrigation in 3 days. Temp was 37C today.

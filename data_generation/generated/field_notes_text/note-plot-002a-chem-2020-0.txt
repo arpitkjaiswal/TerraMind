@@ -1,0 +1,7 @@
+Date: 2020-09-22
+Farm: farm-002
+Plot: plot-002a
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Applied Carbendazim 50WP (fungicide) on Block 1 @ 2g/L. Pest pressure was severe. Sprayed 10.0 ha. Weather: clear. Note: 

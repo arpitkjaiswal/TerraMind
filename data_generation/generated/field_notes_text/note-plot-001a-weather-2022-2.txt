@@ -1,0 +1,7 @@
+Date: 2022-09-03
+Farm: farm-001
+Plot: plot-001a
+Category: weather_observation
+Farmer: Rajinder Singh
+---
+Unusual cold snap in Field A (North) region. Temp dropped to 31°C overnight. Some frost damage visible on young Rice plants. Applied straw mulching.

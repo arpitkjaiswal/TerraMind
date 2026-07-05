@@ -1,0 +1,7 @@
+Date: 2025-10-06
+Farm: farm-003
+Plot: plot-003a
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Applied Carbendazim 50WP (fungicide) on Paddy Field 1 @ 2g/L. Pest pressure was severe. Sprayed 20.0 ha. Weather: cloudy. Note: Worker used full PPE

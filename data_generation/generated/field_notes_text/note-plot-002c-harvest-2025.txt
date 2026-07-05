@@ -1,0 +1,7 @@
+Date: 2025-04-10
+Farm: farm-002
+Plot: plot-002c
+Category: harvest_report
+Farmer: Venkatesh Rao
+---
+Block 3 harvest done - Sugarcane: 101.8q total, 20.4 q/ha. Grade A quality - expecting good price. Stored in godown. Similar to last year (22.0 q/ha).

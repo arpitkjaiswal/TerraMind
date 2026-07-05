@@ -1,0 +1,7 @@
+Date: 2023-11-26
+Farm: farm-003
+Plot: plot-003c
+Category: planting_record
+Farmer: Ranjit Das
+---
+Planted IR-64 Potato in Vegetable Patch - 3.5 hectares total. Pre-treated seeds w/ no treatment. Applied SSP @ 126kg/ha. waterlogged soil conditions.

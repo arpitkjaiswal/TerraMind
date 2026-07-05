@@ -1,0 +1,7 @@
+Date: 2020-05-08
+Farm: farm-005
+Plot: plot-005a
+Category: harvest_report
+Farmer: Arun Kumar
+---
+Harvested Wheat from Wheat Field Alpha today. Got about 800.4 quintals from 25.0 ha (32.0 q/ha). Grade A quality - expecting good price. Similar to last year (31.6 q/ha).

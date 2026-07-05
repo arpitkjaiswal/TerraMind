@@ -1,0 +1,7 @@
+Date: 2022-12-24
+Farm: farm-004
+Plot: plot-004b
+Category: planting_record
+Farmer: Suresh Patil
+---
+Started planting Arhar/Tur (IR-64) in Soybean Plot. Prepared with NPK 20:20:0 basal dose (95 kg/ha). Soil felt dry. Hoping for good monsoon this yr.

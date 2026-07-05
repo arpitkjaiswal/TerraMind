@@ -1,0 +1,7 @@
+Date: 2023-07-19
+Farm: farm-001
+Plot: plot-001a
+Category: planting_record
+Farmer: Rajinder Singh
+---
+Planted Pusa-44 Rice in Field A (North) - 12.5 hectares total. Pre-treated seeds w/ Trichoderma. Applied Ammonium Sulphate @ 94kg/ha. dry soil conditions.

@@ -1,0 +1,433 @@
+[
+  {
+    "chain_id": "CC-CHH-2008",
+    "state": "Chhattisgarh",
+    "year": 2008,
+    "outcome": {
+      "type": "YieldMeasurement",
+      "yield_change_pct": -15.6,
+      "severity": "warning"
+    },
+    "contributing_factors": [
+      {
+        "type": "ChemicalProduct",
+        "category": "pesticide",
+        "change_pct": -45.6,
+        "year": 2008
+      },
+      {
+        "type": "WeatherEvent",
+        "category": "drought",
+        "rainfall_change_pct": -26.8,
+        "year": 2008
+      }
+    ],
+    "graph_edges": [
+      {
+        "source": "pesticide_Chhattisgarh_2008",
+        "target": "yield_Chhattisgarh_2008",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      },
+      {
+        "source": "drought_Chhattisgarh_2008",
+        "target": "yield_Chhattisgarh_2008",
+        "relationship": "OCCURRED_DURING"
+      }
+    ]
+  },
+  {
+    "chain_id": "CC-DEL-2014",
+    "state": "Delhi",
+    "year": 2014,
+    "outcome": {
+      "type": "YieldMeasurement",
+      "yield_change_pct": -51.0,
+      "severity": "critical"
+    },
+    "contributing_factors": [
+      {
+        "type": "ChemicalProduct",
+        "category": "pesticide",
+        "change_pct": 35.5,
+        "year": 2014
+      },
+      {
+        "type": "WeatherEvent",
+        "category": "drought",
+        "rainfall_change_pct": -49.4,
+        "year": 2014
+      }
+    ],
+    "graph_edges": [
+      {
+        "source": "pesticide_Delhi_2014",
+        "target": "yield_Delhi_2014",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      },
+      {
+        "source": "drought_Delhi_2014",
+        "target": "yield_Delhi_2014",
+        "relationship": "OCCURRED_DURING"
+      }
+    ]
+  },
+  {
+    "chain_id": "CC-GOA-2008",
+    "state": "Goa",
+    "year": 2008,
+    "outcome": {
+      "type": "YieldMeasurement",
+      "yield_change_pct": -29.0,
+      "severity": "critical"
+    },
+    "contributing_factors": [
+      {
+        "type": "ChemicalProduct",
+        "category": "pesticide",
+        "change_pct": -76.1,
+        "year": 2008
+      },
+      {
+        "type": "ChemicalProduct",
+        "category": "fertilizer",
+        "change_pct": -54.5,
+        "year": 2008
+      },
+      {
+        "type": "WeatherEvent",
+        "category": "drought",
+        "rainfall_change_pct": -28.4,
+        "year": 2008
+      }
+    ],
+    "graph_edges": [
+      {
+        "source": "pesticide_Goa_2008",
+        "target": "yield_Goa_2008",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      },
+      {
+        "source": "fertilizer_Goa_2008",
+        "target": "yield_Goa_2008",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      },
+      {
+        "source": "drought_Goa_2008",
+        "target": "yield_Goa_2008",
+        "relationship": "OCCURRED_DURING"
+      }
+    ]
+  },
+  {
+    "chain_id": "CC-HAR-2009",
+    "state": "Haryana",
+    "year": 2009,
+    "outcome": {
+      "type": "YieldMeasurement",
+      "yield_change_pct": -53.3,
+      "severity": "critical"
+    },
+    "contributing_factors": [
+      {
+        "type": "ChemicalProduct",
+        "category": "pesticide",
+        "change_pct": 90.1,
+        "year": 2009
+      },
+      {
+        "type": "WeatherEvent",
+        "category": "drought",
+        "rainfall_change_pct": -40.9,
+        "year": 2009
+      }
+    ],
+    "graph_edges": [
+      {
+        "source": "pesticide_Haryana_2009",
+        "target": "yield_Haryana_2009",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      },
+      {
+        "source": "drought_Haryana_2009",
+        "target": "yield_Haryana_2009",
+        "relationship": "OCCURRED_DURING"
+      }
+    ]
+  },
+  {
+    "chain_id": "CC-HIM-1999",
+    "state": "Himachal Pradesh",
+    "year": 1999,
+    "outcome": {
+      "type": "YieldMeasurement",
+      "yield_change_pct": -22.3,
+      "severity": "warning"
+    },
+    "contributing_factors": [
+      {
+        "type": "ChemicalProduct",
+        "category": "pesticide",
+        "change_pct": 21.9,
+        "year": 1999
+      },
+      {
+        "type": "ChemicalProduct",
+        "category": "fertilizer",
+        "change_pct": 40.7,
+        "year": 1999
+      },
+      {
+        "type": "WeatherEvent",
+        "category": "drought",
+        "rainfall_change_pct": -40.5,
+        "year": 1999
+      }
+    ],
+    "graph_edges": [
+      {
+        "source": "pesticide_Himachal Pradesh_1999",
+        "target": "yield_Himachal Pradesh_1999",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      },
+      {
+        "source": "fertilizer_Himachal Pradesh_1999",
+        "target": "yield_Himachal Pradesh_1999",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      },
+      {
+        "source": "drought_Himachal Pradesh_1999",
+        "target": "yield_Himachal Pradesh_1999",
+        "relationship": "OCCURRED_DURING"
+      }
+    ]
+  },
+  {
+    "chain_id": "CC-JAM-1999",
+    "state": "Jammu and Kashmir",
+    "year": 1999,
+    "outcome": {
+      "type": "YieldMeasurement",
+      "yield_change_pct": -23.4,
+      "severity": "warning"
+    },
+    "contributing_factors": [
+      {
+        "type": "ChemicalProduct",
+        "category": "pesticide",
+        "change_pct": -82.4,
+        "year": 1999
+      },
+      {
+        "type": "ChemicalProduct",
+        "category": "fertilizer",
+        "change_pct": -77.4,
+        "year": 1999
+      },
+      {
+        "type": "WeatherEvent",
+        "category": "drought",
+        "rainfall_change_pct": -44.3,
+        "year": 1999
+      }
+    ],
+    "graph_edges": [
+      {
+        "source": "pesticide_Jammu and Kashmir_1999",
+        "target": "yield_Jammu and Kashmir_1999",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      },
+      {
+        "source": "fertilizer_Jammu and Kashmir_1999",
+        "target": "yield_Jammu and Kashmir_1999",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      },
+      {
+        "source": "drought_Jammu and Kashmir_1999",
+        "target": "yield_Jammu and Kashmir_1999",
+        "relationship": "OCCURRED_DURING"
+      }
+    ]
+  },
+  {
+    "chain_id": "CC-JAM-2004",
+    "state": "Jammu and Kashmir",
+    "year": 2004,
+    "outcome": {
+      "type": "YieldMeasurement",
+      "yield_change_pct": -31.4,
+      "severity": "critical"
+    },
+    "contributing_factors": [
+      {
+        "type": "ChemicalProduct",
+        "category": "pesticide",
+        "change_pct": 68.4,
+        "year": 2004
+      },
+      {
+        "type": "ChemicalProduct",
+        "category": "fertilizer",
+        "change_pct": 110.7,
+        "year": 2004
+      },
+      {
+        "type": "WeatherEvent",
+        "category": "drought",
+        "rainfall_change_pct": -33.7,
+        "year": 2004
+      }
+    ],
+    "graph_edges": [
+      {
+        "source": "pesticide_Jammu and Kashmir_2004",
+        "target": "yield_Jammu and Kashmir_2004",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      },
+      {
+        "source": "fertilizer_Jammu and Kashmir_2004",
+        "target": "yield_Jammu and Kashmir_2004",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      },
+      {
+        "source": "drought_Jammu and Kashmir_2004",
+        "target": "yield_Jammu and Kashmir_2004",
+        "relationship": "OCCURRED_DURING"
+      }
+    ]
+  },
+  {
+    "chain_id": "CC-MAD-2014",
+    "state": "Madhya Pradesh",
+    "year": 2014,
+    "outcome": {
+      "type": "YieldMeasurement",
+      "yield_change_pct": -29.2,
+      "severity": "critical"
+    },
+    "contributing_factors": [
+      {
+        "type": "ChemicalProduct",
+        "category": "pesticide",
+        "change_pct": 135.4,
+        "year": 2014
+      },
+      {
+        "type": "ChemicalProduct",
+        "category": "fertilizer",
+        "change_pct": 101.2,
+        "year": 2014
+      },
+      {
+        "type": "WeatherEvent",
+        "category": "drought",
+        "rainfall_change_pct": -36.8,
+        "year": 2014
+      }
+    ],
+    "graph_edges": [
+      {
+        "source": "pesticide_Madhya Pradesh_2014",
+        "target": "yield_Madhya Pradesh_2014",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      },
+      {
+        "source": "fertilizer_Madhya Pradesh_2014",
+        "target": "yield_Madhya Pradesh_2014",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      },
+      {
+        "source": "drought_Madhya Pradesh_2014",
+        "target": "yield_Madhya Pradesh_2014",
+        "relationship": "OCCURRED_DURING"
+      }
+    ]
+  },
+  {
+    "chain_id": "CC-SIK-2006",
+    "state": "Sikkim",
+    "year": 2006,
+    "outcome": {
+      "type": "YieldMeasurement",
+      "yield_change_pct": -39.7,
+      "severity": "critical"
+    },
+    "contributing_factors": [
+      {
+        "type": "ChemicalProduct",
+        "category": "pesticide",
+        "change_pct": 48.4,
+        "year": 2006
+      },
+      {
+        "type": "ChemicalProduct",
+        "category": "fertilizer",
+        "change_pct": 50.8,
+        "year": 2006
+      }
+    ],
+    "graph_edges": [
+      {
+        "source": "pesticide_Sikkim_2006",
+        "target": "yield_Sikkim_2006",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      },
+      {
+        "source": "fertilizer_Sikkim_2006",
+        "target": "yield_Sikkim_2006",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      }
+    ]
+  },
+  {
+    "chain_id": "CC-TAM-2016",
+    "state": "Tamil Nadu",
+    "year": 2016,
+    "outcome": {
+      "type": "YieldMeasurement",
+      "yield_change_pct": -15.3,
+      "severity": "warning"
+    },
+    "contributing_factors": [
+      {
+        "type": "ChemicalProduct",
+        "category": "fertilizer",
+        "change_pct": -24.5,
+        "year": 2016
+      },
+      {
+        "type": "WeatherEvent",
+        "category": "drought",
+        "rainfall_change_pct": -58.6,
+        "year": 2016
+      }
+    ],
+    "graph_edges": [
+      {
+        "source": "fertilizer_Tamil Nadu_2016",
+        "target": "yield_Tamil Nadu_2016",
+        "relationship": "CORRELATED_WITH",
+        "temporal_order": "PRECEDED"
+      },
+      {
+        "source": "drought_Tamil Nadu_2016",
+        "target": "yield_Tamil Nadu_2016",
+        "relationship": "OCCURRED_DURING"
+      }
+    ]
+  }
+]

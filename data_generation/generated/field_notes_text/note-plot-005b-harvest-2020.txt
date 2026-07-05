@@ -1,0 +1,7 @@
+Date: 2020-03-12
+Farm: farm-005
+Plot: plot-005b
+Category: harvest_report
+Farmer: Arun Kumar
+---
+Harvest report Sugarcane Block: Yield = 40.4 q/ha (606.4q from 15.0ha). Grain quality looks good - no moisture issues. Similar to last year (45.0 q/ha).. Sold 364.0q @ Rs.3793/q.

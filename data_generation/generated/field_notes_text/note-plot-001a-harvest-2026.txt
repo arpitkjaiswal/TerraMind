@@ -1,0 +1,7 @@
+Date: 2026-11-01
+Farm: farm-001
+Plot: plot-001a
+Category: harvest_report
+Farmer: Rajinder Singh
+---
+Field A (North) harvest done - Rice: 543.4q total, 43.5 q/ha. Grade A quality - expecting good price. Stored in godown. Similar to last year (49.2 q/ha).

@@ -1,0 +1,7 @@
+Date: 2020-08-21
+Farm: farm-003
+Plot: plot-003b
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Tea Garden A - sprayed Chlorpyrifos 20EC today (2ml/L). Noticed leaf blight symptoms on Arecanut. Full field coverage. Will check results in 3-5 days.

@@ -1,0 +1,12 @@
+Date: 2026-02-15
+Farm: farm-004
+Plot: plot-004b
+Category: soil_test
+Farmer: Suresh Patil
+---
+Soil test results for Soybean Plot (sample date: 2026-03-16).
+Lab: State Agricultural Lab, Maharashtra.
+Results: N=119 kg/ha, P=41 kg/ha, K=33 kg/ha, pH=6.6
+Organic Carbon: 0.70%
+EC: 0.38 dS/m
+Recommendation: Maintain current levels. pH adequate.

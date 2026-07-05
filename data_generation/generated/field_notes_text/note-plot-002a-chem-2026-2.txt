@@ -1,0 +1,7 @@
+Date: 2026-08-04
+Farm: farm-002
+Plot: plot-002a
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Chemical application log: Carbendazim 50WP on Block 1. Rate: 2g/L. Target: fungal spots on leaves. Applied early morning, wind was light. Double dose due to severity

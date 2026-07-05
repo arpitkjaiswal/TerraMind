@@ -1,0 +1,7 @@
+Date: 2022-05-03
+Farm: farm-005
+Plot: plot-005c
+Category: harvest_report
+Farmer: Arun Kumar
+---
+Harvested Rapeseed &Mustard from Mustard Plot today. Got about 147.2 quintals from 8.0 ha (18.4 q/ha). Grade A quality - expecting good price. Similar to last year (18.8 q/ha).

@@ -1,0 +1,7 @@
+Date: 2023-10-08
+Farm: farm-002
+Plot: plot-002a
+Category: harvest_report
+Farmer: Venkatesh Rao
+---
+Harvest report Block 1: Yield = 32.0 q/ha (320.1q from 10.0ha). Grain quality looks good - no moisture issues. Similar to last year (30.7 q/ha).. Sold 226.6q @ Rs.3452/q.

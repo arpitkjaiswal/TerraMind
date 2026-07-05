@@ -1,0 +1,7 @@
+Date: 2024-07-19
+Farm: farm-002
+Plot: plot-002a
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Block 1 - sprayed Propiconazole 25EC today (1ml/L). Noticed blast disease symptoms on Rice. Spot coverage. Will check results in 3-5 days.

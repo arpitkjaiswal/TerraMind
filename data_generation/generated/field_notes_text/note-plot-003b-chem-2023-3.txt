@@ -1,0 +1,7 @@
+Date: 2023-10-11
+Farm: farm-003
+Plot: plot-003b
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Tea Garden A - sprayed Carbendazim 50WP today (2g/L). Noticed stem borer infestation on Arecanut. Spot coverage. Will check results in 3-5 days.

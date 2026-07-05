@@ -1,0 +1,7 @@
+Date: 2021-06-15
+Farm: farm-004
+Plot: plot-004b
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Lambda Cyhalothrin on Soybean Plot. Rate: 1ml/L. Target: stem borer infestation. Applied early morning, wind was moderate. Mixed with sticker

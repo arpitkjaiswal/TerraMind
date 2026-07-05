@@ -1,0 +1,7 @@
+Date: 2025-05-16
+Farm: farm-003
+Plot: plot-003a
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Applied 2,4-D Sodium Salt (herbicide) on Paddy Field 1 @ 2.5ml/L. Pest pressure was low. Sprayed 20.0 ha. Weather: cloudy. Note: Worker used full PPE

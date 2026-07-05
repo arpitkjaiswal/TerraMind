@@ -1,0 +1,7 @@
+Date: 2021-06-19
+Farm: farm-001
+Plot: plot-001c
+Category: weather_observation
+Farmer: Rajinder Singh
+---
+Good monsoon so far - Field C (East) getting steady rain. About 43mm this week. Crop looking healthy. Humidity around 58%.

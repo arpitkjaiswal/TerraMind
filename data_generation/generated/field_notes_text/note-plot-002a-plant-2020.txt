@@ -1,0 +1,7 @@
+Date: 2020-05-09
+Farm: farm-002
+Plot: plot-002a
+Category: planting_record
+Farmer: Venkatesh Rao
+---
+Block 1: sowing done. Rice - Basmati-1509. Fert: Ammonium Sulphate (128 kg/ha). Notes: cracked texture, need irrigation in 3 days. Temp was 28C today.

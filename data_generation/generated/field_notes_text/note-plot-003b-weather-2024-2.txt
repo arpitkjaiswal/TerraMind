@@ -1,0 +1,7 @@
+Date: 2024-08-26
+Farm: farm-003
+Plot: plot-003b
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Heatwave warning: 43°C recorded near Tea Garden A. Irrigated urgently. Arecanut showing wilting. Applied foliar spray to reduce transpiration stress.

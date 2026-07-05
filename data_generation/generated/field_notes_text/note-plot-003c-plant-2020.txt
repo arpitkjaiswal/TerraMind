@@ -1,0 +1,7 @@
+Date: 2020-11-22
+Farm: farm-003
+Plot: plot-003c
+Category: planting_record
+Farmer: Ranjit Das
+---
+Sowed Potato in Vegetable Patch today. Used UP-262 variety. Soil was slightly wet. Applied MOP at 79 kg/ha before sowing. Weather clear, temp around 35°C.

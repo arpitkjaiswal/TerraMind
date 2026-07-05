@@ -1,0 +1,7 @@
+Date: 2020-08-22
+Farm: farm-003
+Plot: plot-003b
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Applied Carbendazim 50WP (fungicide) on Tea Garden A @ 2g/L. Pest pressure was high. Sprayed 6.0 ha. Weather: cloudy. Note: Mixed with sticker

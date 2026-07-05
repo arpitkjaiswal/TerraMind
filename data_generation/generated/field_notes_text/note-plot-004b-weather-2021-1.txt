@@ -1,0 +1,7 @@
+Date: 2021-07-13
+Farm: farm-004
+Plot: plot-004b
+Category: weather_observation
+Farmer: Suresh Patil
+---
+Heatwave warning: 44°C recorded near Soybean Plot. Irrigated urgently. Arhar/Tur showing wilting. Applied foliar spray to reduce transpiration stress.

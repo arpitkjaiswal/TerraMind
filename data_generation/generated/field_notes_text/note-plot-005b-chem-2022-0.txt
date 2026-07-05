@@ -1,0 +1,7 @@
+Date: 2022-07-04
+Farm: farm-005
+Plot: plot-005b
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Chemical application log: Imidacloprid 17.8SL on Sugarcane Block. Rate: 0.5ml/L. Target: fungal spots on leaves. Applied early morning, wind was calm. Double dose due to severity

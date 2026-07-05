@@ -1,0 +1,7 @@
+Date: 2026-09-09
+Farm: farm-005
+Plot: plot-005a
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Chemical application log: 2,4-D Sodium Salt on Wheat Field Alpha. Rate: 2.5ml/L. Target: blast disease symptoms. Applied early morning, wind was moderate. Worker used full PPE

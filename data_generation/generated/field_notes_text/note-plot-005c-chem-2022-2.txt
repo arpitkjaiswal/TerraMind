@@ -1,0 +1,7 @@
+Date: 2022-09-09
+Farm: farm-005
+Plot: plot-005c
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Chemical application log: Chlorpyrifos 20EC on Mustard Plot. Rate: 2ml/L. Target: fungal spots on leaves. Applied early morning, wind was calm. 

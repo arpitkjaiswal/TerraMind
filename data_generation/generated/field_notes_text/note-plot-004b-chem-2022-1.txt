@@ -1,0 +1,7 @@
+Date: 2022-09-18
+Farm: farm-004
+Plot: plot-004b
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Chemical application log: Lambda Cyhalothrin on Soybean Plot. Rate: 1ml/L. Target: whitefly attack. Applied early morning, wind was moderate. Double dose due to severity

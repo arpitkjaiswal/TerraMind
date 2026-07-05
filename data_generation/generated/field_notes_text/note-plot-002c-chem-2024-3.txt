@@ -1,0 +1,7 @@
+Date: 2024-05-13
+Farm: farm-002
+Plot: plot-002c
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Chemical application log: Lambda Cyhalothrin on Block 3. Rate: 1ml/L. Target: leaf blight symptoms. Applied early morning, wind was calm. Worker used full PPE

@@ -1,0 +1,7 @@
+Date: 2023-04-19
+Farm: farm-004
+Plot: plot-004b
+Category: harvest_report
+Farmer: Suresh Patil
+---
+Harvested Arhar/Tur from Soybean Plot today. Got about 231.0 quintals from 12.0 ha (19.2 q/ha). Some grain damage from late rain. Similar to last year (20.7 q/ha).

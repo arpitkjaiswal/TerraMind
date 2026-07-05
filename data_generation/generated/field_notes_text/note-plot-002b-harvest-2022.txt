@@ -1,0 +1,7 @@
+Date: 2022-05-18
+Farm: farm-002
+Plot: plot-002b
+Category: harvest_report
+Farmer: Venkatesh Rao
+---
+Harvest report Block 2: Yield = 33.3 q/ha (250.1q from 7.5ha). Grade A quality - expecting good price. Similar to last year (36.2 q/ha).. Sold 215.8q @ Rs.1657/q.

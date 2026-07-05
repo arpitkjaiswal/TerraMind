@@ -1,0 +1,7 @@
+Date: 2026-10-23
+Farm: farm-004
+Plot: plot-004c
+Category: weather_observation
+Farmer: Suresh Patil
+---
+Good monsoon so far - Onion Beds getting steady rain. About 183mm this week. Crop looking healthy. Humidity around 58%.

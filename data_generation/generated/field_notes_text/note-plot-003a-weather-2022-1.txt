@@ -1,0 +1,7 @@
+Date: 2022-08-18
+Farm: farm-003
+Plot: plot-003a
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Paddy Field 1: No rain for 27 days straight. Soil cracking badly. Temp hitting 45°C. Crops showing stress - leaves curling. Need to arrange irrigation ASAP.

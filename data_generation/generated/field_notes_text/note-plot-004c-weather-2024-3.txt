@@ -1,0 +1,7 @@
+Date: 2024-10-28
+Farm: farm-004
+Plot: plot-004c
+Category: weather_observation
+Farmer: Suresh Patil
+---
+Unusual cold snap in Onion Beds region. Temp dropped to 34°C overnight. Some frost damage visible on young Onion plants. Applied straw mulching.

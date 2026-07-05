@@ -1,0 +1,7 @@
+Date: 2022-09-06
+Farm: farm-001
+Plot: plot-001b
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Chemical application log: Propiconazole 25EC on Field B (South). Rate: 1ml/L. Target: blast disease symptoms. Applied early morning, wind was light. Double dose due to severity

@@ -1,0 +1,7 @@
+Date: 2026-05-02
+Farm: farm-002
+Plot: plot-002b
+Category: planting_record
+Farmer: Venkatesh Rao
+---
+Sowed Maize in Block 2 today. Used HKR-47 variety. Soil was moist. Applied MOP at 48 kg/ha before sowing. Weather clear, temp around 29°C.

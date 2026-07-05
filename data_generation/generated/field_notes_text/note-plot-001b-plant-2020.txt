@@ -1,0 +1,7 @@
+Date: 2020-11-03
+Farm: farm-001
+Plot: plot-001b
+Category: planting_record
+Farmer: Rajinder Singh
+---
+Started planting Wheat (PR-126) in Field B (South). Prepared with NPK 20:20:0 basal dose (98 kg/ha). Soil felt waterlogged. Hoping for good monsoon this yr.

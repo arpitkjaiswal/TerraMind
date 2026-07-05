@@ -1,0 +1,7 @@
+Date: 2025-08-02
+Farm: farm-003
+Plot: plot-003a
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Applied Lambda Cyhalothrin (insecticide) on Paddy Field 1 @ 1ml/L. Pest pressure was moderate. Sprayed 20.0 ha. Weather: clear. Note: Mixed with sticker

@@ -1,0 +1,7 @@
+Date: 2020-10-14
+Farm: farm-003
+Plot: plot-003b
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Heavy rainfall last 26 days in Tea Garden A area. Measured approx 41mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

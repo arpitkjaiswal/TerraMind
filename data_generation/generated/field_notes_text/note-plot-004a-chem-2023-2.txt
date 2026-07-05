@@ -1,0 +1,7 @@
+Date: 2023-10-11
+Farm: farm-004
+Plot: plot-004a
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Applied 2,4-D Sodium Salt (herbicide) on Cotton Field 1 @ 2.5ml/L. Pest pressure was low. Sprayed 18.0 ha. Weather: clear. Note: 

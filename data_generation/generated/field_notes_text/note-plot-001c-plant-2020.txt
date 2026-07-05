@@ -1,0 +1,7 @@
+Date: 2020-05-21
+Farm: farm-001
+Plot: plot-001c
+Category: planting_record
+Farmer: Rajinder Singh
+---
+Started planting Rice (Co-0238) in Field C (East). Prepared with MOP basal dose (48 kg/ha). Soil felt waterlogged. Hoping for good monsoon this yr.

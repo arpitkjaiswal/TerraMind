@@ -1,0 +1,7 @@
+Date: 2024-04-27
+Farm: farm-004
+Plot: plot-004c
+Category: harvest_report
+Farmer: Suresh Patil
+---
+Harvest report Onion Beds: Yield = 32.2 q/ha (129.0q from 4.0ha). Grain quality looks good - no moisture issues. Similar to last year (33.1 q/ha).. Sold 90.0q @ Rs.1790/q.

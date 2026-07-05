@@ -1,0 +1,7 @@
+Date: 2022-06-24
+Farm: farm-002
+Plot: plot-002a
+Category: chemical_application
+Farmer: Venkatesh Rao
+---
+Chemical application log: Mancozeb 75WP on Block 1. Rate: 2.5g/L. Target: weed pressure. Applied early morning, wind was light. 

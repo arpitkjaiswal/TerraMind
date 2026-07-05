@@ -1,0 +1,7 @@
+Date: 2024-09-09
+Farm: farm-004
+Plot: plot-004c
+Category: weather_observation
+Farmer: Suresh Patil
+---
+Heavy rainfall last 30 days in Onion Beds area. Measured approx 104mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

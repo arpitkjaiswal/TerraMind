@@ -1,0 +1,7 @@
+Date: 2021-11-10
+Farm: farm-005
+Plot: plot-005b
+Category: planting_record
+Farmer: Arun Kumar
+---
+Planted Basmati-1509 Sugarcane in Sugarcane Block - 15.0 hectares total. Pre-treated seeds w/ Thiram. Applied Ammonium Sulphate @ 64kg/ha. moist soil conditions.

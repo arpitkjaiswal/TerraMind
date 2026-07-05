@@ -1,0 +1,7 @@
+Date: 2024-05-28
+Farm: farm-001
+Plot: plot-001c
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Applied Chlorpyrifos 20EC (insecticide) on Field C (East) @ 2ml/L. Pest pressure was severe. Sprayed 15.0 ha. Weather: cloudy. Note: 

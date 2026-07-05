@@ -1,0 +1,7 @@
+Date: 2022-08-17
+Farm: farm-004
+Plot: plot-004a
+Category: weather_observation
+Farmer: Suresh Patil
+---
+Heatwave warning: 28°C recorded near Cotton Field 1. Irrigated urgently. Cotton(lint) showing wilting. Applied foliar spray to reduce transpiration stress.

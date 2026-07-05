@@ -1,0 +1,7 @@
+Date: 2024-10-04
+Farm: farm-003
+Plot: plot-003a
+Category: harvest_report
+Farmer: Ranjit Das
+---
+Paddy Field 1 harvest done - Rice: 479.1q total, 24.0 q/ha. Some grain damage from late rain. Stored in godown. Similar to last year (27.1 q/ha).

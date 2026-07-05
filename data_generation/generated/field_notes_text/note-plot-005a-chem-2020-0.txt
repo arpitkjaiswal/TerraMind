@@ -1,0 +1,7 @@
+Date: 2020-09-02
+Farm: farm-005
+Plot: plot-005a
+Category: chemical_application
+Farmer: Arun Kumar
+---
+Wheat Field Alpha - sprayed Chlorpyrifos 20EC today (2ml/L). Noticed blast disease symptoms on Wheat. Border coverage. Will check results in 3-5 days.

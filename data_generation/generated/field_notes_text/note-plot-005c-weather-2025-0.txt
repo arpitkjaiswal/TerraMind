@@ -1,0 +1,7 @@
+Date: 2025-10-16
+Farm: farm-005
+Plot: plot-005c
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Good monsoon so far - Mustard Plot getting steady rain. About 39mm this week. Crop looking healthy. Humidity around 83%.

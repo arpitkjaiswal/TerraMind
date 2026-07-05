@@ -1,0 +1,7 @@
+Date: 2024-07-14
+Farm: farm-004
+Plot: plot-004a
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Cotton Field 1 - sprayed Propiconazole 25EC today (1ml/L). Noticed brown plant hopper on Cotton(lint). Border coverage. Will check results in 3-5 days.

@@ -1,0 +1,7 @@
+Date: 2020-07-10
+Farm: farm-003
+Plot: plot-003b
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Unusual cold snap in Tea Garden A region. Temp dropped to 37°C overnight. Some frost damage visible on young Arecanut plants. Applied straw mulching.

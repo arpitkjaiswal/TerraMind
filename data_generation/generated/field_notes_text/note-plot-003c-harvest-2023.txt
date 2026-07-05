@@ -1,0 +1,7 @@
+Date: 2023-05-11
+Farm: farm-003
+Plot: plot-003c
+Category: harvest_report
+Farmer: Ranjit Das
+---
+Vegetable Patch harvest done - Potato: 68.8q total, 19.7 q/ha. Excellent quality, good grain fill. Stored in godown. Similar to last year (20.0 q/ha).

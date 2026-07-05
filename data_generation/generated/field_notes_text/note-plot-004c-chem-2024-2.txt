@@ -1,0 +1,7 @@
+Date: 2024-07-06
+Farm: farm-004
+Plot: plot-004c
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Onion Beds - sprayed Chlorpyrifos 20EC today (2ml/L). Noticed fungal spots on leaves on Onion. Border coverage. Will check results in 3-5 days.

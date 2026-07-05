@@ -1,0 +1,7 @@
+Date: 2024-07-27
+Farm: farm-004
+Plot: plot-004c
+Category: chemical_application
+Farmer: Suresh Patil
+---
+Onion Beds - sprayed Carbendazim 50WP today (2g/L). Noticed blast disease symptoms on Onion. 50% coverage. Will check results in 3-5 days.

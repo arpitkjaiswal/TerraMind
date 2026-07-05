@@ -1,0 +1,7 @@
+Date: 2020-10-14
+Farm: farm-003
+Plot: plot-003a
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Chemical application log: Lambda Cyhalothrin on Paddy Field 1. Rate: 1ml/L. Target: weed pressure. Applied early morning, wind was moderate. Double dose due to severity

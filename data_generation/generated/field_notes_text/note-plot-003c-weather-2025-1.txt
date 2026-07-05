@@ -1,0 +1,7 @@
+Date: 2025-07-25
+Farm: farm-003
+Plot: plot-003c
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Heavy rainfall last 18 days in Vegetable Patch area. Measured approx 34mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

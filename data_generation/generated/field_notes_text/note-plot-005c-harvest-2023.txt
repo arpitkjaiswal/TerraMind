@@ -1,0 +1,7 @@
+Date: 2023-05-03
+Farm: farm-005
+Plot: plot-005c
+Category: harvest_report
+Farmer: Arun Kumar
+---
+Harvested Rapeseed &Mustard from Mustard Plot today. Got about 231.6 quintals from 8.0 ha (28.9 q/ha). Excellent quality, good grain fill. Similar to last year (26.6 q/ha).

@@ -1,0 +1,7 @@
+Date: 2025-10-08
+Farm: farm-002
+Plot: plot-002a
+Category: harvest_report
+Farmer: Venkatesh Rao
+---
+Harvested Rice from Block 1 today. Got about 297.4 quintals from 10.0 ha (29.7 q/ha). Excellent quality, good grain fill. Similar to last year (27.8 q/ha).

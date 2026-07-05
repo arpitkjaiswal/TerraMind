@@ -1,0 +1,7 @@
+Date: 2023-11-17
+Farm: farm-001
+Plot: plot-001c
+Category: harvest_report
+Farmer: Rajinder Singh
+---
+Harvest report Field C (East): Yield = 34.7 q/ha (520.6q from 15.0ha). Mixed quality - some sections affected by disease. Similar to last year (32.0 q/ha).. Sold 448.7q @ Rs.2431/q.

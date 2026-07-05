@@ -1,0 +1,7 @@
+Date: 2020-10-26
+Farm: farm-005
+Plot: plot-005a
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Heavy rainfall last 29 days in Wheat Field Alpha area. Measured approx 194mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

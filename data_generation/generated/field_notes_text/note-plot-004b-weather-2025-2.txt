@@ -1,0 +1,7 @@
+Date: 2025-08-20
+Farm: farm-004
+Plot: plot-004b
+Category: weather_observation
+Farmer: Suresh Patil
+---
+Unusual cold snap in Soybean Plot region. Temp dropped to 48°C overnight. Some frost damage visible on young Arhar/Tur plants. Applied straw mulching.

@@ -1,0 +1,7 @@
+Date: 2025-09-26
+Farm: farm-001
+Plot: plot-001a
+Category: chemical_application
+Farmer: Rajinder Singh
+---
+Applied 2,4-D Sodium Salt (herbicide) on Field A (North) @ 2.5ml/L. Pest pressure was high. Sprayed 12.5 ha. Weather: cloudy. Note: Mixed with sticker

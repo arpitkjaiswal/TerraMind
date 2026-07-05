@@ -1,0 +1,7 @@
+Date: 2025-08-19
+Farm: farm-002
+Plot: plot-002b
+Category: weather_observation
+Farmer: Venkatesh Rao
+---
+Unusual cold snap in Block 2 region. Temp dropped to 30°C overnight. Some frost damage visible on young Maize plants. Applied straw mulching.

@@ -1,0 +1,7 @@
+Date: 2022-12-21
+Farm: farm-003
+Plot: plot-003a
+Category: harvest_report
+Farmer: Ranjit Das
+---
+Harvest report Paddy Field 1: Yield = 22.3 q/ha (446.8q from 20.0ha). Some grain damage from late rain. Similar to last year (23.2 q/ha).. Sold 274.6q @ Rs.2107/q.

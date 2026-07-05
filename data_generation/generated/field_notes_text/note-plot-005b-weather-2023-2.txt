@@ -1,0 +1,7 @@
+Date: 2023-10-23
+Farm: farm-005
+Plot: plot-005b
+Category: weather_observation
+Farmer: Arun Kumar
+---
+Heavy rainfall last 17 days in Sugarcane Block area. Measured approx 81mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

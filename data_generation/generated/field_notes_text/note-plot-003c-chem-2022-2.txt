@@ -1,0 +1,7 @@
+Date: 2022-05-27
+Farm: farm-003
+Plot: plot-003c
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Applied Carbendazim 50WP (fungicide) on Vegetable Patch @ 2g/L. Pest pressure was severe. Sprayed 3.5 ha. Weather: cloudy. Note: Double dose due to severity

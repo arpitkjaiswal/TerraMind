@@ -1,0 +1,7 @@
+Date: 2020-07-13
+Farm: farm-004
+Plot: plot-004a
+Category: planting_record
+Farmer: Suresh Patil
+---
+Started planting Cotton(lint) (HKR-47) in Cotton Field 1. Prepared with Ammonium Sulphate basal dose (40 kg/ha). Soil felt well-drained. Hoping for good monsoon this yr.

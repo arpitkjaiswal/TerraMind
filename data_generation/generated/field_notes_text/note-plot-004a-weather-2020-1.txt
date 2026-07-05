@@ -1,0 +1,7 @@
+Date: 2020-10-09
+Farm: farm-004
+Plot: plot-004a
+Category: weather_observation
+Farmer: Suresh Patil
+---
+Heavy rainfall last 29 days in Cotton Field 1 area. Measured approx 126mm. Some waterlogging in low-lying section. Worried about root rot if this continues.

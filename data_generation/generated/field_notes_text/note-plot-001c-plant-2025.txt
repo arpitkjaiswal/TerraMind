@@ -1,0 +1,7 @@
+Date: 2025-04-04
+Farm: farm-001
+Plot: plot-001c
+Category: planting_record
+Farmer: Rajinder Singh
+---
+Planted HD-2967 Rice in Field C (East) - 15.0 hectares total. Pre-treated seeds w/ Thiram. Applied DAP @ 70kg/ha. dry soil conditions.

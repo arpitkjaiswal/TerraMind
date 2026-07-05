@@ -1,0 +1,7 @@
+Date: 2024-11-23
+Farm: farm-002
+Plot: plot-002a
+Category: harvest_report
+Farmer: Venkatesh Rao
+---
+Harvest report Block 1: Yield = 14.3 q/ha (142.7q from 10.0ha). Quality below average - pest damage visible. Similar to last year (15.9 q/ha).. Sold 93.5q @ Rs.3087/q.

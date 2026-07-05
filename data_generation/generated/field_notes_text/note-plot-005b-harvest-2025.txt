@@ -1,0 +1,7 @@
+Date: 2025-04-28
+Farm: farm-005
+Plot: plot-005b
+Category: harvest_report
+Farmer: Arun Kumar
+---
+Sugarcane Block harvest done - Sugarcane: 263.1q total, 17.5 q/ha. Grade A quality - expecting good price. Stored in godown. Similar to last year (18.6 q/ha).

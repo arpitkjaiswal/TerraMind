@@ -1,0 +1,12 @@
+Date: 2020-02-04
+Farm: farm-003
+Plot: plot-003b
+Category: soil_test
+Farmer: Ranjit Das
+---
+Soil test results for Tea Garden A (sample date: 2020-02-15).
+Lab: State Agricultural Lab, Assam.
+Results: N=76 kg/ha, P=42 kg/ha, K=24 kg/ha, pH=6.4
+Organic Carbon: 0.42%
+EC: 0.33 dS/m
+Recommendation: Maintain current levels. pH adequate.

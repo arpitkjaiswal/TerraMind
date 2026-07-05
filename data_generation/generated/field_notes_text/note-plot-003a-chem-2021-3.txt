@@ -1,0 +1,7 @@
+Date: 2021-07-06
+Farm: farm-003
+Plot: plot-003a
+Category: chemical_application
+Farmer: Ranjit Das
+---
+Paddy Field 1 - sprayed Carbendazim 50WP today (2g/L). Noticed brown plant hopper on Rice. Full field coverage. Will check results in 3-5 days.

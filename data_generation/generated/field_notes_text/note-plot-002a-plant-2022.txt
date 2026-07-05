@@ -1,0 +1,7 @@
+Date: 2022-04-11
+Farm: farm-002
+Plot: plot-002a
+Category: planting_record
+Farmer: Venkatesh Rao
+---
+Sowed Rice in Block 1 today. Used MTU-1010 variety. Soil was cracked. Applied Urea at 115 kg/ha before sowing. Weather clear, temp around 29°C.

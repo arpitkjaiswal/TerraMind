@@ -1,0 +1,7 @@
+Date: 2023-12-20
+Farm: farm-005
+Plot: plot-005b
+Category: planting_record
+Farmer: Arun Kumar
+---
+Planted PR-126 Sugarcane in Sugarcane Block - 15.0 hectares total. Pre-treated seeds w/ Carbendazim. Applied NPK 20:20:0 @ 69kg/ha. dry soil conditions.

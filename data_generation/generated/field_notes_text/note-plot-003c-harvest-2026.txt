@@ -1,0 +1,7 @@
+Date: 2026-03-19
+Farm: farm-003
+Plot: plot-003c
+Category: harvest_report
+Farmer: Ranjit Das
+---
+Harvest report Vegetable Patch: Yield = 44.5 q/ha (155.8q from 3.5ha). Excellent quality, good grain fill. Similar to last year (47.0 q/ha).. Sold 102.2q @ Rs.1978/q.

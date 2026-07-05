@@ -1,0 +1,7 @@
+Date: 2026-07-21
+Farm: farm-003
+Plot: plot-003c
+Category: weather_observation
+Farmer: Ranjit Das
+---
+Heatwave warning: 22°C recorded near Vegetable Patch. Irrigated urgently. Potato showing wilting. Applied foliar spray to reduce transpiration stress.
