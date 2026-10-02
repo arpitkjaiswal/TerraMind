@@ -186,5 +186,5 @@ async def run_memify(farm_id: str, plot_id: str) -> None:
     #     filters={"farm_id": farm_id, "plot_id": plot_id},
     #     system_prompt=COGNEE_SYSTEM_PROMPT,
     # )
-    pass
-    log.info("cognee.memify_done", farm_id=farm_id, plot_id=plot_id)
+    raise NotImplementedError("Correction reprocessing is not implemented; corrections remain pending")
+

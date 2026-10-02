@@ -148,7 +148,14 @@ def run_memify_batch(self, farm_id: str | None = None):
                     from sqlalchemy import update
                     await db.execute(
                         update(Correction)
-                        .where(Correction.memify_queued.is_(False))
+                        .where(
+                            Correction.memify_queued.is_(False),
+                            Correction.evidence_edge_id.in_(
+                                select(EvidenceEdge.id)
+                                .join(QueryLog, EvidenceEdge.query_id == QueryLog.id)
+                                .where(QueryLog.farm_id == batch_farm_id, QueryLog.plot_id == plot_id)
+                            ),
+                        )
                         .values(memify_queued=True)
                     )
                     await db.commit()
@@ -162,3 +169,4 @@ def run_memify_batch(self, farm_id: str | None = None):
     except Exception as exc:
         log.error("task.memify_batch_failed", error=str(exc), exc_info=True)
         raise self.retry(exc=exc)
+

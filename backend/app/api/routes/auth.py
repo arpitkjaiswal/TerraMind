@@ -62,10 +62,14 @@ async def login(form: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = 
 
 
 @router.post("/refresh", response_model=TokenResponse)
-async def refresh(body: RefreshRequest):
+async def refresh(body: RefreshRequest, db: AsyncSession = Depends(get_db)):
     payload = decode_token(body.refresh_token, expected_type="refresh")
-    access_token = create_access_token(payload["sub"], payload["farm_id"], payload["role"])
-    new_refresh = create_refresh_token(payload["sub"], payload["farm_id"], payload["role"])
+    result = await db.execute(select(User).where(User.id == payload["sub"]))
+    user = result.scalar_one_or_none()
+    if user is None or not user.is_active:
+        raise HTTPException(status_code=401, detail="Account unavailable")
+    access_token = create_access_token(user.id, user.farm_id, user.role)
+    new_refresh = create_refresh_token(user.id, user.farm_id, user.role)
     return TokenResponse(
         access_token=access_token,
         refresh_token=new_refresh,
@@ -85,11 +89,13 @@ async def register(body: UserCreate, farm_name: str, db: AsyncSession = Depends(
         raise HTTPException(status_code=409, detail="Email already registered")
 
     import uuid
-    farm = Farm(id=str(uuid.uuid4()), name=farm_name, owner_user_id="")
+    user_id = str(uuid.uuid4())
+    farm = Farm(id=str(uuid.uuid4()), name=farm_name, owner_user_id=user_id)
     db.add(farm)
     await db.flush()
 
     user = User(
+        id=user_id,
         farm_id=farm.id,
         email=body.email,
         hashed_password=hash_password(body.password),
@@ -117,3 +123,4 @@ async def logout(current_user: User = Depends(get_current_user)):
 @router.get("/me", response_model=UserRead)
 async def me(current_user: User = Depends(get_current_user)):
     return current_user
+

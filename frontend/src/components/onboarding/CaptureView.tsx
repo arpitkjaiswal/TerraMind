@@ -26,10 +26,12 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const cameraRequestRef = useRef(0);
 
   // ── Camera lifecycle ─────────────────────────────────────────────────────
 
   const stopCamera = useCallback(() => {
+    cameraRequestRef.current += 1;
     if (streamRef.current) {
       streamRef.current.getTracks().forEach(track => track.stop());
       streamRef.current = null;
@@ -42,6 +44,7 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
   }, []);
 
   const startCamera = useCallback(async (facing: "user" | "environment") => {
+    const requestId = ++cameraRequestRef.current;
     setCameraError(null);
     setCameraReady(false);
     setCapturedPreview(null);
@@ -56,6 +59,10 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
         video: { facingMode: facing, width: { ideal: 1920 }, height: { ideal: 1080 } },
         audio: false,
       });
+      if (requestId !== cameraRequestRef.current) {
+        stream.getTracks().forEach(track => track.stop());
+        return;
+      }
       streamRef.current = stream;
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
@@ -65,6 +72,7 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
         };
       }
     } catch (err: unknown) {
+      if (requestId !== cameraRequestRef.current) return;
       const message = err instanceof Error ? err.message : String(err);
       if (message.includes("Permission") || message.includes("NotAllowed")) {
         setCameraError("Camera permission denied. Please allow camera access in your browser settings and try again.");
@@ -113,8 +121,8 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
     ctx.drawImage(video, 0, 0);
 
     const dataUrl = canvas.toDataURL("image/jpeg", 0.92);
-    setCapturedPreview(dataUrl);
     stopCamera();
+    setCapturedPreview(dataUrl);
   }
 
   async function acceptCapture() {
@@ -181,7 +189,7 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
     if (highConf) {
       setUploadResult({
         success: true,
-        message: `"${file.name}" ingested successfully — OCR confidence ${Math.round(simulatedConfidence * 100)}% (auto-ingested)`,
+        message: `"${file.name}" demo simulation completed — simulated OCR confidence ${Math.round(simulatedConfidence * 100)}% (auto-ingested)`,
       });
     } else {
       // Add to review queue
@@ -198,7 +206,7 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
       setQueue(q => [newItem, ...q]);
       setUploadResult({
         success: true,
-        message: `"${file.name}" queued for review — OCR confidence ${Math.round(simulatedConfidence * 100)}% (below auto-ingest threshold)`,
+        message: `"${file.name}" added to the local demo queue — simulated OCR confidence ${Math.round(simulatedConfidence * 100)}% (below auto-ingest threshold)`,
       });
     }
 
@@ -245,8 +253,8 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
 
       <div className={styles.header}>
         <div>
-          <h1 className={styles.title}>Ingest & Review</h1>
-          <p className={styles.subtitle}>Upload documents or photos — high-confidence OCR auto-ingests; low-confidence routes here for your review before entering the graph.</p>
+          <h1 className={styles.title}>Ingest & Review — Demo</h1>
+          <p className={styles.subtitle}>Demo only: files stay in this browser. OCR scores and review actions are simulated; nothing is uploaded or saved.</p>
         </div>
       </div>
 
@@ -478,3 +486,4 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
     </div>
   );
 }
+

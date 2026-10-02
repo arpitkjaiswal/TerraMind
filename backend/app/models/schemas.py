@@ -84,7 +84,7 @@ class PlotRead(_ReadBase):
 class UserCreate(_StrictBase):
     email: EmailStr
     password: str = Field(min_length=8)
-    role: Literal["farmer", "agronomist", "admin"] = "farmer"
+    role: Literal["farmer"] = "farmer"
 
 
 class UserRead(_ReadBase):
@@ -236,3 +236,4 @@ class HealthCheck(BaseModel):
     status: str
     version: str
     services: Dict[str, str]
+

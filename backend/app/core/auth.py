@@ -102,7 +102,9 @@ def decode_token(token: str, expected_type: str = "access") -> dict:
     )
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-        if payload.get("type") != expected_type:
+        if (payload.get("type") != expected_type
+                or not all(isinstance(payload.get(k), str) and payload[k] for k in ("sub", "farm_id", "role"))
+                or not payload.get("exp")):
             raise credentials_exc
         return payload
     except JWTError as exc:
@@ -139,16 +141,9 @@ async def get_current_user(
     return user
 
 
-async def get_current_token_data(token: Optional[str] = Depends(oauth2_scheme)) -> TokenData:
-    """Lightweight dependency — only decodes the JWT, no DB hit."""
-    if settings.DEMO_MODE and not token:
-        return TokenData(user_id="demo-user", farm_id="farm-001", role="farmer")
-    payload = decode_token(token)  # type: ignore
-    return TokenData(
-        user_id=payload["sub"],
-        farm_id=payload["farm_id"],
-        role=payload["role"],
-    )
+async def get_current_token_data(user: User = Depends(get_current_user)) -> TokenData:
+    """Use current database permissions so deactivation and role changes take effect."""
+    return TokenData(user_id=user.id, farm_id=user.farm_id, role=user.role)
 
 
 def require_role(*roles: str):
@@ -158,3 +153,4 @@ def require_role(*roles: str):
             raise HTTPException(status_code=403, detail=f"Role '{td.role}' not authorised for this action")
         return td
     return _check
+

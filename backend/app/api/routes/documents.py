@@ -20,7 +20,7 @@ from sqlalchemy import select
 from app.core.auth import get_current_token_data, TokenData, require_role
 from app.core.database import get_db
 from app.core.redis_client import get_ingest_status
-from app.models.db import Document
+from app.models.db import Document, Plot
 from app.models.schemas import (
     DocumentIngestResponse,
     DocumentRead,
@@ -53,7 +53,10 @@ async def upload_document(
     Accepts raw file upload. Determines source_type from content type.
     Returns immediately with document_id; ingestion runs async via Celery.
     """
-    content = await file.read()
+    plot = await db.scalar(select(Plot).where(Plot.id == plot_id, Plot.farm_id == td.farm_id))
+    if plot is None:
+        raise HTTPException(status_code=404, detail="Plot not found")
+    content = await file.read(MAX_UPLOAD_BYTES + 1)
     if len(content) > MAX_UPLOAD_BYTES:
         raise HTTPException(status_code=413, detail=f"File too large (max {MAX_UPLOAD_BYTES // 1024 // 1024} MB)")
 
@@ -164,9 +167,6 @@ async def get_document_status(
     db: AsyncSession = Depends(get_db),
 ):
     """Polling endpoint — check ingest progress without a full document fetch."""
-    redis_status = await get_ingest_status(document_id)
-    if redis_status:
-        return redis_status
     result = await db.execute(
         select(Document.ingest_status, Document.ingest_error)
         .where(Document.id == document_id, Document.farm_id == td.farm_id)
@@ -174,6 +174,9 @@ async def get_document_status(
     row = result.one_or_none()
     if not row:
         raise HTTPException(status_code=404, detail="Document not found")
+    redis_status = await get_ingest_status(document_id)
+    if redis_status:
+        return redis_status
     return {"status": row[0], "detail": row[1] or ""}
 
 
@@ -213,3 +216,4 @@ def _detect_source_type(filename: str, content_type: str) -> str:
     ):
         return "photo"
     return "csv"
+

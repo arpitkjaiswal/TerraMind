@@ -11,6 +11,15 @@ Provides:
 from typing import AsyncGenerator
 from unittest.mock import AsyncMock, MagicMock, patch
 
+import os
+os.environ.update({
+    "SECRET_KEY": "test-only-secret-not-for-production-12345",
+    "DATABASE_URL": "sqlite+aiosqlite:///:memory:",
+    "NEO4J_PASSWORD": "test-password",
+    "DEMO_MODE": "false",
+    "APP_ENV": "test",
+})
+
 from app.core.config import settings
 settings.DEMO_MODE = False
 
@@ -49,7 +58,7 @@ async def db() -> AsyncGenerator[AsyncSession, None]:
 @pytest_asyncio.fixture
 async def test_farm(db: AsyncSession) -> Farm:
     import uuid
-    farm = Farm(id=str(uuid.uuid4()), name="Test Farm", owner_user_id="placeholder")
+    farm = Farm(id=str(uuid.uuid4()), name="Test Farm", owner_user_id=str(uuid.uuid4()))
     db.add(farm)
     await db.flush()
     return farm
@@ -187,3 +196,4 @@ def mock_s3():
         m.client.return_value.__aenter__ = AsyncMock(return_value=s3_client)
         m.client.return_value.__aexit__ = AsyncMock(return_value=False)
         yield s3_client
+
