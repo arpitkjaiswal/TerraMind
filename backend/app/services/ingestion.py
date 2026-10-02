@@ -26,8 +26,10 @@ from typing import Optional
 import structlog
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 
-from app.core.redis_client import set_ingest_status, DistributedLock
+from app.core.redis_client import set_ingest_status
+from app.core.redis_client import invalidate_query_cache
 from app.models.db import Document
 from app.services.ocr import extract_text, extract_text_from_pdf, OCRResult
 from app.services.storage import upload_document, compute_content_hash
@@ -79,16 +81,26 @@ async def ingest_document(
         doc_metadata=metadata or {},
     )
     db.add(doc)
-    await db.flush()  # get the ID without committing
+    try:
+        await db.flush()
+    except IntegrityError:
+        # The unique (plot_id, content_hash) index arbitrates concurrent uploads.
+        await db.rollback()
+        existing = await db.scalar(select(Document).where(
+            Document.plot_id == plot_id,
+            Document.content_hash == content_hash,
+        ))
+        if existing is not None:
+            return existing
+        raise
 
     await set_ingest_status(document_id, "pending_ocr")
 
     try:
         # ── Step 1: Upload to S3 ──────────────────────────────────────────────
-        async with DistributedLock(f"ingest:{content_hash}"):
-            storage_uri, _ = await upload_document(
-                farm_id, plot_id, document_id, filename, content
-            )
+        storage_uri, _ = await upload_document(
+            farm_id, plot_id, document_id, filename, content
+        )
         doc.storage_uri = storage_uri
 
         # ── Step 2: Extract text ──────────────────────────────────────────────
@@ -120,19 +132,35 @@ async def ingest_document(
             # High confidence → dispatch async Cognify job
             doc.ingest_status = "processing"
             await set_ingest_status(document_id, "processing")
-            _dispatch_cognify_task(document_id, farm_id, plot_id, ocr_result.text)
-            log.info("ingestion.cognify_dispatched", document_id=document_id, confidence=ocr_result.confidence)
 
         doc.processed_at = datetime.now(timezone.utc)
         await db.flush()
+        # Commit the row before publishing a worker task; otherwise a fast worker
+        # can run before the API dependency commits and fail to find the document.
+        await db.commit()
+        if doc.ingest_status == "processing":
+            try:
+                _dispatch_cognify_task(document_id, farm_id, plot_id, ocr_result.text)
+                log.info("ingestion.cognify_dispatched", document_id=document_id, confidence=ocr_result.confidence)
+            except Exception as exc:
+                doc.ingest_status = "ingest_failed"
+                doc.ingest_error = "Document was saved, but the processing job could not be queued. Retry the upload or contact support."
+                await db.commit()
+                await set_ingest_status(document_id, "ingest_failed", doc.ingest_error)
+                log.error("ingestion.dispatch_failed", document_id=document_id, error=str(exc))
+        await invalidate_query_cache(farm_id)
         return doc
 
     except Exception as exc:
         log.error("ingestion.saga_failed", document_id=document_id, error=str(exc), exc_info=True)
         doc.ingest_status = "ingest_failed"
-        doc.ingest_error = str(exc)
-        await set_ingest_status(document_id, "ingest_failed", str(exc))
-        await db.flush()
+        doc.ingest_error = "Document processing failed. Retry the upload or contact support."
+        try:
+            await db.commit()
+        except Exception:
+            await db.rollback()
+            log.exception("ingestion.failure_state_commit_failed", document_id=document_id)
+        await set_ingest_status(document_id, "ingest_failed", doc.ingest_error)
         raise
 
 
@@ -151,9 +179,18 @@ async def approve_document(db: AsyncSession, document_id: str, farm_id: str) -> 
         raise ValueError(f"Document {document_id} is not in pending_review state")
 
     doc.ingest_status = "processing"
-    _dispatch_cognify_task(document_id, farm_id, doc.plot_id, doc.extracted_text or "")
     await set_ingest_status(document_id, "processing")
     await db.flush()
+    await db.commit()
+    try:
+        _dispatch_cognify_task(document_id, farm_id, doc.plot_id, doc.extracted_text or "")
+    except Exception as exc:
+        doc.ingest_status = "pending_review"
+        doc.ingest_error = "The processing job could not be queued. Retry approval or contact support."
+        await db.commit()
+        await set_ingest_status(document_id, "pending_review", doc.ingest_error)
+        log.error("ingestion.approval_dispatch_failed", document_id=document_id, error=str(exc))
+        raise RuntimeError("Document could not be queued for processing") from exc
     log.info("ingestion.approved_dispatched", document_id=document_id)
     return doc
 
@@ -166,6 +203,8 @@ async def reject_document(db: AsyncSession, document_id: str, farm_id: str, reas
     doc = result.scalar_one_or_none()
     if not doc:
         raise ValueError(f"Document {document_id} not found")
+    if doc.ingest_status != "pending_review":
+        raise ValueError(f"Document {document_id} is not in pending_review state")
     doc.ingest_status = "ingest_failed"
     doc.ingest_error = f"Rejected by reviewer: {reason}"
     await set_ingest_status(document_id, "ingest_failed", doc.ingest_error)
@@ -188,7 +227,14 @@ def _dispatch_cognify_task(document_id: str, farm_id: str, plot_id: str, text: s
 
 def _guess_image_type(filename: str) -> str:
     ext = filename.lower().rsplit(".", 1)[-1]
-    return {"jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png", "tiff": "image/tiff"}.get(ext, "image/jpeg")
+    return {
+        "jpg": "image/jpeg",
+        "jpeg": "image/jpeg",
+        "png": "image/png",
+        "tif": "image/tiff",
+        "tiff": "image/tiff",
+        "webp": "image/webp",
+    }.get(ext, "image/jpeg")
 
 
 def _passthrough_csv(content: bytes, filename: str) -> OCRResult:

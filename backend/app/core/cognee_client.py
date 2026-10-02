@@ -175,16 +175,22 @@ async def run_search(
     return result
 
 
-async def run_memify(farm_id: str, plot_id: str) -> None:
-    """
-    Memify — scheduled batch that re-processes corrections and new data
-    so the graph improves over time. Called by the Celery scheduler.
-    """
-    log.info("cognee.memify_start", farm_id=farm_id, plot_id=plot_id)
-    # Note: cognee.memify does not exist in cognee version 0.1.40.
-    # await cognee.memify(
-    #     filters={"farm_id": farm_id, "plot_id": plot_id},
-    #     system_prompt=COGNEE_SYSTEM_PROMPT,
-    # )
-    raise NotImplementedError("Correction reprocessing is not implemented; corrections remain pending")
-
+async def run_memify(
+    farm_id: str,
+    plot_id: str,
+    correction_note: str,
+    graph_node_id: str,
+) -> None:
+    """Enrich only the selected plot's Cognee dataset with an agronomist correction."""
+    dataset_name = f"farm_{farm_id}_plot_{plot_id}"
+    correction_data = (
+        "Agronomist correction for graph node "
+        f"{graph_node_id}: {correction_note}"
+    )
+    log.info("cognee.correction_reprocess_start", farm_id=farm_id, plot_id=plot_id)
+    # memify's default pipeline enriches existing graph triplets; first add and
+    # cognify the correction text so it becomes part of the scoped graph.
+    await cognee.add(correction_data, dataset_name=dataset_name)
+    await cognee.cognify(datasets=[dataset_name], custom_prompt=COGNEE_SYSTEM_PROMPT)
+    await cognee.memify(dataset=dataset_name)
+    log.info("cognee.correction_reprocess_done", farm_id=farm_id, plot_id=plot_id)

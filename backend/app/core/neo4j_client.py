@@ -38,6 +38,9 @@ SCHEMA_QUERIES = [
     "CREATE FULLTEXT INDEX entity_label IF NOT EXISTS FOR (n:Field|ChemicalProduct|WeatherEvent|CropVariant|YieldMeasurement|Practice) ON EACH [n.label, n.description]",
 ]
 
+NODE_LABELS = frozenset({"Field", "ChemicalProduct", "WeatherEvent", "CropVariant", "YieldMeasurement", "Practice"})
+RELATIONSHIP_TYPES = frozenset({"APPLIED_TO", "OCCURRED_DURING", "PRECEDED", "CORRELATED_WITH", "CONFIRMED_CAUSE"})
+
 
 async def ensure_graph_schema() -> None:
     async with neo4j_driver.session(database=settings.NEO4J_DATABASE) as session:
@@ -74,30 +77,37 @@ async def upsert_node(
     Merge a node by id (idempotent). Attaches farm_id and plot_id for
     tenant isolation — every graph node is scoped to a farm.
     """
+    if label not in NODE_LABELS:
+        raise ValueError("Unsupported graph node label")
     props = {**properties, "id": node_id, "farm_id": farm_id, "plot_id": plot_id}
     query = f"""
-        MERGE (n:{label} {{id: $id}})
+        MERGE (n:{label} {{id: $id, farm_id: $farm_id, plot_id: $plot_id}})
         SET n += $props
         RETURN n
     """
-    await run_write(query, {"id": node_id, "props": props})
+    await run_write(query, {"id": node_id, "farm_id": farm_id, "plot_id": plot_id, "props": props})
 
 
 async def upsert_edge(
     source_id: str,
     target_id: str,
     rel_type: str,
+    farm_id: str,
+    plot_id: str,
     properties: Optional[Dict[str, Any]] = None,
 ) -> None:
-    """Merge an edge between two nodes (idempotent by source+target+type)."""
+    """Merge an edge only between nodes belonging to the same farm and plot."""
+    if rel_type not in RELATIONSHIP_TYPES:
+        raise ValueError("Unsupported graph relationship type")
     props = properties or {}
     query = f"""
-        MATCH (a {{id: $src}}), (b {{id: $tgt}})
+        MATCH (a {{id: $src, farm_id: $farm_id, plot_id: $plot_id}}),
+              (b {{id: $tgt, farm_id: $farm_id, plot_id: $plot_id}})
         MERGE (a)-[r:{rel_type}]->(b)
         SET r += $props
         RETURN r
     """
-    await run_write(query, {"src": source_id, "tgt": target_id, "props": props})
+    await run_write(query, {"src": source_id, "tgt": target_id, "farm_id": farm_id, "plot_id": plot_id, "props": props})
 
 
 async def temporal_subgraph(
@@ -122,7 +132,7 @@ async def temporal_subgraph(
         MATCH (n)
         WHERE {where}
         OPTIONAL MATCH (n)-[r]->(m)
-        WHERE m.farm_id = $farm_id
+        WHERE m.farm_id = $farm_id AND m.plot_id = $plot_id
         RETURN
             collect(DISTINCT {{id: n.id, label: n.label, type: labels(n)[0], date: n.date, properties: properties(n)}}) AS nodes,
             collect(DISTINCT {{source: startNode(r).id, target: endNode(r).id, type: type(r), confirmed: r.confirmed}}) AS edges
@@ -144,11 +154,23 @@ async def mark_edge_confirmed(
     target_id: str,
     rel_type: str,
     confirmed_by: str,
-) -> None:
-    """Agronomist confirms a causal edge — sets confirmed=true on the relationship."""
+    farm_id: str,
+    plot_id: str,
+) -> bool:
+    """Promote a scoped correlation to a human-confirmed causal relationship."""
+    if rel_type != "CORRELATED_WITH" or not source_id or not target_id:
+        return False
     query = f"""
-        MATCH (a {{id: $src}})-[r:{rel_type}]->(b {{id: $tgt}})
-        SET r.confirmed = true, r.confirmed_by = $confirmed_by, r.confirmed_at = datetime()
-        RETURN r
+        MATCH (a {{id: $src, farm_id: $farm_id, plot_id: $plot_id}})-[r:CORRELATED_WITH]->
+              (b {{id: $tgt, farm_id: $farm_id, plot_id: $plot_id}})
+        WITH a, b, r, properties(r) AS old_properties
+        DELETE r
+        CREATE (a)-[confirmed:CONFIRMED_CAUSE]->(b)
+        SET confirmed = old_properties,
+            confirmed.confirmed = true,
+            confirmed.confirmed_by = $confirmed_by,
+            confirmed.confirmed_at = datetime()
+        RETURN count(confirmed) > 0 AS updated
     """
-    await run_write(query, {"src": source_id, "tgt": target_id, "confirmed_by": confirmed_by})
+    rows = await run_write(query, {"src": source_id, "tgt": target_id, "farm_id": farm_id, "plot_id": plot_id, "confirmed_by": confirmed_by})
+    return bool(rows and rows[0].get("updated"))

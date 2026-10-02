@@ -119,6 +119,13 @@ class Settings(BaseSettings):
             return [i.strip() for i in v.split(",")]
         return v
 
+    @field_validator("ALLOWED_HOSTS", mode="before")
+    @classmethod
+    def parse_hosts(cls, v):
+        if isinstance(v, str):
+            return [item.strip() for item in v.split(",") if item.strip()]
+        return v
+
     @model_validator(mode="after")
     def validate_production_security(self):
         if self.is_production:
@@ -128,6 +135,14 @@ class Settings(BaseSettings):
                 raise ValueError("DEBUG must be false in production")
             if len(self.SECRET_KEY) < 32 or self.SECRET_KEY.startswith("CHANGE_ME"):
                 raise ValueError("Production requires a unique SECRET_KEY of at least 32 characters")
+            if not self.ALLOWED_HOSTS or "*" in self.ALLOWED_HOSTS:
+                raise ValueError("Production requires explicit ALLOWED_HOSTS; wildcard hosts are unsafe")
+            if not self.CORS_ORIGINS or "*" in self.CORS_ORIGINS:
+                raise ValueError("Production requires explicit CORS_ORIGINS; wildcard origins are unsafe")
+        if not 0 <= self.OCR_REJECT_THRESHOLD < self.OCR_AUTO_INGEST_THRESHOLD <= 1:
+            raise ValueError("OCR thresholds must satisfy 0 <= reject < auto-ingest <= 1")
+        if self.ACCESS_TOKEN_EXPIRE_MINUTES <= 0 or self.REFRESH_TOKEN_EXPIRE_DAYS <= 0:
+            raise ValueError("Token lifetimes must be positive")
         return self
 
     @property
@@ -141,4 +156,3 @@ def get_settings() -> Settings:
 
 
 settings: Settings = get_settings()
-

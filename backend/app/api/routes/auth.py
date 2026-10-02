@@ -14,6 +14,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 
 from app.core.auth import (
     create_access_token,
@@ -102,9 +103,13 @@ async def register(body: UserCreate, farm_name: str, db: AsyncSession = Depends(
         role=body.role,
     )
     db.add(user)
-    await db.flush()
-    farm.owner_user_id = user.id
-    await db.flush()
+    try:
+        await db.flush()
+        farm.owner_user_id = user.id
+        await db.flush()
+    except IntegrityError as exc:
+        await db.rollback()
+        raise HTTPException(status_code=409, detail="Email already registered") from exc
 
     log.info("auth.registered", user_id=user.id, farm_id=farm.id)
     return user
