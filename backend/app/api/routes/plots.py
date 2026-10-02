@@ -12,6 +12,7 @@ DELETE /api/v1/plots/{plot_id}     → delete plot (admin only)
 GET    /api/v1/plots/{plot_id}/graph → get knowledge graph for plot
 """
 
+from datetime import date
 import structlog
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -105,21 +106,24 @@ async def delete_plot(
 @router.get("/{plot_id}/graph", response_model=GraphResponse)
 async def get_plot_graph(
     plot_id: str,
-    date_from: Optional[str] = Query(default=None, pattern=r"^\d{4}-\d{2}-\d{2}$"),
-    date_to: Optional[str] = Query(default=None, pattern=r"^\d{4}-\d{2}-\d{2}$"),
+    date_from: Optional[date] = Query(default=None),
+    date_to: Optional[date] = Query(default=None),
     td: TokenData = Depends(get_current_token_data),
     db: AsyncSession = Depends(get_db),
 ):
     """Return the temporal knowledge graph subgraph for a plot."""
+    if date_from and date_to and date_from > date_to:
+        raise HTTPException(status_code=422, detail="date_from must be before date_to")
     await _get_plot_or_404(plot_id, td.farm_id, db)  # enforce ownership
 
     subgraph = await temporal_subgraph(
         plot_id=plot_id,
         farm_id=td.farm_id,
-        date_from=date_from,
-        date_to=date_to,
+        date_from=date_from.isoformat() if date_from else None,
+        date_to=date_to.isoformat() if date_to else None,
     )
     from app.models.schemas import GraphNode, GraphEdge
     nodes = [GraphNode(**n) for n in subgraph["nodes"]]
     edges = [GraphEdge(**e) for e in subgraph["edges"]]
     return GraphResponse(nodes=nodes, edges=edges, plot_id=plot_id, farm_id=td.farm_id)
+

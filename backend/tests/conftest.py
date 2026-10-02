@@ -202,3 +202,12 @@ def mock_s3():
         m.client.return_value.__aenter__ = AsyncMock(return_value=s3_client)
         m.client.return_value.__aexit__ = AsyncMock(return_value=False)
         yield s3_client
+
+
+
+@pytest.fixture(autouse=True)
+def reset_rate_limits():
+    from app.core.rate_limit import limiter
+    limiter.reset()
+    yield
+    limiter.reset()

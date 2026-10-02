@@ -11,6 +11,7 @@ POST /api/v1/documents/{id}/reject     → reject OCR result
 GET  /api/v1/documents/{id}/status     → polling endpoint for ingest status
 """
 
+from datetime import date
 from typing import Optional
 import structlog
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile
@@ -45,7 +46,7 @@ async def upload_document(
     file: UploadFile = File(...),
     plot_id: str = Form(...),
     label: str = Form(...),
-    date_of_event: Optional[str] = Form(default=None),
+    date_of_event: Optional[date] = Form(default=None),
     td: TokenData = Depends(get_current_token_data),
     db: AsyncSession = Depends(get_db),
 ):
@@ -81,7 +82,7 @@ async def upload_document(
         content=content,
         source_type=source_type,
         label=label,
-        date_of_event=date_of_event,
+        date_of_event=date_of_event.isoformat() if date_of_event else None,
     )
 
     msg_map = {
@@ -214,6 +215,8 @@ async def reject(
     td: TokenData = Depends(get_current_token_data),
     db: AsyncSession = Depends(get_db),
 ):
+    if body.action != "reject":
+        raise HTTPException(status_code=400, detail="Use /approve endpoint for approval")
     try:
         doc = await reject_document(db, document_id, td.farm_id, reason=body.note or "")
     except ValueError as exc:
@@ -254,3 +257,4 @@ def _detect_source_type(filename: str, content_type: str, content: bytes | None 
                 raise ValueError("The uploaded file is not valid CSV text")
         return "csv"
     raise ValueError("Unsupported file type. Upload a PDF, CSV, JPEG, PNG, TIFF, or WebP file.")
+
