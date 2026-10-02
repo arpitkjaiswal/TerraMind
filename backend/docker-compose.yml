@@ -53,11 +53,6 @@ services:
       - "6334:6334"   # gRPC
     volumes:
       - qdrant_data:/qdrant/storage
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   redis:
     image: redis:7-alpine
@@ -84,17 +79,24 @@ services:
       - "8000:8000"
     env_file:
       - .env
+    environment: &app-environment
+      DATABASE_URL: postgresql+asyncpg://aegis_user:aegis_secret@postgres:5432/aegis
+      NEO4J_URI: bolt://neo4j:7687
+      QDRANT_HOST: qdrant
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
     depends_on:
       postgres:
         condition: service_healthy
       neo4j:
         condition: service_healthy
       qdrant:
-        condition: service_healthy
+        condition: service_started
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=4)"]
       interval: 15s
       timeout: 5s
       retries: 5
@@ -108,6 +110,7 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    environment: *app-environment
     depends_on:
       api:
         condition: service_healthy
@@ -120,6 +123,7 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    environment: *app-environment
     depends_on:
       api:
         condition: service_healthy
@@ -132,6 +136,7 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    environment: *app-environment
     depends_on:
       redis:
         condition: service_healthy
@@ -140,6 +145,7 @@ services:
   # ── Observability (optional, comment out if not needed locally) ───────────
 
   prometheus:
+    profiles: ["observability"]
     image: prom/prometheus:v2.51.0
     restart: unless-stopped
     ports:
@@ -156,3 +162,4 @@ volumes:
   neo4j_logs:
   qdrant_data:
   redis_data:
+

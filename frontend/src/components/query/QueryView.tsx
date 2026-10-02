@@ -7,6 +7,7 @@ import styles from "./QueryView.module.css";
 
 interface Props {
   initialQuery?: string;
+  plotId: string;
   suggestedQueries: string[];
 }
 
@@ -47,10 +48,13 @@ function AnswerBlock({ text }: { text: string }) {
   );
 }
 
-export default function QueryView({ initialQuery, suggestedQueries }: Props) {
+export default function QueryView({ initialQuery, suggestedQueries, plotId }: Props) {
   const [query, setQuery] = useState(initialQuery ?? "");
   const [result, setResult] = useState<QueryResult | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isDemo, setIsDemo] = useState(false);
+  const requestRef = useRef<AbortController | null>(null);
   const [trailOpen, setTrailOpen] = useState(true);
   const [correctionTarget, setCorrectionTarget] = useState<string | null>(null);
   const [correctionNote, setCorrectionNote] = useState("");
@@ -61,37 +65,52 @@ export default function QueryView({ initialQuery, suggestedQueries }: Props) {
     if (initialQuery) {
       handleSubmit(initialQuery);
     }
+    return () => requestRef.current?.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialQuery]);
 
   async function handleSubmit(q?: string) {
     const text = q ?? query;
-    if (!text.trim()) return;
+    if (text.trim().length < 5 || text.length > 2000) {
+      setError("Enter a question between 5 and 2,000 characters.");
+      return;
+    }
+    requestRef.current?.abort();
+    const controller = new AbortController();
+    requestRef.current = controller;
+    const timeout = setTimeout(() => controller.abort(), 30000);
+    setError(null);
+    setIsDemo(false);
     setLoading(true);
     setResult(null);
     try {
-      const response = await fetch("http://localhost:8000/api/v1/query/", {
+      const response = await fetch("/api/v1/query/", {
+        signal: controller.signal,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           query_text: text,
-          plot_id: "plot-B",
-          include_hypotheses: true,
+          plot_id: plotId,
+          include_hypotheses: false,
         }),
       });
       if (!response.ok) {
-        throw new Error(`API Error: ${response.statusText}`);
+        throw new Error(response.status === 401 ? "Sign in to the backend before requesting a live answer." : "The query service is unavailable. Please try again later.");
       }
       const data = await response.json();
-      setResult(data);
+      if (requestRef.current === controller && !controller.signal.aborted) setResult(data);
     } catch (err) {
-      console.error("Query failed, falling back to mock:", err);
-      setResult({ ...mockDemoQuery, query_text: text, created_at: new Date().toISOString() });
+      if (requestRef.current === controller) {
+        setError(controller.signal.aborted ? "The query timed out. Please try again." : err instanceof Error ? err.message : "Query failed.");
+      }
     } finally {
-      setLoading(false);
-      setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+      clearTimeout(timeout);
+      if (requestRef.current === controller) {
+        setLoading(false);
+        setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+      }
     }
   }
 
@@ -101,7 +120,7 @@ export default function QueryView({ initialQuery, suggestedQueries }: Props) {
       return;
     }
     try {
-      const response = await fetch("http://localhost:8000/api/v1/corrections/", {
+      const response = await fetch("/api/v1/corrections/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -114,18 +133,17 @@ export default function QueryView({ initialQuery, suggestedQueries }: Props) {
       if (!response.ok) {
         throw new Error("Failed to submit correction");
       }
-      alert("Correction submitted successfully — the knowledge graph will update on the next cycle.");
-    } catch (err) {
-      console.error("Failed to submit correction:", err);
-      alert("Correction submitted (local simulation mode) — graph will update on next memify() cycle.");
-    } finally {
+      alert("Correction saved for review.");
       setCorrectionTarget(null);
       setCorrectionNote("");
+    } catch (err) {
+      console.error("Failed to submit correction:", err);
+      setError("Correction was not saved. Check your connection and agronomist permissions, then try again.");
     }
   }
 
   function handleKey(e: React.KeyboardEvent) {
-    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSubmit(); }
+    if (e.key === "Enter" && !e.shiftKey && !loading) { e.preventDefault(); handleSubmit(); }
   }
 
   const cm = result ? CONF_META[result.confidence_label] : null;
@@ -160,7 +178,7 @@ export default function QueryView({ initialQuery, suggestedQueries }: Props) {
             id="btn-submit-query"
             className={styles.sendBtn}
             onClick={() => handleSubmit()}
-            disabled={loading || !query.trim()}
+            disabled={loading || query.trim().length < 5 || query.length > 2000}
           >
             {loading ? <span className={styles.spinner} /> : <Send size={16} />}
           </button>
@@ -168,12 +186,20 @@ export default function QueryView({ initialQuery, suggestedQueries }: Props) {
         {/* Suggested queries */}
         <div className={styles.suggestions}>
           {suggestedQueries.slice(0, 4).map(q => (
-            <button key={q} className={styles.suggestChip} onClick={() => { setQuery(q); handleSubmit(q); }}>
+            <button key={q} className={styles.suggestChip} disabled={loading} onClick={() => { setQuery(q); handleSubmit(q); }}>
               {q}
             </button>
           ))}
         </div>
       </div>
+
+      {error && <p role="alert">{error}</p>}
+      <button className="btn btn-secondary" disabled={loading} onClick={() => {
+        setResult(mockDemoQuery);
+        setIsDemo(true);
+        setError(null);
+      }}>View sample answer for Field B</button>
+      {isDemo && <p role="status">Sample answer from demo records — this is not a live response to your question.</p>}
 
       {/* Loading state */}
       {loading && (
@@ -260,7 +286,7 @@ export default function QueryView({ initialQuery, suggestedQueries }: Props) {
                           </div>
                         </div>
                       ) : (
-                        <button className={styles.flagBtn} onClick={() => setCorrectionTarget(e.id)}>⚑ Flag as incorrect</button>
+                        <button className={styles.flagBtn} disabled={isDemo} onClick={() => setCorrectionTarget(e.id)}>⚑ Flag as incorrect</button>
                       )}
                     </div>
                   </div>
@@ -279,3 +305,4 @@ export default function QueryView({ initialQuery, suggestedQueries }: Props) {
     </div>
   );
 }
+

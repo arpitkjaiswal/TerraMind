@@ -43,6 +43,9 @@ export default function Home() {
         onSectionChange={handleSectionChange}
       />
       <main className={styles.main}>
+        <p role="status" style={{ padding: "12px 24px", margin: 0, background: "#173322", color: "#d1fae5" }}>
+          Demo dashboard: farm records, charts, graph, and upload review use sample data.
+        </p>
         {section === "dashboard" && (
           <DashboardView
             stats={mockStats}
@@ -53,8 +56,9 @@ export default function Home() {
         )}
         {section === "query" && (
           <QueryView
-            key={pendingQuery}
+            key={`${activePlot.id}:${pendingQuery ?? ""}`}
             initialQuery={pendingQuery}
+            plotId={activePlot.id}
             suggestedQueries={suggestedQueries}
           />
         )}
@@ -71,3 +75,4 @@ export default function Home() {
     </div>
   );
 }
+

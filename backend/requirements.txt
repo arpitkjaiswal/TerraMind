@@ -5,11 +5,11 @@ python-multipart>=0.0.18
 
 # ── Auth ─────────────────────────────────────────────────────────────────────
 python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
-httpx==0.27.2           # OAuth token introspection / external calls
+pwdlib[argon2,bcrypt]==0.3.0
+httpx==0.28.1           # OAuth token introspection / external calls
 
 # ── Config / env ─────────────────────────────────────────────────────────────
-pydantic>=2.10.4
+pydantic[email]>=2.10.4
 pydantic-settings==2.7.0
 python-dotenv==1.0.1
 
@@ -68,9 +68,11 @@ slowapi==0.1.9
 # ── Content-hash / idempotency ───────────────────────────────────────────────
 
 # ── Testing ──────────────────────────────────────────────────────────────────
+aiosqlite==0.20.0  # SQLite demo mode and test database
 pytest==8.3.4
 pytest-asyncio==0.24.0
 pytest-cov==6.0.0
-httpx==0.27.2              # test client
+httpx==0.28.1              # test client
 factory-boy==3.3.1
 faker==33.1.0
+

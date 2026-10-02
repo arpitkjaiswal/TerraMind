@@ -8,7 +8,7 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import List
 
-from pydantic import field_validator
+from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -119,6 +119,17 @@ class Settings(BaseSettings):
             return [i.strip() for i in v.split(",")]
         return v
 
+    @model_validator(mode="after")
+    def validate_production_security(self):
+        if self.is_production:
+            if self.DEMO_MODE:
+                raise ValueError("DEMO_MODE must be false in production")
+            if self.DEBUG:
+                raise ValueError("DEBUG must be false in production")
+            if len(self.SECRET_KEY) < 32 or self.SECRET_KEY.startswith("CHANGE_ME"):
+                raise ValueError("Production requires a unique SECRET_KEY of at least 32 characters")
+        return self
+
     @property
     def is_production(self) -> bool:
         return self.APP_ENV == "production"
@@ -130,3 +141,4 @@ def get_settings() -> Settings:
 
 
 settings: Settings = get_settings()
+

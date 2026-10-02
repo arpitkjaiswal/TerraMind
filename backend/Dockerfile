@@ -27,8 +27,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && adduser --system --ingroup aegis aegis
 
 WORKDIR /app
-COPY --from=builder /install /install
-COPY . .
+COPY --from=builder /install /usr/local
+COPY --chown=aegis:aegis . .
+RUN chown aegis:aegis /app
 
 # Drop to non-root
 USER aegis
@@ -37,3 +38,4 @@ EXPOSE 8000
 
 # API server
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4", "--access-log"]
+

@@ -19,7 +19,7 @@ from slowapi.util import get_remote_address
 from app.core.auth import get_current_token_data, TokenData
 from app.core.config import settings
 from app.core.database import get_db
-from app.models.db import EvidenceEdge, QueryLog
+from app.models.db import EvidenceEdge, QueryLog, Plot
 from app.models.schemas import (
     EvidenceEdgeRead,
     QueryListItem,
@@ -61,6 +61,10 @@ async def run_query(
         cache_hit
       }
     """
+    if not settings.DEMO_MODE:
+        plot = await db.scalar(select(Plot).where(Plot.id == body.plot_id, Plot.farm_id == td.farm_id))
+        if plot is None:
+            raise HTTPException(status_code=404, detail="Plot not found")
     return await execute_query(
         request=body,
         farm_id=td.farm_id,
@@ -72,7 +76,7 @@ async def run_query(
 @router.get("/history", response_model=list[QueryListItem])
 async def query_history(
     plot_id: Optional[str] = Query(default=None),
-    limit: int = Query(default=20, le=100),
+    limit: int = Query(default=20, ge=1, le=100),
     offset: int = Query(default=0, ge=0),
     td: TokenData = Depends(get_current_token_data),
     db: AsyncSession = Depends(get_db),
@@ -149,3 +153,4 @@ async def get_query(
         cache_hit=ql.cache_hit,
         created_at=ql.created_at,
     )
+

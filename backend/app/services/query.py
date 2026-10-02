@@ -37,14 +37,12 @@ from sqlalchemy import select
 
 from app.core.cognee_client import run_search
 from app.core.redis_client import get_cached_query, set_cached_query
-from app.core.qdrant_client import semantic_cache_search, cache_query_result
 from app.models.db import Document, EvidenceEdge, QueryLog
 from app.models.schemas import (
     EvidenceEdgeRead,
     QueryRequest,
     QueryResponse,
 )
-from app.services.embeddings import embed_text
 
 log = structlog.get_logger(__name__)
 
@@ -62,8 +60,8 @@ GUARDRAIL_NOTICE = (
 )
 
 
-def _query_hash(query_text: str, plot_id: str, date_from: Optional[str], date_to: Optional[str]) -> str:
-    key = f"{query_text}|{plot_id}|{date_from}|{date_to}"
+def _query_hash(query_text: str, plot_id: str, date_from: Optional[str], date_to: Optional[str], include_hypotheses: bool = False) -> str:
+    key = json.dumps([query_text, plot_id, date_from, date_to, include_hypotheses])
     return hashlib.sha256(key.encode()).hexdigest()[:32]
 
 
@@ -121,8 +119,8 @@ def _build_evidence_trail(
     orm_edges = []
     for e in edges:
         source_doc_id = e.get("source_document_id")
-        if not source_doc_id and not e.get("node_id"):
-            # No traceable source → suppress
+        if source_doc_id not in doc_lookup:
+            # Missing, unknown, or another tenant's document → suppress
             continue
         orm_edges.append(
             EvidenceEdge(
@@ -272,21 +270,16 @@ async def execute_query(
 
     start = time.perf_counter()
     query_id = str(uuid.uuid4())
-    q_hash = _query_hash(request.query_text, request.plot_id, request.date_from, request.date_to)
+    q_hash = _query_hash(request.query_text, request.plot_id, request.date_from, request.date_to, request.include_hypotheses)
 
     # ── 1. Redis exact-match cache ────────────────────────────────────────────
     cached = await get_cached_query(farm_id, q_hash)
     if cached:
         cached["cache_hit"] = True
-        cached["query_id"] = query_id   # fresh ID per call
         return QueryResponse(**cached)
 
-    # ── 2. Qdrant semantic cache ───────────────────────────────────────────────
-    query_vector = await embed_text(request.query_text)
-    sem_cached = semantic_cache_search(query_vector, farm_id)
-    if sem_cached:
-        latency_ms = int((time.perf_counter() - start) * 1000)
-        return QueryResponse(**{**sem_cached, "cache_hit": True, "query_id": query_id, "latency_ms": latency_ms})
+    # Semantic reuse is disabled: answers must not cross plots, date ranges,
+    # or hypothesis preferences, and corrections must invalidate all results.
 
     # ── 3. Full pipeline (cache miss) ─────────────────────────────────────────
     log.info("query.cache_miss", farm_id=farm_id, plot_id=request.plot_id)
@@ -308,11 +301,20 @@ async def execute_query(
     else:
         answer_text = _apply_guardrail(raw_result.get("answer", ""))
         raw_edges = raw_result.get("evidence_edges", [])
+        doc_ids = {e.get("source_document_id") for e in raw_edges if e.get("source_document_id")}
+        docs_result = await db.execute(
+            select(Document).where(Document.id.in_(doc_ids), Document.farm_id == farm_id)
+        )
+        doc_lookup = {d.id: d for d in docs_result.scalars().all()}
+        raw_edges = [e for e in raw_edges if e.get("source_document_id") in doc_lookup]
+        raw_result = {**raw_result, "evidence_edges": raw_edges, "edges": raw_edges}
         confidence_label, confidence_score = _assign_confidence_label(raw_result, raw_edges)
-        graph_hops = raw_result.get("graph_hops", len(raw_edges))
+        graph_hops = raw_result.get("graph_hops", len(raw_edges)) if raw_edges else 0
+        if not raw_edges:
+            answer_text = "No answer could be verified against your farm's source documents."
 
         # Suppress hypotheses unless explicitly requested
-        if confidence_label == "unconfirmed_hypothesis" and not request.include_hypotheses:
+        if raw_edges and confidence_label == "unconfirmed_hypothesis" and not request.include_hypotheses:
             answer_text = (
                 "A possible connection was detected but confidence is too low to report "
                 "without explicit request. Re-run with `include_hypotheses: true` to see it."
@@ -375,7 +377,6 @@ async def execute_query(
     # ── Populate caches ───────────────────────────────────────────────────────
     payload = response.model_dump(mode="json")
     await set_cached_query(farm_id, q_hash, payload)
-    cache_query_result(farm_id, query_vector, payload, str(uuid.uuid4()))
 
     log.info(
         "query.complete",
@@ -386,3 +387,4 @@ async def execute_query(
         latency_ms=latency_ms,
     )
     return response
+
