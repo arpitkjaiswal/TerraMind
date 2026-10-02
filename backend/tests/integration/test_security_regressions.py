@@ -145,3 +145,29 @@ async def test_admin_can_update_inspect_and_delete_their_plot(client, test_user,
 
     deleted = await client.delete(f'/api/v1/plots/{test_plot.id}', headers=headers)
     assert deleted.status_code == 204
+
+
+@pytest.mark.asyncio
+async def test_login_and_refresh_require_an_active_account(client, test_user, db):
+    credentials = {'username': test_user.email, 'password': 'test1234'}
+
+    invalid = await client.post('/auth/login', data={**credentials, 'password': 'incorrect-password'})
+    assert invalid.status_code == 401
+
+    test_user.is_active = False
+    await db.flush()
+    inactive = await client.post('/auth/login', data=credentials)
+    assert inactive.status_code == 403
+
+    test_user.is_active = True
+    await db.flush()
+    login = await client.post('/auth/login', data=credentials)
+    assert login.status_code == 200
+    assert login.json()['access_token']
+    assert test_user.last_login_at is not None
+
+    refreshed = await client.post('/auth/refresh', json={
+        'refresh_token': login.json()['refresh_token'],
+    })
+    assert refreshed.status_code == 200
+    assert refreshed.json()['access_token']
