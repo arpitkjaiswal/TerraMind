@@ -137,18 +137,27 @@ function DemoWorkspace({ onExitDemo }: { onExitDemo: () => void }) {
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [checkingSession, setCheckingSession] = useState(true);
+  const [sessionError, setSessionError] = useState(false);
   const [demoPreview, setDemoPreview] = useState(false);
 
   useEffect(() => {
+    const expired = () => { setUser(null); setDemoPreview(false); };
+    window.addEventListener("terramind:session-expired", expired);
+    return () => window.removeEventListener("terramind:session-expired", expired);
+  }, []);
+
+  useEffect(() => {
     fetch("/api/auth/session", { cache: "no-store" })
-      .then(response => response.json())
+      .then(response => { if (!response.ok) throw new Error("Session unavailable"); return response.json(); })
       .then(data => setUser(data.user ?? null))
-      .catch(() => setUser(null))
+      .catch(() => setSessionError(true))
       .finally(() => setCheckingSession(false));
   }, []);
 
   if (demoPreview && !user) return <DemoWorkspace onExitDemo={() => setDemoPreview(false)} />;
   if (checkingSession) return <main style={{ minHeight: "100vh", display: "grid", placeItems: "center", background: "var(--bg-deep)", color: "var(--text-primary)" }}>Checking your session…</main>;
+  if (sessionError) return <main style={{ padding: 40 }}><p role="alert">Sign-in is temporarily unavailable. Your session has been preserved.</p><button className="btn btn-primary" onClick={() => window.location.reload()}>Retry</button></main>;
   if (!user) return <AuthScreen onAuthenticated={setUser} onPreviewDemo={() => setDemoPreview(true)} />;
-  return <LiveWorkspace user={user} onLogout={async () => { await fetch("/api/auth/session", { method: "DELETE" }); setUser(null); setDemoPreview(false); }} />;
+  return <LiveWorkspace user={user} onLogout={async () => { const response = await fetch("/api/auth/session", { method: "DELETE" }); if (!response.ok) { window.alert("Sign-out failed. Please try again."); return; } setUser(null); setDemoPreview(false); }} />;
 }
+

@@ -5,6 +5,7 @@ export async function backendFetch<T>(path: string, init: RequestInit = {}): Pro
   if (response.status === 204) return undefined as T;
   const payload = await response.json().catch(() => ({})) as { detail?: unknown };
   if (!response.ok) {
+    if (response.status === 401 && typeof window !== "undefined") window.dispatchEvent(new Event("terramind:session-expired"));
     const detail = typeof payload.detail === "string" ? payload.detail : response.status === 401 ? "Your session expired. Please sign in again." : `Request failed (${response.status}).`;
     throw new Error(detail);
   }
@@ -22,3 +23,4 @@ export async function authRequest<T>(path: string, init: RequestInit = {}): Prom
   }
   return payload as T;
 }
+

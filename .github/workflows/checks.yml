@@ -23,6 +23,7 @@ jobs:
       - run: npm run lint
       - run: npx tsc --noEmit
       - run: npm run build
+      - run: node tests/auth-smoke.mjs
   python-checks:
     runs-on: ubuntu-latest
     steps:
@@ -46,3 +47,4 @@ jobs:
           cache-dependency-path: backend/requirements.txt
       - run: pip install -r requirements.txt
       - run: python -m pytest -q
+
