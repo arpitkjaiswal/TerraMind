@@ -115,8 +115,8 @@ async def run_cognify(
     log.info("cognee.cognify_start", dataset=dataset_name)
     await cognee.cognify(
         datasets=[dataset_name],
-        # Note: system_prompt, entity_types, relationship_types, and metadata
-        # are not supported in cognee.cognify for version 0.1.40.
+        custom_prompt=COGNEE_SYSTEM_PROMPT,
+        temporal_cognify=True,
     )
     log.info("cognee.cognify_done", dataset=dataset_name)
 
@@ -191,6 +191,10 @@ async def run_memify(
     # memify's default pipeline enriches existing graph triplets; first add and
     # cognify the correction text so it becomes part of the scoped graph.
     await cognee.add(correction_data, dataset_name=dataset_name)
-    await cognee.cognify(datasets=[dataset_name], custom_prompt=COGNEE_SYSTEM_PROMPT)
+    await cognee.cognify(
+        datasets=[dataset_name],
+        custom_prompt=COGNEE_SYSTEM_PROMPT,
+        temporal_cognify=True,
+    )
     await cognee.memify(dataset=dataset_name)
     log.info("cognee.correction_reprocess_done", farm_id=farm_id, plot_id=plot_id)

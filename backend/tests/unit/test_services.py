@@ -112,6 +112,33 @@ class TestGraphTenantIsolation:
         assert result is False
 
 
+class TestCogneeIntegration:
+    def test_ingestion_and_list_search_results_use_supported_api(self, mock_cognee):
+        import asyncio
+        from app.core.cognee_client import COGNEE_SYSTEM_PROMPT, cognee, run_cognify, run_extract, run_search
+
+        async def scenario():
+            await run_extract("field report", "dataset")
+            await run_cognify("dataset", "farm", "plot", "document")
+            cognee.search.return_value = [
+                "First answer fragment",
+                {"text": "Second fragment", "node_id": "node-1", "source_document_id": "doc-1"},
+            ]
+            return await run_search("question", "farm", "plot")
+
+        result = asyncio.run(scenario())
+
+        cognee.add.assert_awaited_once_with("field report", dataset_name="dataset")
+        cognee.cognify.assert_awaited_once_with(
+            datasets=["dataset"],
+            custom_prompt=COGNEE_SYSTEM_PROMPT,
+            temporal_cognify=True,
+        )
+        assert result["answer"] == "First answer fragment\n\nSecond fragment"
+        assert result["graph_hops"] == 1
+        assert result["evidence_edges"][0]["node_id"] == "node-1"
+
+
 class TestCorrectionReprocessing:
     def test_memify_pipeline_uses_only_the_selected_plot_dataset(self):
         import asyncio
@@ -126,6 +153,7 @@ class TestCorrectionReprocessing:
         cognee.cognify.assert_awaited_once_with(
             datasets=["farm_farm-1_plot_plot-1"],
             custom_prompt=COGNEE_SYSTEM_PROMPT,
+            temporal_cognify=True,
         )
         cognee.memify.assert_awaited_once_with(dataset="farm_farm-1_plot_plot-1")
 
