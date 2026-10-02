@@ -19,6 +19,7 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
+      - run: npm audit --omit=dev --json
       - run: npm run lint
       - run: npx tsc --noEmit
       - run: npm run build

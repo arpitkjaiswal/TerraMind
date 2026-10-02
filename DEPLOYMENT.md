@@ -53,3 +53,12 @@ For the frontend, run `npm ci`, `npm run lint`, `npx tsc --noEmit`, and
 The review environment could not download npm/Python dependencies, so the full
 build/API tests must be checked in GitHub Actions and Vercel. The isolated helper
 checks do not validate database drivers, containers, or real external services.
+
+## Review run results
+
+The first remote run passed frontend lint (one image optimization warning),
+TypeScript, the production build, and all seven isolated Python checks. Vercel
+deployed the preview. Full backend tests are blocked at dependency installation:
+Cognee 1.2.2 requires python-multipart >=0.0.22 while its available fastapi-users
+15.x dependency pins 0.0.21. A compatible upstream dependency set is required;
+no dependency constraint bypass was applied.
