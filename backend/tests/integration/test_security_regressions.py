@@ -3,7 +3,7 @@ import uuid
 from unittest.mock import AsyncMock, patch
 
 import pytest
-from app.core.auth import create_refresh_token
+from app.core.auth import create_access_token, create_refresh_token
 from app.models.db import Farm, Plot, User
 
 
@@ -68,3 +68,39 @@ async def test_upload_rejects_unknown_plot_before_ingestion(client, farmer_token
             files={'file': ('data.csv', b'a,b\n1,2', 'text/csv')})
     assert response.status_code == 404
     ingest.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_farm_admin_can_manage_users_within_their_farm(client, test_user, test_farm, db):
+    # Authorization uses the current database role, not a stale role claim in
+    # a previously issued token.
+    token = create_access_token(test_user.id, test_farm.id, 'farmer')
+    test_user.role = 'admin'
+    await db.flush()
+    headers = {'Authorization': f'Bearer {token}'}
+
+    users = await client.get('/api/v1/farms/me/users', headers=headers)
+    assert users.status_code == 200
+    assert [user['email'] for user in users.json()] == [test_user.email]
+
+    invite = {'email': 'new-farmer@example.com', 'password': 'long-password'}
+    created = await client.post('/api/v1/farms/me/users', headers=headers, json=invite)
+    assert created.status_code == 201
+    assert created.json()['role'] == 'farmer'
+    assert created.json()['farm_id'] == test_farm.id
+
+    duplicate = await client.post('/api/v1/farms/me/users', headers=headers, json=invite)
+    assert duplicate.status_code == 409
+
+
+@pytest.mark.asyncio
+async def test_farmer_cannot_manage_farm_users(client, farmer_token):
+    headers = {'Authorization': f'Bearer {farmer_token}'}
+    body = {'name': 'Renamed farm'}
+    invite = {'email': 'new-farmer@example.com', 'password': 'long-password'}
+
+    update = await client.put('/api/v1/farms/me', headers=headers, json=body)
+    create_user = await client.post('/api/v1/farms/me/users', headers=headers, json=invite)
+
+    assert update.status_code == 403
+    assert create_user.status_code == 403
