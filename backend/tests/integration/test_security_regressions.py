@@ -104,3 +104,44 @@ async def test_farmer_cannot_manage_farm_users(client, farmer_token):
 
     assert update.status_code == 403
     assert create_user.status_code == 403
+
+
+@pytest.mark.asyncio
+async def test_admin_can_read_and_rename_their_farm(client, test_user, test_farm, db):
+    test_user.role = 'admin'
+    await db.flush()
+    token = create_access_token(test_user.id, test_farm.id, 'farmer')
+    headers = {'Authorization': f'Bearer {token}'}
+
+    details = await client.get('/api/v1/farms/me', headers=headers)
+    assert details.status_code == 200
+    assert details.json()['name'] == test_farm.name
+
+    updated = await client.put('/api/v1/farms/me', headers=headers, json={'name': 'North Farm'})
+    assert updated.status_code == 200
+    assert updated.json()['name'] == 'North Farm'
+
+
+@pytest.mark.asyncio
+async def test_admin_can_update_inspect_and_delete_their_plot(client, test_user, test_farm, test_plot, db):
+    test_user.role = 'admin'
+    await db.flush()
+    token = create_access_token(test_user.id, test_farm.id, 'farmer')
+    headers = {'Authorization': f'Bearer {token}'}
+
+    updated = await client.put(
+        f'/api/v1/plots/{test_plot.id}', headers=headers,
+        json={'name': 'Updated field', 'crop_type': 'Wheat'},
+    )
+    assert updated.status_code == 200
+    assert updated.json()['name'] == 'Updated field'
+
+    with patch('app.api.routes.plots.temporal_subgraph', new_callable=AsyncMock) as graph:
+        graph.return_value = {'nodes': [], 'edges': []}
+        response = await client.get(f'/api/v1/plots/{test_plot.id}/graph', headers=headers)
+    assert response.status_code == 200
+    assert response.json()['plot_id'] == test_plot.id
+    graph.assert_awaited_once()
+
+    deleted = await client.delete(f'/api/v1/plots/{test_plot.id}', headers=headers)
+    assert deleted.status_code == 204
