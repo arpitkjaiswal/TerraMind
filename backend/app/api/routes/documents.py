@@ -60,9 +60,18 @@ async def upload_document(
     if len(content) > MAX_UPLOAD_BYTES:
         raise HTTPException(status_code=413, detail=f"File too large (max {MAX_UPLOAD_BYTES // 1024 // 1024} MB)")
 
-    filename = file.filename or "upload"
+    filename = (file.filename or "upload").replace("\\", "/").rsplit("/", 1)[-1].strip()
+    if not filename or len(filename) > 255:
+        raise HTTPException(status_code=400, detail="Filename must be between 1 and 255 characters")
+    if not label.strip() or len(label) > 512:
+        raise HTTPException(status_code=422, detail="Label must be between 1 and 512 characters")
+    if not content:
+        raise HTTPException(status_code=400, detail="Uploaded file is empty")
     content_type = file.content_type or ""
-    source_type = _detect_source_type(filename, content_type)
+    try:
+        source_type = _detect_source_type(filename, content_type, content)
+    except ValueError as exc:
+        raise HTTPException(status_code=415, detail=str(exc)) from exc
 
     doc = await ingest_document(
         db=db,
@@ -216,11 +225,32 @@ async def reject(
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
-def _detect_source_type(filename: str, content_type: str) -> str:
-    if "pdf" in content_type or filename.lower().endswith(".pdf"):
+def _detect_source_type(filename: str, content_type: str, content: bytes | None = None) -> str:
+    extension = filename.lower().rsplit(".", 1)[-1] if "." in filename else ""
+    if extension == "pdf" or content_type.lower() == "application/pdf":
+        if content is not None and not content.startswith(b"%PDF-"):
+            raise ValueError("The uploaded file does not contain a valid PDF signature")
         return "pdf"
-    if content_type.startswith("image/") or any(
-        filename.lower().endswith(ext) for ext in [".jpg", ".jpeg", ".png", ".tiff", ".webp"]
-    ):
+    image_signatures = {
+        "jpg": (b"\xff\xd8\xff",), "jpeg": (b"\xff\xd8\xff",),
+        "png": (b"\x89PNG\r\n\x1a\n",), "tiff": (b"II*\x00", b"MM\x00*"),
+        "tif": (b"II*\x00", b"MM\x00*"), "webp": (b"RIFF",),
+    }
+    if extension in image_signatures or content_type.lower().startswith("image/"):
+        if extension not in image_signatures:
+            raise ValueError("Supported photos are JPEG, PNG, TIFF, and WebP")
+        if content is not None and not any(content.startswith(signature) for signature in image_signatures[extension]):
+            raise ValueError("The uploaded file does not match its image file type")
+        if extension == "webp" and content is not None and content[8:12] != b"WEBP":
+            raise ValueError("The uploaded file does not contain a valid WebP signature")
         return "photo"
-    return "csv"
+    if extension == "csv" or content_type.lower() in {"text/csv", "application/vnd.ms-excel"}:
+        if content is not None:
+            try:
+                text = content.decode("utf-8-sig")
+            except UnicodeDecodeError as exc:
+                raise ValueError("CSV files must use UTF-8 encoding") from exc
+            if "\x00" in text:
+                raise ValueError("The uploaded file is not valid CSV text")
+        return "csv"
+    raise ValueError("Unsupported file type. Upload a PDF, CSV, JPEG, PNG, TIFF, or WebP file.")

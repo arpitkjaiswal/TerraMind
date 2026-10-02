@@ -138,6 +138,7 @@ class ReviewDecision(_StrictBase):
 class EvidenceEdgeRead(BaseModel):
     id: str
     graph_node_id: str
+    target_graph_node_id: Optional[str] = None
     node_label: str
     node_type: str
     relationship_type: str
@@ -236,4 +237,3 @@ class HealthCheck(BaseModel):
     status: str
     version: str
     services: Dict[str, str]
-

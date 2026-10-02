@@ -142,8 +142,12 @@ async def client(db: AsyncSession) -> AsyncGenerator[AsyncClient, None]:
 @pytest.fixture(autouse=True)
 def mock_neo4j():
     with patch("app.core.neo4j_client.neo4j_driver") as m:
-        m.session.return_value.__aenter__ = AsyncMock()
-        m.session.return_value.__aexit__ = AsyncMock(return_value=False)
+        session = MagicMock()
+        session.run = AsyncMock()
+        context = MagicMock()
+        context.__aenter__ = AsyncMock(return_value=session)
+        context.__aexit__ = AsyncMock(return_value=False)
+        m.session.return_value = context
         yield m
 
 
@@ -154,6 +158,8 @@ def mock_redis():
         m.get = AsyncMock(return_value=None)
         m.setex = AsyncMock()
         m.delete = AsyncMock(return_value=0)
+        m.scan = AsyncMock(return_value=(0, []))
+        m.eval = AsyncMock(return_value=0)
         m.keys = AsyncMock(return_value=[])
         yield m
 
@@ -196,4 +202,3 @@ def mock_s3():
         m.client.return_value.__aenter__ = AsyncMock(return_value=s3_client)
         m.client.return_value.__aexit__ = AsyncMock(return_value=False)
         yield s3_client
-

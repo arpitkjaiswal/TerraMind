@@ -36,8 +36,8 @@ API docs at: http://localhost:8000/docs
      └────────────┘    └──────┬───────┘
                               │
               ┌───────────────▼──────────────────┐
-              │  Cognee Pipeline Workers          │
-              │  extract → cognify → memify       │
+              │  Cognee Pipeline Worker           │
+              │  extract → cognify                │
               └──────┬─────────────┬─────────────┘
                      │             │
               ┌──────▼────┐  ┌─────▼─────┐
@@ -97,7 +97,7 @@ GET  /api/v1/query/{id}   Retrieve specific query + evidence trail
 ```
 POST /api/v1/documents/upload         Upload file (PDF/photo/CSV)
 GET  /api/v1/documents/               List documents
-GET  /api/v1/documents/review-queue   Pending OCR review (agronomist+)
+GET  /api/v1/documents/review-queue   Pending OCR review (authenticated farm members)
 POST /api/v1/documents/{id}/approve   Approve OCR result
 POST /api/v1/documents/{id}/reject    Reject OCR result
 GET  /api/v1/documents/{id}/status    Ingest progress polling
@@ -118,7 +118,7 @@ GET    /api/v1/plots/{id}/graph       Knowledge graph subgraph (nodes + edges)
 POST /api/v1/corrections/                       Submit evidence correction
 GET  /api/v1/corrections/                       List corrections (agronomist+)
 POST /api/v1/corrections/{id}/confirm-edge      Confirm causal edge (CONFIRMED_CAUSE)
-POST /api/v1/corrections/trigger-memify         Trigger memify batch (admin)
+POST /api/v1/corrections/trigger-memify         Queue saved corrections that are still pending
 ```
 
 ## Cognee Pipeline
@@ -142,9 +142,14 @@ Cognee.cognify() — extracts entities/relationships
     ↓
 Neo4j graph nodes (farm_id + plot_id scoped)
 Qdrant vectors (per-farm collection)
-    ↓ (nightly or on-demand)
-Cognee.memify() — processes corrections, improves graph
-Redis query cache invalidated
+Redis query cache invalidated after new graph data or corrections
+
+Agronomist corrections are queued on the same Celery worker. Each job adds the note
+and runs Cognee cognify and memify only for the correction's plot dataset. A failed
+queue attempt leaves the correction retryable through `trigger-memify`. Date-filtered
+queries return HTTP 501 until the graph adapter can enforce event-date constraints;
+the backend never silently ignores those filters. Causal confirmations require both
+stored graph endpoints and farm/plot scope validation.
 ```
 
 ## Running tests
@@ -171,15 +176,10 @@ Copy `.env.example` → `.env` and fill in:
 | `GOOGLE_APPLICATION_CREDENTIALS` | Recommended | OCR fallback |
 | `AWS_ACCESS_KEY_ID` / `SECRET` | ✅ | S3 for document storage |
 
-## Celery workers
+## Celery worker
 
 ```bash
-# Cognify queue (LLM-heavy, slow)
+# Ingestion and correction enrichment queue (LLM-heavy, slow)
 celery -A app.workers.celery_app.celery_app worker --queues=cognify --concurrency=2
 
-# Memify queue (nightly batch)
-celery -A app.workers.celery_app.celery_app worker --queues=memify --concurrency=1
-
-# Beat scheduler (triggers nightly memify)
-celery -A app.workers.celery_app.celery_app beat
 ```

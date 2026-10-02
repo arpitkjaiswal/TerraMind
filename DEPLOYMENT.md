@@ -38,11 +38,11 @@ and LLM/OCR provider credentials. List-valued environment settings must be JSON
 arrays. Configure `ALLOWED_HOSTS` and `CORS_ORIGINS` for the deployment domains.
 Run `alembic upgrade head` before starting the API and workers.
 
-Correction reprocessing is not implemented in the existing Cognee adapter. It
-now fails explicitly and leaves corrections pending rather than claiming they
-were processed. Cognee configuration/search compatibility, temporal filtering,
-worker transaction ordering, and end-to-end OCR/storage/provider behavior still
-require integration validation before production backend deployment.
+Corrections are queued on the Celery worker and processed against only the
+correction's plot dataset. A failed queue attempt remains retryable with the manual
+trigger. Date-filtered queries return HTTP 501 until the graph adapter can enforce
+event-date constraints. Graph confirmations require both endpoint nodes and farm/plot
+scope validation. Readiness checks Postgres, Neo4j, Redis, and Qdrant.
 
 ## Validation
 
@@ -64,5 +64,5 @@ result matches the dependencies that Vercel will install.
 
 Vercel deploys pull request previews and deploys production from `main`. Review
 the preview and confirm the GitHub checks are green before merging. The backend
-still needs managed services, provider credentials, account sign-in, and real
-farm data integration before it can serve as a production farm management API.
+still needs managed services, provider credentials, and integration checks against
+those real services before it can serve as a production farm management API.

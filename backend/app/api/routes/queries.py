@@ -47,7 +47,8 @@ async def run_query(
     Request body:
       - query_text: plain-language question (5–2000 chars)
       - plot_id: which field to query
-      - date_from / date_to: optional temporal filter
+      - date_from / date_to: reserved; requests currently return 501 because the
+        configured Cognee adapter cannot enforce event-date constraints
       - include_hypotheses: show weakly-supported connections (default false)
 
     Response:
@@ -130,6 +131,7 @@ async def get_query(
         EvidenceEdgeRead(
             id=e.id,
             graph_node_id=e.graph_node_id,
+            target_graph_node_id=e.target_graph_node_id,
             node_label=e.node_label,
             node_type=e.node_type,
             relationship_type=e.relationship_type,
@@ -153,4 +155,3 @@ async def get_query(
         cache_hit=ql.cache_hit,
         created_at=ql.created_at,
     )
-
