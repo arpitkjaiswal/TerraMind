@@ -29,7 +29,7 @@ export default function LiveWorkspace({ user, onLogout }: Props) {
   const [graphResponse, setGraphResponse] = useState<GraphResponse>({ nodes: [], edges: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showCreatePlot, setShowCreatePlot] = useState(false);
+  const [plotEditor, setPlotEditor] = useState<Plot | "new" | null>(null);
 
   const refreshWorkspace = useCallback(async () => {
     const [farmRecord, plotRecords, documentRecords, queueRecords] = await Promise.all([
@@ -89,9 +89,11 @@ export default function LiveWorkspace({ user, onLogout }: Props) {
   async function createPlot(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault(); setError(null);
     const form = new FormData(event.currentTarget);
+    const current = plotEditor && plotEditor !== "new" ? plotEditor : null;
+    const body = { name: String(form.get("name")).trim(), crop_type: String(form.get("crop_type")).trim(), size_ha: Number(form.get("size_ha")) };
     try {
-      const plot = await backendFetch<Plot>("plots/", { method: "POST", body: JSON.stringify({ name: String(form.get("name")), crop_type: String(form.get("crop_type")), size_ha: Number(form.get("size_ha")) }) });
-      await refreshWorkspace(); setActivePlotId(plot.id); setShowCreatePlot(false);
+      const plot = await backendFetch<Plot>(current ? `plots/${encodeURIComponent(current.id)}` : "plots/", { method: current ? "PUT" : "POST", body: JSON.stringify(body) });
+      await refreshWorkspace(); setActivePlotId(plot.id); setPlotEditor(null);
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Could not create the field."); }
   }
 
@@ -102,11 +104,11 @@ export default function LiveWorkspace({ user, onLogout }: Props) {
   if (!farm) return <div className={styles.main} style={{ marginLeft: 0, padding: 32 }}><h1>Could not load your farm</h1><p role="alert">{error}</p><button className="btn btn-secondary" onClick={() => void refreshWorkspace().catch(cause => setError(String(cause)))}>Retry</button><button className="btn btn-ghost" onClick={onLogout}>Sign out</button></div>;
 
   return <div className={styles.layout}>
-    <Sidebar farm={farm} activePlot={activePlot ?? { id: "", farm_id: farm.id, name: "No field", crop_type: "", size_ha: 1, created_at: "" }} onPlotChange={plot => { setActivePlotId(plot.id); setSection("dashboard"); }} activeSection={section} onSectionChange={changeSection} pendingCount={queue.length} onResetDemo={() => undefined} user={user} onLogout={onLogout} />
+    <Sidebar farm={farm} activePlot={activePlot ?? { id: "", farm_id: farm.id, name: "No field", crop_type: "", size_ha: 1, created_at: "" }} onPlotChange={plot => { setActivePlotId(plot.id); setSection("dashboard"); }} activeSection={section} onSectionChange={changeSection} pendingCount={queue.length} onResetDemo={() => undefined} user={user} onLogout={onLogout} onCreatePlot={() => setPlotEditor("new")} onEditPlot={plot => setPlotEditor(plot)} onFarmUpdated={name => setFarm(current => current ? { ...current, name } : current)} />
     <main className={styles.main}>
       <div style={{ padding: "9px 24px", color: "#bbf7d0", background: "#173322", fontSize: 12 }}>Signed in as {user.email} · {user.role} · connected to live farm data</div>
       {error && <div role="alert" style={{ margin: 16, padding: 12, border: "1px solid #7f1d1d", color: "#fecaca", borderRadius: 8 }}>{error}<button className="btn btn-ghost" onClick={() => setError(null)}>Dismiss</button></div>}
-      {!activePlot ? <section style={{ padding: 32, maxWidth: 540 }}><h1>Create your first field</h1><p>Add a crop field to begin storing farm records.</p><button className="btn btn-primary" onClick={() => setShowCreatePlot(true)}>Add a field</button>{showCreatePlot && <form onSubmit={createPlot} style={{ display: "grid", gap: 12, marginTop: 18 }}><label>Field name<input name="name" required maxLength={255} /></label><label>Crop type<input name="crop_type" required maxLength={255} /></label><label>Size (hectares)<input name="size_ha" type="number" min="0.01" step="0.01" required /></label><button className="btn btn-primary">Create field</button></form>}</section>
+      {!activePlot ? <section style={{ padding: 32, maxWidth: 540 }}><h1>Create your first field</h1><p>Add a crop field to begin storing farm records.</p><button className="btn btn-primary" onClick={() => setPlotEditor("new")}>Add a field</button></section>
         : <>
           {section === "dashboard" && <DashboardView stats={stats} plot={activePlot} documents={plotDocuments} onAskQuery={navigateToQuery} />}
           {section === "query" && <QueryView key={`${activePlot.id}:${pendingQuery ?? ""}`} initialQuery={pendingQuery} plotId={activePlot.id} plotName={activePlot.name} userRole={user.role} documents={plotDocuments} suggestedQueries={[`What records are available for ${activePlot.name}?`, `What are the latest field events for ${activePlot.name}?`, `What evidence is recorded for ${activePlot.name}?`]} onQueryComplete={() => setQueryCount(count => count + 1)} />}
@@ -114,6 +116,18 @@ export default function LiveWorkspace({ user, onLogout }: Props) {
           {section === "graph" && <GraphView key={activePlot.id} nodes={graph.nodes} edges={graph.edges} />}
           {section === "capture" && <LiveCaptureView plot={activePlot} queue={plotQueue} documents={plotDocuments} onRefresh={refreshWorkspace} />}
         </>}
+      {plotEditor && <div role="presentation" onClick={() => setPlotEditor(null)} style={{ position: "fixed", inset: 0, zIndex: 120, display: "grid", placeItems: "center", padding: 20, background: "rgba(0,0,0,.7)" }}>
+        <section role="dialog" aria-modal="true" aria-labelledby="field-editor-title" onClick={event => event.stopPropagation()} style={{ width: "min(480px, 100%)", background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 16, padding: 24 }}>
+          <h2 id="field-editor-title">{plotEditor === "new" ? "Add a field" : `Edit ${plotEditor.name}`}</h2>
+          <p style={{ margin: "8px 0 18px" }}>Field details are saved to your farm account.</p>
+          <form onSubmit={createPlot} style={{ display: "grid", gap: 12 }}>
+            <label>Field name<input name="name" defaultValue={plotEditor === "new" ? "" : plotEditor.name} required maxLength={255} /></label>
+            <label>Crop type<input name="crop_type" defaultValue={plotEditor === "new" ? "" : plotEditor.crop_type} required maxLength={255} /></label>
+            <label>Size (hectares)<input name="size_ha" type="number" min="0.01" step="0.01" defaultValue={plotEditor === "new" ? "" : plotEditor.size_ha} required /></label>
+            <div style={{ display: "flex", gap: 8, justifyContent: "flex-end", marginTop: 8 }}><button type="button" className="btn btn-ghost" onClick={() => setPlotEditor(null)}>Cancel</button><button className="btn btn-primary">{plotEditor === "new" ? "Create field" : "Save changes"}</button></div>
+          </form>
+        </section>
+      </div>}
     </main>
   </div>;
 }

@@ -1,6 +1,6 @@
 "use client";
-import React, { useRef, useState } from "react";
-import { AlertTriangle, Camera, CheckCircle, FilePlus, FileText, Upload, XCircle } from "lucide-react";
+import React, { useMemo, useRef, useState } from "react";
+import { AlertTriangle, Camera, CheckCircle, Download, FilePlus, FileText, RefreshCw, Search, Upload, XCircle } from "lucide-react";
 import type { Document, IngestionQueueItem, Plot } from "@/types";
 import { backendFetch } from "@/lib/api";
 import styles from "./CaptureView.module.css";
@@ -18,7 +18,34 @@ export default function LiveCaptureView({ plot, queue, documents, onRefresh }: P
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
   const pending = queue.filter(item => item.status === "pending");
+  const filteredDocuments = useMemo(() => documents.filter(document => {
+    const matchesSearch = `${document.label} ${document.source_type}`.toLowerCase().includes(search.trim().toLowerCase());
+    const status = document.ingest_status;
+    const matchesStatus = statusFilter === "all" || (statusFilter === "review" && ["pending_review", "review_needed"].includes(status)) || (statusFilter === "processing" && ["pending_ocr", "processing"].includes(status)) || (statusFilter === "ready" && status === "ready") || (statusFilter === "failed" && status === "ingest_failed");
+    return matchesSearch && matchesStatus;
+  }), [documents, search, statusFilter]);
+
+  function exportDocuments() {
+    const rows = [["Label", "Type", "Status", "Uploaded", "Event date", "Confidence"], ...filteredDocuments.map(document => [document.label, document.source_type, document.ingest_status, document.uploaded_at, document.date_of_event ?? "", String(document.source_confidence ?? "")])];
+    const csv = rows.map(row => row.map(value => `"${value.replaceAll('"', '""')}"`).join(",")).join("\r\n");
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    const anchor = window.document.createElement("a"); anchor.href = url; anchor.download = `${plot.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-records.csv`; anchor.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  async function downloadDocument(documentId: string) {
+    const tab = window.open("", "_blank");
+    if (tab) tab.opener = null;
+    setError(null);
+    try {
+      const result = await backendFetch<{ url: string }>(`documents/${encodeURIComponent(documentId)}/url`);
+      if (tab) tab.location.href = result.url;
+      else setMessage("Your browser blocked the download window. Allow pop-ups and try again.");
+    } catch (cause) { tab?.close(); setError(cause instanceof Error ? cause.message : "Could not create the document download."); }
+  }
 
   async function upload(file?: File) {
     if (!file) return;
@@ -67,9 +94,14 @@ export default function LiveCaptureView({ plot, queue, documents, onRefresh }: P
         <div className={styles.extractedText}><div className={styles.extractedLabel}>Extracted text</div><div className={styles.extractedContent}>{item.extracted_text || "Text extraction is still running or returned no text."}</div></div>
       </article>)}</div>}
     </section>
-    <section className={styles.section}><h2 className={styles.sectionTitle}>Documents ({documents.length})</h2><div className={styles.docGrid}>{documents.map(document => <article key={document.id} className={styles.docCard}>
-      <div className={styles.docCardTop}><span className={`${styles.docType} ${document.source_type === "photo" ? styles.docTypePhoto : document.source_type === "csv" ? styles.docTypeCsv : styles.docTypePdf}`}>{document.source_type.toUpperCase()}</span><span className={styles.statusTag}>{document.ingest_status.replaceAll("_", " ")}</span></div>
-      <div className={styles.docCardLabel}>{document.label}</div><div className={styles.docCardMeta}>{document.date_of_event ?? document.uploaded_at.slice(0, 10)}</div>
-    </article>)}</div></section>
+    <section className={styles.section}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}><h2 className={styles.sectionTitle}>Documents ({filteredDocuments.length}{filteredDocuments.length !== documents.length ? ` of ${documents.length}` : ""})</h2><div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}><button className="btn btn-secondary" onClick={() => void onRefresh()} disabled={busy}><RefreshCw size={14} />Refresh</button><button className="btn btn-secondary" onClick={exportDocuments} disabled={!filteredDocuments.length}><Download size={14} />Export CSV</button></div></div>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}><label style={{ position: "relative", flex: "1 1 220px" }}><Search size={14} style={{ position: "absolute", top: 12, left: 11, color: "var(--text-muted)" }} /><input aria-label="Search documents" value={search} onChange={event => setSearch(event.target.value)} placeholder="Search records…" style={{ width: "100%", padding: "9px 12px 9px 32px", borderRadius: 8, background: "var(--bg-card)", border: "1px solid var(--border)", color: "var(--text-primary)" }} /></label><select aria-label="Filter document status" value={statusFilter} onChange={event => setStatusFilter(event.target.value)} style={{ padding: "9px 12px", borderRadius: 8, background: "var(--bg-card)", border: "1px solid var(--border)", color: "var(--text-primary)" }}><option value="all">All statuses</option><option value="review">Needs review</option><option value="processing">Processing</option><option value="ready">Ready</option><option value="failed">Failed</option></select></div>
+      {filteredDocuments.length ? <div className={styles.docGrid}>{filteredDocuments.map(document => <article key={document.id} className={styles.docCard}>
+        <div className={styles.docCardTop}><span className={`${styles.docType} ${document.source_type === "photo" ? styles.docTypePhoto : document.source_type === "csv" ? styles.docTypeCsv : styles.docTypePdf}`}>{document.source_type.toUpperCase()}</span><span className={styles.statusTag}>{document.ingest_status.replaceAll("_", " ")}</span></div>
+        <div className={styles.docCardLabel}>{document.label}</div><div className={styles.docCardMeta}>{document.date_of_event ?? document.uploaded_at.slice(0, 10)}</div>
+        <button className="btn btn-ghost" style={{ alignSelf: "flex-start", padding: "6px 8px", fontSize: 12 }} onClick={() => void downloadDocument(document.id)}><Download size={13} />Download original</button>
+      </article>)}</div> : <p>No documents match those filters.</p>}
+    </section>
   </div>;
 }
