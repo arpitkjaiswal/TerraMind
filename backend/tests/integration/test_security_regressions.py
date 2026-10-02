@@ -3,8 +3,10 @@ import uuid
 from unittest.mock import AsyncMock, patch
 
 import pytest
+from fastapi import HTTPException
 from app.core.auth import create_access_token, create_refresh_token
 from app.models.db import Farm, Plot, User
+from app.models.schemas import UserCreate
 
 
 @pytest.mark.asyncio
@@ -171,3 +173,18 @@ async def test_login_and_refresh_require_an_active_account(client, test_user, db
     })
     assert refreshed.status_code == 200
     assert refreshed.json()['access_token']
+
+
+@pytest.mark.asyncio
+async def test_registration_handler_creates_a_farm_and_rejects_duplicate_email(test_user, db):
+    from app.api.routes.auth import register
+
+    body = UserCreate(email='registered@example.com', password='long-password')
+    user = await register(body, farm_name='New farm', db=db)
+    assert user.email == body.email
+    assert user.role == 'farmer'
+    assert user.farm_id
+
+    with pytest.raises(HTTPException) as duplicate:
+        await register(body, farm_name='Another farm', db=db)
+    assert duplicate.value.status_code == 409
