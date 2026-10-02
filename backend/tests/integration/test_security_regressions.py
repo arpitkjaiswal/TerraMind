@@ -1,10 +1,11 @@
 """Regression coverage for signup privileges and tenant-scoped operations."""
 import uuid
 from unittest.mock import AsyncMock, patch
+from types import SimpleNamespace
 
 import pytest
 from fastapi import HTTPException
-from app.core.auth import create_access_token, create_refresh_token
+from app.core.auth import TokenData, create_access_token, create_refresh_token
 from app.models.db import Farm, Plot, User
 from app.models.schemas import UserCreate
 
@@ -188,3 +189,21 @@ async def test_registration_handler_creates_a_farm_and_rejects_duplicate_email(t
     with pytest.raises(HTTPException) as duplicate:
         await register(body, farm_name='Another farm', db=db)
     assert duplicate.value.status_code == 409
+
+
+@pytest.mark.asyncio
+async def test_missing_farm_is_not_read_or_updated():
+    from app.api.routes.farms import get_my_farm, update_farm
+    from app.models.schemas import FarmCreate
+
+    db = AsyncMock()
+    db.execute.return_value = SimpleNamespace(scalar_one_or_none=lambda: None)
+    token_data = TokenData(user_id='user-id', farm_id='missing-farm', role='admin')
+
+    with pytest.raises(HTTPException) as read_error:
+        await get_my_farm(td=token_data, db=db)
+    assert read_error.value.status_code == 404
+
+    with pytest.raises(HTTPException) as update_error:
+        await update_farm(body=FarmCreate(name='Renamed farm'), td=token_data, db=db)
+    assert update_error.value.status_code == 404
