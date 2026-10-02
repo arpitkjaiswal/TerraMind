@@ -4,9 +4,11 @@
 
 The existing Vercel project uses `frontend` as its root. Use the Next.js preset,
 `npm ci`, and `npm run build`. No secrets are needed for the sample dashboard.
-The UI explicitly identifies sample data and simulated uploads/review actions.
-Live query failures are displayed instead of being replaced with fabricated success.
-The **View sample answer for Field B** button shows the original demo question.
+The UI identifies its data as a local demo. Uploads, review decisions, and query
+counts are saved in browser storage; uploaded files are not sent to a server.
+Demo queries summarize visible record titles and dates, and do not read file
+contents or infer causes. The graph and timeline are scoped to the selected field.
+Use **Settings → Reset demo data** to restore the original sample set.
 
 To connect a backend, set the server-side `BACKEND_URL` to its HTTPS origin in
 Vercel and rebuild. `/api/v1/*` requests are proxied to that origin. Do not put
@@ -14,8 +16,8 @@ API keys or shared bearer tokens in public environment variables.
 
 The dashboard currently uses mock farms/plots and has no sign-in flow. A backend
 URL alone does not turn this into a production farm management application:
-real account sign-in, authenticated API calls, and farm data loading still need
-integration. Upload/OCR controls remain explicitly labeled local simulations.
+real account sign-in, authenticated API calls, farm data loading, and document
+processing still need integration. Demo query output is not a live AI answer.
 
 ## Backend
 

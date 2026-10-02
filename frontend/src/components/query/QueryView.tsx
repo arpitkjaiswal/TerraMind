@@ -1,14 +1,15 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import type { QueryResult, ConfidenceLabel } from "@/types";
-import { mockDemoQuery } from "@/data/mock";
+import type { QueryResult, ConfidenceLabel, Document, EvidenceEdge, NodeType } from "@/types";
 import { Search, Send, ChevronDown, ChevronUp, FileText, Zap, Clock, GitBranch, Shield, AlertTriangle, Sparkles, RotateCcw } from "lucide-react";
 import styles from "./QueryView.module.css";
 
 interface Props {
   initialQuery?: string;
-  plotId: string;
+  plotName: string;
+  documents: Document[];
   suggestedQueries: string[];
+  onQueryComplete: () => void;
 }
 
 const CONF_META: Record<ConfidenceLabel, { label: string; cls: string; desc: string; icon: typeof Shield }> = {
@@ -48,13 +49,12 @@ function AnswerBlock({ text }: { text: string }) {
   );
 }
 
-export default function QueryView({ initialQuery, suggestedQueries, plotId }: Props) {
+export default function QueryView({ initialQuery, suggestedQueries, plotName, documents, onQueryComplete }: Props) {
   const [query, setQuery] = useState(initialQuery ?? "");
   const [result, setResult] = useState<QueryResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isDemo, setIsDemo] = useState(false);
-  const requestRef = useRef<AbortController | null>(null);
   const [trailOpen, setTrailOpen] = useState(true);
   const [correctionTarget, setCorrectionTarget] = useState<string | null>(null);
   const [correctionNote, setCorrectionNote] = useState("");
@@ -65,7 +65,6 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId }: Pr
     if (initialQuery) {
       handleSubmit(initialQuery);
     }
-    return () => requestRef.current?.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialQuery]);
 
@@ -75,43 +74,24 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId }: Pr
       setError("Enter a question between 5 and 2,000 characters.");
       return;
     }
-    requestRef.current?.abort();
-    const controller = new AbortController();
-    requestRef.current = controller;
-    const timeout = setTimeout(() => controller.abort(), 30000);
     setError(null);
-    setIsDemo(false);
+    setIsDemo(true);
     setLoading(true);
     setResult(null);
-    try {
-      const response = await fetch("/api/v1/query/", {
-        signal: controller.signal,
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          query_text: text,
-          plot_id: plotId,
-          include_hypotheses: false,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error(response.status === 401 ? "Sign in to the backend before requesting a live answer." : "The query service is unavailable. Please try again later.");
-      }
-      const data = await response.json();
-      if (requestRef.current === controller && !controller.signal.aborted) setResult(data);
-    } catch (err) {
-      if (requestRef.current === controller) {
-        setError(controller.signal.aborted ? "The query timed out. Please try again." : err instanceof Error ? err.message : "Query failed.");
-      }
-    } finally {
-      clearTimeout(timeout);
-      if (requestRef.current === controller) {
-        setLoading(false);
-        setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
-      }
-    }
+    await new Promise(resolve => setTimeout(resolve, 300));
+    const name = plotName.split(" — ")[0];
+    const evidence: EvidenceEdge[] = documents.map(doc => {
+      const label = doc.label.toLowerCase();
+      const nodeType: NodeType = label.includes("weather") || label.includes("drought") ? "WeatherEvent" : label.includes("yield") ? "YieldMeasurement" : label.includes("pesticide") || label.includes("fertilizer") || label.includes("chemical") ? "ChemicalProduct" : label.includes("crop") ? "CropVariant" : "Practice";
+      return { id: `demo-evidence-${doc.id}`, graph_node_id: `demo-${doc.id}`, node_label: doc.label, node_type: nodeType, relationship_type: "APPLIED_TO", source_document_id: doc.id, source_document_label: doc.label, date: doc.date_of_event ?? doc.uploaded_at.slice(0, 10) };
+    });
+    const answer = documents.length
+      ? `This local demo has ${documents.length} sample record${documents.length === 1 ? "" : "s"} for ${name}. The record titles and dates below are available as evidence, but this demo does not read file contents or establish causes.\n\n${documents.map(doc => `**${doc.date_of_event ?? doc.uploaded_at.slice(0, 10)} — ${doc.label}**`).join("\n\n")}\n\nTreat this as an index of records, not an agronomic conclusion. Connect a configured backend and document processing service for answers based on extracted content.`
+      : `There are no sample documents indexed for ${name} yet. Add a file in Ingest & Review to see it appear here. This local demo does not infer causes from missing records.`;
+    setResult({ id: `demo-query-${Date.now()}`, query_text: text, answer_text: answer, confidence_label: "documented_fact", confidence_score: documents.length ? 0.6 : 0.2, evidence_trail: evidence, graph_hops: 0, latency_ms: 300, created_at: new Date().toISOString() });
+    onQueryComplete();
+    setLoading(false);
+    setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
   }
 
   async function submitCorrection(edgeId: string) {
@@ -119,27 +99,8 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId }: Pr
       alert("Correction note must be at least 10 characters long.");
       return;
     }
-    try {
-      const response = await fetch("/api/v1/corrections/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          evidence_edge_id: edgeId,
-          correction_note: correctionNote,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to submit correction");
-      }
-      alert("Correction saved for review.");
-      setCorrectionTarget(null);
-      setCorrectionNote("");
-    } catch (err) {
-      console.error("Failed to submit correction:", err);
-      setError("Correction was not saved. Check your connection and agronomist permissions, then try again.");
-    }
+    setError("Corrections need a configured backend and reviewer account. No correction was saved in this local demo.");
+    setCorrectionTarget(edgeId);
   }
 
   function handleKey(e: React.KeyboardEvent) {
@@ -168,7 +129,7 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId }: Pr
             ref={inputRef}
             id="query-input"
             className={styles.textarea}
-            placeholder="e.g. Why did Field B's yield drop by 20% in 2026?"
+          placeholder={`Ask about the sample records for ${plotName.split(" — ")[0]}…`}
             value={query}
             onChange={e => setQuery(e.target.value)}
             onKeyDown={handleKey}
@@ -185,21 +146,20 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId }: Pr
         </div>
         {/* Suggested queries */}
         <div className={styles.suggestions}>
-          {suggestedQueries.slice(0, 4).map(q => (
+          {suggestedQueries.slice(0, 4).map(suggestion => {
+            const q = suggestion.replace(/Field [ABC]/g, plotName.split(" — ")[0]);
+            return (
             <button key={q} className={styles.suggestChip} disabled={loading} onClick={() => { setQuery(q); handleSubmit(q); }}>
               {q}
             </button>
-          ))}
+            );
+          })}
         </div>
       </div>
 
       {error && <p role="alert">{error}</p>}
-      <button className="btn btn-secondary" disabled={loading} onClick={() => {
-        setResult(mockDemoQuery);
-        setIsDemo(true);
-        setError(null);
-      }}>View sample answer for Field B</button>
-      {isDemo && <p role="status">Sample answer from demo records — this is not a live response to your question.</p>}
+      <p role="status">Local demo query for {plotName.split(" — ")[0]}: answers use record titles and dates; no AI service is connected.</p>
+      {isDemo && <p role="status">Demo answer generated for this question from this field&apos;s local records.</p>}
 
       {/* Loading state */}
       {loading && (
@@ -208,8 +168,8 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId }: Pr
             <span /><span /><span />
           </div>
           <div className={styles.loadingText}>
-            <span className={styles.loadingStage}>Traversing knowledge graph…</span>
-            <span className={styles.loadingMeta}>Combining vector similarity with temporal graph traversal</span>
+            <span className={styles.loadingStage}>Preparing local demo answer…</span>
+            <span className={styles.loadingMeta}>Using the selected field&apos;s sample record index</span>
           </div>
         </div>
       )}
@@ -305,4 +265,3 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId }: Pr
     </div>
   );
 }
-

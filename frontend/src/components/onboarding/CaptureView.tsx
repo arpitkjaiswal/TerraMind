@@ -1,19 +1,23 @@
 "use client";
 import React, { useState, useRef, useCallback, useEffect } from "react";
-import type { IngestionQueueItem, Document } from "@/types";
+import type { IngestionQueueItem, Document, Plot, TimelineEvent } from "@/types";
 import styles from "./CaptureView.module.css";
 import { Upload, FileText, CheckCircle, XCircle, Clock, AlertTriangle, Camera, FilePlus, X, SwitchCamera } from "lucide-react";
 
 interface Props {
+  plot: Plot;
   queue: IngestionQueueItem[];
   documents: Document[];
+  onQueueChange: (queue: IngestionQueueItem[]) => void;
+  onDocumentAdd: (document: Document) => void;
+  onDocumentUpdate: (document: Document) => void;
+  onTimelineAdd: (event: TimelineEvent) => void;
 }
 
 const MAX_UPLOAD_BYTES = 20 * 1024 * 1024; // 20 MB
 const ACCEPTED_TYPES = ".pdf,.csv,.jpg,.jpeg,.png,.tiff,.webp";
 
-export default function CaptureView({ queue: initialQueue, documents }: Props) {
-  const [queue, setQueue] = useState(initialQueue);
+export default function CaptureView({ plot, queue, documents, onQueueChange, onDocumentAdd, onDocumentUpdate, onTimelineAdd }: Props) {
   const [dragOver, setDragOver] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadResult, setUploadResult] = useState<{ success: boolean; message: string } | null>(null);
@@ -73,10 +77,11 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
       }
     } catch (err: unknown) {
       if (requestId !== cameraRequestRef.current) return;
+      const name = err instanceof DOMException ? err.name : "";
       const message = err instanceof Error ? err.message : String(err);
-      if (message.includes("Permission") || message.includes("NotAllowed")) {
+      if (name === "NotAllowedError" || name === "PermissionDeniedError") {
         setCameraError("Camera permission denied. Please allow camera access in your browser settings and try again.");
-      } else if (message.includes("NotFound") || message.includes("DevicesNotFound")) {
+      } else if (name === "NotFoundError" || name === "DevicesNotFoundError") {
         setCameraError("No camera found on this device.");
       } else {
         setCameraError(`Camera error: ${message}`);
@@ -84,12 +89,7 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
     }
   }, []);
 
-  async function openCamera() {
-    setCameraOpen(true);
-    // Small delay so the modal renders the <video> element first
-    await new Promise(r => setTimeout(r, 100));
-    await startCamera(facingMode);
-  }
+  function openCamera() { setCameraOpen(true); }
 
   function closeCamera() {
     stopCamera();
@@ -97,10 +97,9 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
     setCameraError(null);
   }
 
-  async function switchCamera() {
+  function switchCamera() {
     const newFacing = facingMode === "environment" ? "user" : "environment";
     setFacingMode(newFacing);
-    await startCamera(newFacing);
   }
 
   function capturePhoto() {
@@ -138,21 +137,33 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
     await processFile(file);
   }
 
-  function retakePhoto() {
-    setCapturedPreview(null);
-    startCamera(facingMode);
-  }
+  function retakePhoto() { setCapturedPreview(null); }
 
   // Cleanup camera on unmount
   useEffect(() => {
     return () => { stopCamera(); };
   }, [stopCamera]);
 
+  useEffect(() => {
+    if (!cameraOpen || capturedPreview) return;
+    const timer = window.setTimeout(() => { void startCamera(facingMode); }, 0);
+    return () => window.clearTimeout(timer);
+  }, [cameraOpen, capturedPreview, facingMode, startCamera]);
+
   function approve(id: string) {
-    setQueue(q => q.map(item => item.id === id ? { ...item, status: "approved" } : item));
+    const item = queue.find(entry => entry.id === id);
+    if (!item) return;
+    onQueueChange(queue.map(entry => entry.id === id ? { ...entry, status: "approved" } : entry));
+    const document = documents.find(entry => entry.id === item.document_id);
+    if (document) onDocumentUpdate({ ...document, ingest_status: "ready" });
+    onTimelineAdd({ id: `review-${item.document_id}`, date: item.uploaded_at.slice(0, 10), title: "Document approved", category: "practice", description: `${item.label} was approved in the local demo review queue.`, document_id: item.document_id, plot_id: plot.id, confidence: item.confidence });
   }
   function reject(id: string) {
-    setQueue(q => q.map(item => item.id === id ? { ...item, status: "rejected" } : item));
+    const item = queue.find(entry => entry.id === id);
+    if (!item) return;
+    onQueueChange(queue.map(entry => entry.id === id ? { ...entry, status: "rejected" } : entry));
+    const document = documents.find(entry => entry.id === item.document_id);
+    if (document) onDocumentUpdate({ ...document, ingest_status: "ingest_failed" });
   }
 
   async function processFile(file: File) {
@@ -175,38 +186,46 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
     setUploading(true);
     setUploadResult(null);
 
-    // Simulate OCR processing (in production this would POST to /api/v1/documents/upload)
-    await new Promise(r => setTimeout(r, 2000 + Math.random() * 1000));
+    // Local demo processing is deterministic; it does not claim to run an OCR service.
+    await new Promise(r => setTimeout(r, 700));
 
     // Simulate a confidence score based on file type
     const isImage = ["jpg", "jpeg", "png", "tiff", "webp"].includes(ext);
-    const simulatedConfidence = isImage
-      ? 0.65 + Math.random() * 0.30  // 65-95% for images (OCR)
-      : 0.95 + Math.random() * 0.05; // 95-100% for PDF/CSV (digital)
+    const simulatedConfidence = isImage ? 0.72 : 0.96;
 
     const highConf = simulatedConfidence >= 0.85;
 
+    const now = new Date();
+    const uploadedAt = now.toISOString();
+    const documentId = `doc-local-${now.getTime()}`;
+    const doc: Document = {
+      id: documentId, plot_id: plot.id, source_type: isImage ? "photo" : ext === "pdf" ? "pdf" : "csv",
+      label: file.name, storage_uri: "local-demo://browser", ingest_status: highConf ? "ready" : "review_needed",
+      source_confidence: simulatedConfidence, uploaded_at: uploadedAt, date_of_event: uploadedAt.slice(0, 10),
+    };
+    onDocumentAdd(doc);
     if (highConf) {
+      onTimelineAdd({ id: `upload-event-${now.getTime()}`, date: uploadedAt.slice(0, 10), title: "Demo document added", category: "practice", description: `${file.name} was added to the local sample records.`, document_id: documentId, plot_id: plot.id, confidence: simulatedConfidence });
       setUploadResult({
         success: true,
-        message: `"${file.name}" demo simulation completed — simulated OCR confidence ${Math.round(simulatedConfidence * 100)}% (auto-ingested)`,
+        message: `"${file.name}" added to this browser's demo records (${Math.round(simulatedConfidence * 100)}% demo confidence).`,
       });
     } else {
       // Add to review queue
       const newItem: IngestionQueueItem = {
-        id: `upload-${Date.now()}`,
-        document_id: `doc-${Date.now()}`,
+        id: `upload-${now.getTime()}`,
+        document_id: documentId,
         label: file.name,
         source_type: isImage ? "photo" : ext === "pdf" ? "pdf" : "csv",
         confidence: simulatedConfidence,
-        extracted_text: `[Simulated OCR output for ${file.name}] — In production, the actual extracted text from Azure AI Document Intelligence or Google Cloud Vision would appear here for your review.`,
-        uploaded_at: new Date().toISOString(),
+        extracted_text: `No text was extracted from ${file.name}. This local demo queues image files for a review decision only.`,
+        uploaded_at: uploadedAt,
         status: "pending",
       };
-      setQueue(q => [newItem, ...q]);
+      onQueueChange([newItem, ...queue]);
       setUploadResult({
         success: true,
-        message: `"${file.name}" added to the local demo queue — simulated OCR confidence ${Math.round(simulatedConfidence * 100)}% (below auto-ingest threshold)`,
+        message: `"${file.name}" added to this browser's review queue (${Math.round(simulatedConfidence * 100)}% demo confidence).`,
       });
     }
 
@@ -254,7 +273,7 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Ingest & Review — Demo</h1>
-          <p className={styles.subtitle}>Demo only: files stay in this browser. OCR scores and review actions are simulated; nothing is uploaded or saved.</p>
+          <p className={styles.subtitle}>Demo mode: files stay on this device. OCR is simulated and review decisions persist in this browser.</p>
         </div>
       </div>
 
@@ -269,7 +288,7 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
         {uploading ? (
           <div className={styles.uploadingState}>
             <div className={styles.uploadSpinner} />
-            <span>Processing with OCR…</span>
+            <span>Preparing local demo record…</span>
           </div>
         ) : uploadResult ? (
           <div className={styles.uploadDone}>
@@ -295,10 +314,10 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
             </div>
             <div className={styles.dropRule}>
               <span className={styles.ruleBox} style={{ background: "rgba(34,197,94,0.08)", borderColor: "rgba(34,197,94,0.2)", color: "var(--green-400)" }}>
-                ≥ 85% OCR confidence → Auto-ingest
+                PDF and CSV → Added directly in this demo
               </span>
               <span className={styles.ruleBox} style={{ background: "rgba(245,158,11,0.08)", borderColor: "rgba(245,158,11,0.2)", color: "var(--amber-400)" }}>
-                &lt; 85% → Human review queue
+                Images → Manual review queue in this demo
               </span>
             </div>
           </>
@@ -324,7 +343,7 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
                     <div className={styles.queueMeta}>
                       <span>{item.source_type.toUpperCase()}</span>
                       <span>·</span>
-                      <span>OCR confidence: <strong style={{ color: item.confidence >= 0.7 ? "var(--amber-400)" : "#f87171" }}>{Math.round(item.confidence * 100)}%</strong></span>
+                      <span>Demo score: <strong style={{ color: item.confidence >= 0.7 ? "var(--amber-400)" : "#f87171" }}>{Math.round(item.confidence * 100)}%</strong></span>
                       <span>·</span>
                       <span>{item.uploaded_at.slice(0, 10)}</span>
                     </div>
@@ -339,7 +358,7 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
                   </div>
                 </div>
                 <div className={styles.extractedText}>
-                  <div className={styles.extractedLabel}>Extracted text (OCR output):</div>
+                  <div className={styles.extractedLabel}>Review note:</div>
                   <div className={styles.extractedContent}>{item.extracted_text}</div>
                 </div>
               </div>
@@ -376,6 +395,8 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
                   <span className={styles.statusTag} style={{ color: "var(--green-400)" }}><CheckCircle size={10} />Indexed</span>
                 ) : doc.ingest_status === "review_needed" ? (
                   <span className={styles.statusTag} style={{ color: "var(--amber-400)" }}><Clock size={10} />Review</span>
+                ) : doc.ingest_status === "ingest_failed" ? (
+                  <span className={styles.statusTag} style={{ color: "#f87171" }}><XCircle size={10} />Rejected</span>
                 ) : (
                   <span className={styles.statusTag} style={{ color: "var(--text-muted)" }}>Processing</span>
                 )}
@@ -475,7 +496,7 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
             </div>
 
             <p className={styles.cameraTip}>
-              Position the document flat with good lighting. The OCR engine works best with sharp, well-lit images.
+              Keep the document centered and well lit. Photo capture is saved only as a local demo record.
             </p>
           </div>
 
@@ -486,4 +507,3 @@ export default function CaptureView({ queue: initialQueue, documents }: Props) {
     </div>
   );
 }
-
