@@ -24,8 +24,9 @@ from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
-from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.util import get_remote_address
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.middleware import SlowAPIMiddleware
+from app.core.rate_limit import limiter
 from slowapi.errors import RateLimitExceeded
 from prometheus_fastapi_instrumentator import Instrumentator
 
@@ -44,7 +45,7 @@ configure_logging()
 log = structlog.get_logger(__name__)
 
 # ── Rate limiter ──────────────────────────────────────────────────────────────
-limiter = Limiter(key_func=get_remote_address, default_limits=[settings.RATE_LIMIT_DEFAULT])
+
 
 
 # ── Lifespan ──────────────────────────────────────────────────────────────────
@@ -114,6 +115,7 @@ app = FastAPI(
 
 # Rate limiting
 app.state.limiter = limiter
+app.add_middleware(SlowAPIMiddleware)
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # CORS
@@ -182,3 +184,4 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         content={"detail": "Internal server error", "request_id": getattr(request.state, "request_id", None)},
     )
+

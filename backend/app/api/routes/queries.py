@@ -13,8 +13,7 @@ import structlog
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from slowapi import Limiter
-from slowapi.util import get_remote_address
+from app.core.rate_limit import limiter
 
 from app.core.auth import get_current_token_data, TokenData
 from app.core.config import settings
@@ -30,7 +29,6 @@ from app.services.query import execute_query
 
 log = structlog.get_logger(__name__)
 router = APIRouter()
-limiter = Limiter(key_func=get_remote_address)
 
 
 @router.post("/", response_model=QueryResponse)
@@ -155,3 +153,4 @@ async def get_query(
         cache_hit=ql.cache_hit,
         created_at=ql.created_at,
     )
+
