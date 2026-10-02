@@ -15,10 +15,10 @@ interface Props {
 
 export default function DashboardView({ stats, plot, documents, onAskQuery }: Props) {
   const statCards = [
-    { label: "Documents Ingested", value: stats.total_documents, icon: FileText, color: "var(--sky-400)", trend: "+3 this season" },
-    { label: "Queries Run", value: stats.total_queries, icon: Search, color: "var(--green-400)", trend: "Avg 84ms" },
-    { label: "Graph Nodes", value: stats.graph_nodes, icon: Network, color: "var(--amber-400)", trend: `${stats.graph_edges} edges` },
-    { label: "Pending Review", value: stats.pending_review, icon: AlertTriangle, color: "#f87171", trend: "2 OCR uploads" },
+    { label: "Sample Documents", value: stats.total_documents, icon: FileText, color: "var(--sky-400)", trend: "This field" },
+    { label: "Demo Queries", value: stats.total_queries, icon: Search, color: "var(--green-400)", trend: "Browser count" },
+    { label: "Graph Nodes", value: stats.graph_nodes, icon: Network, color: "var(--amber-400)", trend: `${stats.graph_edges} links` },
+    { label: "Pending Review", value: stats.pending_review, icon: AlertTriangle, color: "#f87171", trend: "Local queue" },
   ];
 
   const readyDocs = documents.filter(d => d.ingest_status === "ready");
@@ -30,11 +30,11 @@ export default function DashboardView({ stats, plot, documents, onAskQuery }: Pr
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>{plot.name}</h1>
-          <p className={styles.subtitle}>{plot.crop_type} &middot; {plot.size_ha} ha &middot; Soil memory active</p>
+          <p className={styles.subtitle}>{plot.crop_type} &middot; {plot.size_ha} ha &middot; Local demo records</p>
         </div>
         <div className={styles.headerBadge}>
           <Activity size={13} />
-          <span>Graph live</span>
+          <span>Demo data</span>
         </div>
       </div>
 
@@ -55,18 +55,18 @@ export default function DashboardView({ stats, plot, documents, onAskQuery }: Pr
       </div>
 
       {/* Yield snapshot */}
-      <div className={styles.yieldBanner}>
+      {plot.id === "plot-B" && <div className={styles.yieldBanner}>
         <div className={styles.yieldLeft}>
           <TrendingDown size={20} color="#f87171" />
           <div>
-            <div className={styles.yieldTitle}>2026 Yield Anomaly Detected</div>
-            <div className={styles.yieldDesc}>Field B recorded 6.8 t/ha vs 8.5 t/ha 3-year average — a 20% shortfall. Multi-hop graph path identified.</div>
+            <div className={styles.yieldTitle}>Sample yield record</div>
+            <div className={styles.yieldDesc}>The demo dataset includes a 2026 Field B yield entry (6.8 t/ha) and a stated 3-year average (8.5 t/ha). These sample records do not establish a cause.</div>
           </div>
         </div>
-        <button className="btn btn-primary" id="btn-ask-yield" onClick={() => onAskQuery("Why did Field B's yield drop by 20% in 2026?")}>
-          Investigate →
+        <button className="btn btn-primary" id="btn-ask-yield" onClick={() => onAskQuery(`What sample yield records are available for ${plot.name.split(" — ")[0]}?`)}>
+          View records →
         </button>
-      </div>
+      </div>}
 
       {/* Recent documents */}
       <div className={styles.section}>
@@ -89,6 +89,8 @@ export default function DashboardView({ stats, plot, documents, onAskQuery }: Pr
                   <span className={styles.statusReady}><CheckCircle size={12} />Ready</span>
                 ) : doc.ingest_status === "review_needed" ? (
                   <span className={styles.statusReview}><AlertTriangle size={12} />Review</span>
+                ) : doc.ingest_status === "ingest_failed" ? (
+                  <span className={styles.statusReview}><AlertTriangle size={12} />Rejected</span>
                 ) : (
                   <span className={styles.statusProc}>Processing</span>
                 )}
@@ -106,9 +108,9 @@ export default function DashboardView({ stats, plot, documents, onAskQuery }: Pr
         <h2 className={styles.sectionTitle}>Suggested Questions</h2>
         <div className={styles.queryChips}>
           {[
-            "Why did Field B's yield drop by 20% in 2026?",
-            "What chemicals were applied in the last 3 seasons?",
-            "Which weather events correlate with yield changes?",
+            `What sample records are available for ${plot.name.split(" — ")[0]}?`,
+            `What chemicals are listed for ${plot.name.split(" — ")[0]}?`,
+            `What yield records are listed for ${plot.name.split(" — ")[0]}?`,
           ].map(q => (
             <button key={q} className={styles.queryChip} onClick={() => onAskQuery(q)}>
               <Search size={12} />

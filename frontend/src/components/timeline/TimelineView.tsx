@@ -35,7 +35,7 @@ export default function TimelineView({ events, plot }: Props) {
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Field Timeline</h1>
-          <p className={styles.subtitle}>{plot.name} · Full agronomic history from first record to present</p>
+          <p className={styles.subtitle}>{plot.name} · Events in the local demo record set</p>
         </div>
         <div className={styles.filterRow}>
           <Filter size={13} color="var(--text-muted)" />
@@ -52,6 +52,7 @@ export default function TimelineView({ events, plot }: Props) {
       </div>
 
       <div className={styles.timeline}>
+        {years.length === 0 && <p className={styles.subtitle}>No timeline events for this field yet. Add a document in Ingest &amp; Review to create a local demo event.</p>}
         {years.map(yr => (
           <div key={yr} className={styles.yearGroup}>
             <div className={styles.yearLabel}>{yr}</div>
@@ -82,7 +83,7 @@ export default function TimelineView({ events, plot }: Props) {
                         </span>
                         <span className={styles.eventDate}>{ev.date}</span>
                         {ev.confidence != null && ev.confidence < 1 && (
-                          <span className={styles.eventConf}>{Math.round(ev.confidence * 100)}% OCR</span>
+                          <span className={styles.eventConf}>{Math.round(ev.confidence * 100)}% demo score</span>
                         )}
                       </div>
                       <h3 className={styles.eventTitle}

@@ -44,7 +44,11 @@ export default function GraphView({ nodes, edges }: Props) {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState<string | null>(null);
 
-  const nodePos = (id: string) => LAYOUT_POSITIONS[id] ?? { x: 400, y: 250 };
+  const nodePos = (id: string) => {
+    const node = nodes.find(item => item.id === id);
+    if (node?.x != null && node.y != null) return { x: node.x, y: node.y };
+    return LAYOUT_POSITIONS[id] ?? { x: 400, y: 250 };
+  };
 
   function onMouseDown(e: React.MouseEvent) {
     setDragging(true);
@@ -61,7 +65,7 @@ export default function GraphView({ nodes, edges }: Props) {
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Knowledge Graph</h1>
-          <p className={styles.subtitle}>Entities and time-stamped relationships extracted by Cognee. Click a node to inspect.</p>
+          <p className={styles.subtitle}>Entities and relationships in this field&apos;s demo records. Click a node to inspect; drag to pan.</p>
         </div>
         <div className={styles.controls}>
           <button className={styles.controlBtn} onClick={() => setZoom(z => Math.min(z + 0.2, 3))}><ZoomIn size={15} /></button>
@@ -71,6 +75,7 @@ export default function GraphView({ nodes, edges }: Props) {
       </div>
 
       <div className={styles.canvas}>
+        {nodes.length === 0 && <p className={styles.subtitle}>No graph records for this field yet. Add a document in Ingest &amp; Review to create a local demo node.</p>}
         <svg ref={svgRef} className={styles.svg} onMouseDown={onMouseDown} onMouseMove={onMouseMove} onMouseUp={onMouseUp} onMouseLeave={onMouseUp}>
           <defs>
             {Object.entries(EDGE_COLOR).map(([type, color]) => (

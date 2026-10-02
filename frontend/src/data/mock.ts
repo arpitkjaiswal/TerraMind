@@ -23,6 +23,7 @@ export const mockDocuments: Document[] = [
   { id: "doc-005", plot_id: "plot-A", source_type: "photo", label: "Field inspection note — Soil pH reading (Nov 2025)", storage_uri: "/docs/soil-2025.jpg", ingest_status: "review_needed", source_confidence: 0.72, uploaded_at: "2025-11-18T11:00:00Z", date_of_event: "2025-11-15" },
   { id: "doc-006", plot_id: "plot-A", source_type: "pdf", label: "Fertilizer Purchase Receipt — NPK 20-10-10 (Feb 2026)", storage_uri: "/docs/fert-2026.pdf", ingest_status: "ready", source_confidence: 0.95, uploaded_at: "2026-02-28T09:30:00Z", date_of_event: "2026-02-25" },
   { id: "doc-007", plot_id: "plot-C", source_type: "csv", label: "Soybean Yield History 2021–2025", storage_uri: "/docs/soy-hist.csv", ingest_status: "ready", source_confidence: 1.0, uploaded_at: "2026-01-10T13:00:00Z", date_of_event: "2025-10-20" },
+  { id: "doc-008", plot_id: "plot-B", source_type: "photo", label: "Handwritten irrigation log — Summer 2026", storage_uri: "/docs/irrigation-2026.jpg", ingest_status: "review_needed", source_confidence: 0.68, uploaded_at: "2026-09-15T10:30:00Z", date_of_event: "2026-08-03" },
 ];
 
 export const mockDemoQuery: QueryResult = {
