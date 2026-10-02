@@ -25,7 +25,9 @@ import structlog
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from passlib.context import CryptContext
+from pwdlib import PasswordHash
+from pwdlib.hashers.argon2 import Argon2Hasher
+from pwdlib.hashers.bcrypt import BcryptHasher
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
@@ -35,15 +37,8 @@ from app.models.db import User
 
 log = structlog.get_logger(__name__)
 
-import bcrypt
-
-# Patch bcrypt to work with passlib
-if not hasattr(bcrypt, "__about__"):
-    class About:
-        __version__ = bcrypt.__version__
-    bcrypt.__about__ = About()
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# New passwords use Argon2; existing bcrypt hashes remain verifiable.
+pwd_context = PasswordHash((Argon2Hasher(), BcryptHasher()))
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login", auto_error=not settings.DEMO_MODE)
 
 
