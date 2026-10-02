@@ -3,21 +3,21 @@
 ## Frontend
 
 The existing Vercel project uses `frontend` as its root. Use the Next.js preset,
-`npm ci`, and `npm run build`. No secrets are needed for the sample dashboard.
-The UI identifies its data as a local demo. Uploads, review decisions, and query
-counts are saved in browser storage; uploaded files are not sent to a server.
-Demo queries summarize visible record titles and dates, and do not read file
-contents or infer causes. The graph and timeline are scoped to the selected field.
-Use **Settings → Reset demo data** to restore the original sample set.
+`npm ci`, and `npm run build`. Set the server-only `BACKEND_URL` environment
+variable to the HTTPS origin of the deployed FastAPI service. The Next.js server
+proxies authenticated API calls and stores access/refresh tokens in HttpOnly,
+Secure production cookies. Do not expose backend URLs containing credentials,
+API keys, or bearer tokens through `NEXT_PUBLIC_*` variables.
 
-To connect a backend, set the server-side `BACKEND_URL` to its HTTPS origin in
-Vercel and rebuild. `/api/v1/*` requests are proxied to that origin. Do not put
-API keys or shared bearer tokens in public environment variables.
+The site provides email/password account registration and sign-in. New accounts
+create a farm and can create their first field after sign-in. The authenticated
+workspace reads farm, field, document, graph, review, and query data from the API.
+The sample preview remains available separately and uses browser-only changes.
 
-The dashboard currently uses mock farms/plots and has no sign-in flow. A backend
-URL alone does not turn this into a production farm management application:
-real account sign-in, authenticated API calls, farm data loading, and document
-processing still need integration. Demo query output is not a live AI answer.
+Authentication will not work until `BACKEND_URL` points to a reachable API with
+the production database configured. Uploaded documents, review decisions, and
+live agronomy queries also need the storage, OCR, worker, graph, vector, cache,
+and language-model services described below.
 
 ## Backend
 

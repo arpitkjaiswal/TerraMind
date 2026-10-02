@@ -6,11 +6,13 @@ import QueryView from "@/components/query/QueryView";
 import TimelineView from "@/components/timeline/TimelineView";
 import GraphView from "@/components/graph/GraphView";
 import CaptureView from "@/components/onboarding/CaptureView";
+import AuthScreen from "@/components/auth/AuthScreen";
+import LiveWorkspace from "@/components/dashboard/LiveWorkspace";
 import {
   mockFarm, mockDocuments, mockStats, mockTimeline,
   mockQueue, mockGraphNodes, mockGraphEdges, suggestedQueries
 } from "@/data/mock";
-import type { DashboardStats, Document, GraphEdge, GraphNode, IngestionQueueItem, Plot, TimelineEvent } from "@/types";
+import type { DashboardStats, Document, GraphEdge, GraphNode, IngestionQueueItem, Plot, TimelineEvent, User } from "@/types";
 import styles from "./page.module.css";
 
 type Section = "dashboard" | "query" | "timeline" | "graph" | "capture";
@@ -32,7 +34,7 @@ function readDemoData(): DemoData {
   } catch { return defaultData; }
 }
 
-export default function Home() {
+function DemoWorkspace({ onExitDemo }: { onExitDemo: () => void }) {
   const [section, setSection] = useState<Section>("dashboard");
   const [activePlot, setActivePlot] = useState<Plot>(mockFarm.plots[1]);
   const [pendingQuery, setPendingQuery] = useState<string | undefined>();
@@ -114,11 +116,12 @@ export default function Home() {
         pendingCount={plotQueue.filter(item => item.status === "pending").length}
         onResetDemo={() => { setData(defaultData); localStorage.removeItem(STORAGE_KEY); }} />
       <main className={styles.main}>
-        <p role="status" style={{ padding: "12px 24px", margin: 0, background: "#173322", color: "#d1fae5" }}>
-          Local demo workspace: sample records and your browser-only changes. No files leave this device.
+        <p role="status" style={{ padding: "10px 24px", margin: 0, background: "#173322", color: "#d1fae5", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+          <span>Local demo preview: sample records and browser-only changes. No files leave this device.</span>
+          <button className="btn btn-secondary" onClick={onExitDemo}>Sign in</button>
         </p>
-        {section === "dashboard" && <DashboardView stats={stats} plot={activePlot} documents={plotDocs} onAskQuery={navigateToQuery} />}
-        {section === "query" && <QueryView key={`${activePlot.id}:${pendingQuery ?? ""}`} initialQuery={pendingQuery} plotName={activePlot.name} documents={plotDocs} suggestedQueries={suggestedQueries} onQueryComplete={() => setData(current => ({ ...current, totalQueries: current.totalQueries + 1 }))} />}
+        {section === "dashboard" && <DashboardView stats={stats} plot={activePlot} documents={plotDocs} onAskQuery={navigateToQuery} demoMode />}
+        {section === "query" && <QueryView key={`${activePlot.id}:${pendingQuery ?? ""}`} initialQuery={pendingQuery} plotId={activePlot.id} plotName={activePlot.name} userRole="farmer" demoMode documents={plotDocs} suggestedQueries={suggestedQueries} onQueryComplete={() => setData(current => ({ ...current, totalQueries: current.totalQueries + 1 }))} />}
         {section === "timeline" && <TimelineView events={plotTimeline} plot={activePlot} />}
         {section === "graph" && <GraphView key={activePlot.id} nodes={graph.nodes} edges={graph.edges} />}
         {section === "capture" && <CaptureView plot={activePlot} queue={plotQueue} documents={plotDocs}
@@ -129,4 +132,23 @@ export default function Home() {
       </main>
     </div>
   );
+}
+
+export default function Home() {
+  const [user, setUser] = useState<User | null>(null);
+  const [checkingSession, setCheckingSession] = useState(true);
+  const [demoPreview, setDemoPreview] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/auth/session", { cache: "no-store" })
+      .then(response => response.json())
+      .then(data => setUser(data.user ?? null))
+      .catch(() => setUser(null))
+      .finally(() => setCheckingSession(false));
+  }, []);
+
+  if (demoPreview && !user) return <DemoWorkspace onExitDemo={() => setDemoPreview(false)} />;
+  if (checkingSession) return <main style={{ minHeight: "100vh", display: "grid", placeItems: "center", background: "var(--bg-deep)", color: "var(--text-primary)" }}>Checking your session…</main>;
+  if (!user) return <AuthScreen onAuthenticated={setUser} onPreviewDemo={() => setDemoPreview(true)} />;
+  return <LiveWorkspace user={user} onLogout={async () => { await fetch("/api/auth/session", { method: "DELETE" }); setUser(null); setDemoPreview(false); }} />;
 }
