@@ -124,12 +124,13 @@ class TestDocumentRoutes:
         assert resp.status_code == 200
         assert resp.json() == []
 
-    async def test_review_queue_requires_agronomist(self, client, farmer_token):
+    async def test_review_queue_accessible_to_authenticated_farmer(self, client, farmer_token):
         resp = await client.get(
             "/api/v1/documents/review-queue",
             headers={"Authorization": f"Bearer {farmer_token}"},
         )
-        assert resp.status_code == 403
+        assert resp.status_code == 200
+        assert isinstance(resp.json(), list)
 
     async def test_review_queue_accessible_to_agronomist(self, client, agronomist_token):
         resp = await client.get(

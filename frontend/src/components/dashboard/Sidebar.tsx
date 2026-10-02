@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./Sidebar.module.css";
-import type { Farm, Plot } from "@/types";
+import type { Farm, Plot, User } from "@/types";
 import {
   Leaf, LayoutDashboard, Search, Clock, Upload,
   GitBranch, ChevronDown, ChevronRight, Settings,
-  Bell, HelpCircle, Zap, X, RotateCcw
+  Bell, HelpCircle, Zap, X, RotateCcw, LogOut
 } from "lucide-react";
 
 interface Props {
@@ -16,6 +16,8 @@ interface Props {
   onSectionChange: (s: string) => void;
   pendingCount: number;
   onResetDemo: () => void;
+  user?: User;
+  onLogout?: () => void;
 }
 
 const navItems = [
@@ -26,7 +28,7 @@ const navItems = [
   { id: "capture", label: "Ingest & Review", icon: Upload },
 ];
 
-export default function Sidebar({ farm, activePlot, onPlotChange, activeSection, onSectionChange, pendingCount, onResetDemo }: Props) {
+export default function Sidebar({ farm, activePlot, onPlotChange, activeSection, onSectionChange, pendingCount, onResetDemo, user, onLogout }: Props) {
   const [plotsOpen, setPlotsOpen] = useState(true);
   const [panel, setPanel] = useState<"alerts" | "help" | "settings" | null>(null);
 
@@ -102,14 +104,15 @@ export default function Sidebar({ farm, activePlot, onPlotChange, activeSection,
           <button className={styles.bottomNavItem} onClick={() => { setPanel("alerts"); onSectionChange("capture"); }}><Bell size={15} /><span>Alerts{pendingCount ? ` (${pendingCount})` : ""}</span></button>
           <button className={styles.bottomNavItem} onClick={() => setPanel("help")}><HelpCircle size={15} /><span>Help</span></button>
           <button className={styles.bottomNavItem} onClick={() => setPanel("settings")}><Settings size={15} /><span>Settings</span></button>
+          {user && <button className={styles.bottomNavItem} onClick={onLogout}><LogOut size={15} /><span>Sign out · {user.email}</span></button>}
         </div>
       </div>
       {panel && <div role="dialog" aria-modal="true" aria-labelledby="sidebar-dialog-title" style={{ position: "fixed", inset: 0, zIndex: 50, background: "rgba(0,0,0,.55)", display: "grid", placeItems: "center", padding: 20 }} onClick={() => setPanel(null)}>
         <div style={{ width: "min(440px, 100%)", background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 14, padding: 22, color: "var(--text-primary)" }} onClick={event => event.stopPropagation()}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}><h2 id="sidebar-dialog-title" style={{ margin: 0 }}>{panel === "alerts" ? "Review alerts" : panel === "help" ? "Help" : "Demo settings"}</h2><button aria-label="Close" onClick={() => setPanel(null)} className={styles.bottomNavItem} style={{ width: "auto", padding: 6 }}><X size={16} /></button></div>
           {panel === "alerts" && <p>{pendingCount ? `${pendingCount} document${pendingCount === 1 ? " is" : "s are"} waiting for review in Ingest & Review.` : "No documents are waiting for review."}</p>}
-          {panel === "help" && <div><p>Choose a field, then explore its dashboard, record timeline, knowledge graph, or query its sample record index.</p><p>Uploads, review decisions, and query counts are saved in this browser only. The demo does not run OCR or connect to a live agronomy service.</p></div>}
-          {panel === "settings" && <div><p>Reset this browser&apos;s demo changes and restore the original sample records.</p><button className="btn btn-secondary" onClick={() => { onResetDemo(); setPanel(null); }}><RotateCcw size={14} />Reset demo data</button></div>}
+          {panel === "help" && <div><p>Choose a field, then open its dashboard, record timeline, knowledge graph, or query view.</p>{user ? <p>Your account is connected to the farm API. Upload processing and AI answers depend on the services configured by the farm administrator.</p> : <p>Sample preview changes are stored in this browser. No real account or farm data is used.</p>}</div>}
+          {panel === "settings" && (user ? <div><p>Signed in as <strong>{user.email}</strong> with the <strong>{user.role}</strong> role.</p><p>Farm: {farm.name}</p></div> : <div><p>Reset this browser&apos;s demo changes and restore the original sample records.</p><button className="btn btn-secondary" onClick={() => { onResetDemo(); setPanel(null); }}><RotateCcw size={14} />Reset demo data</button></div>)}
         </div>
       </div>}
     </aside>

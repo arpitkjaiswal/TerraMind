@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef, useCallback, useEffect } from "react";
+import Image from "next/image";
 import type { IngestionQueueItem, Document, Plot, TimelineEvent } from "@/types";
 import styles from "./CaptureView.module.css";
 import { Upload, FileText, CheckCircle, XCircle, Clock, AlertTriangle, Camera, FilePlus, X, SwitchCamera } from "lucide-react";
@@ -436,10 +437,13 @@ export default function CaptureView({ plot, queue, documents, onQueueChange, onD
                   </button>
                 </div>
               ) : capturedPreview ? (
-                <img
+                <Image
                   src={capturedPreview}
                   alt="Captured photo"
                   className={styles.cameraPreviewImg}
+                  fill
+                  sizes="(max-width: 600px) 100vw, 640px"
+                  unoptimized
                 />
               ) : (
                 <>

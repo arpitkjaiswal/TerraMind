@@ -17,7 +17,7 @@ from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, Upload
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
-from app.core.auth import get_current_token_data, TokenData, require_role
+from app.core.auth import get_current_token_data, TokenData
 from app.core.database import get_db
 from app.core.redis_client import get_ingest_status
 from app.models.db import Document, Plot
@@ -107,7 +107,7 @@ async def list_documents(
 
 @router.get("/review-queue", response_model=list[ReviewQueueItem])
 async def get_review_queue(
-    td: TokenData = Depends(require_role("admin", "agronomist")),
+    td: TokenData = Depends(get_current_token_data),
     db: AsyncSession = Depends(get_db),
 ):
     result = await db.execute(
@@ -184,12 +184,16 @@ async def get_document_status(
 async def approve(
     document_id: str,
     body: ReviewDecision,
-    td: TokenData = Depends(require_role("admin", "agronomist")),
+    td: TokenData = Depends(get_current_token_data),
     db: AsyncSession = Depends(get_db),
 ):
     if body.action != "approve":
         raise HTTPException(status_code=400, detail="Use /reject endpoint for rejection")
-    doc = await approve_document(db, document_id, td.farm_id)
+    try:
+        doc = await approve_document(db, document_id, td.farm_id)
+    except ValueError as exc:
+        status_code = 404 if "not found" in str(exc).lower() else 409
+        raise HTTPException(status_code=status_code, detail=str(exc)) from exc
     log.info("document.approved", document_id=document_id, user=td.user_id)
     return doc
 
@@ -198,10 +202,14 @@ async def approve(
 async def reject(
     document_id: str,
     body: ReviewDecision,
-    td: TokenData = Depends(require_role("admin", "agronomist")),
+    td: TokenData = Depends(get_current_token_data),
     db: AsyncSession = Depends(get_db),
 ):
-    doc = await reject_document(db, document_id, td.farm_id, reason=body.note or "")
+    try:
+        doc = await reject_document(db, document_id, td.farm_id, reason=body.note or "")
+    except ValueError as exc:
+        status_code = 404 if "not found" in str(exc).lower() else 409
+        raise HTTPException(status_code=status_code, detail=str(exc)) from exc
     log.info("document.rejected", document_id=document_id, user=td.user_id)
     return doc
 
@@ -216,4 +224,3 @@ def _detect_source_type(filename: str, content_type: str) -> str:
     ):
         return "photo"
     return "csv"
-

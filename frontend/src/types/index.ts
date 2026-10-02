@@ -21,13 +21,22 @@ export interface Farm {
   created_at: string;
 }
 
+export interface User {
+  id: string;
+  farm_id: string;
+  email: string;
+  role: string;
+  is_active: boolean;
+  created_at: string;
+}
+
 export interface Document {
   id: string;
   plot_id: string;
   source_type: "pdf" | "photo" | "csv";
   label: string;
   storage_uri: string;
-  ingest_status: "processing" | "ready" | "review_needed" | "ingest_failed";
+  ingest_status: "pending_ocr" | "pending_review" | "processing" | "ready" | "review_needed" | "ingest_failed";
   source_confidence?: number;
   uploaded_at: string;
   date_of_event?: string;
