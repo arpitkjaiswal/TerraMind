@@ -47,6 +47,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: python -m pytest -q
 
+
   resolve-frontend-update:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
@@ -58,7 +59,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install --package-lock-only --ignore-scripts --save-exact next@16.3.8 eslint-config-next@16.3.8
+      - run: npm audit fix --package-lock-only --ignore-scripts
       - name: Export resolved manifests
         run: |
           node -e "const fs=require('fs');for(const p of ['package.json','package-lock.json']) console.log('MANIFEST:'+p+':'+fs.readFileSync(p).toString('base64'))"
