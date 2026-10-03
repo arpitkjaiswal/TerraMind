@@ -7,6 +7,7 @@ import { Beaker, Cloud, Sprout, BarChart2, Wrench, Filter } from "lucide-react";
 interface Props {
   events: TimelineEvent[];
   plot: Plot;
+  demoMode?: boolean;
 }
 
 const CATEGORY_META = {
@@ -19,7 +20,7 @@ const CATEGORY_META = {
 
 type Category = keyof typeof CATEGORY_META;
 
-export default function TimelineView({ events, plot }: Props) {
+export default function TimelineView({ events, plot, demoMode = false }: Props) {
   const [filter, setFilter] = useState<Category | "all">("all");
   const filtered = filter === "all" ? events : events.filter(e => e.category === filter);
   const grouped: Record<string, TimelineEvent[]> = {};
@@ -35,7 +36,7 @@ export default function TimelineView({ events, plot }: Props) {
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Field Timeline</h1>
-          <p className={styles.subtitle}>{plot.name} · Events in the local demo record set</p>
+          <p className={styles.subtitle}>{plot.name} · {demoMode ? "Events in the local demo record set" : "Events from your saved field records"}</p>
         </div>
         <div className={styles.filterRow}>
           <Filter size={13} color="var(--text-muted)" />
@@ -52,7 +53,7 @@ export default function TimelineView({ events, plot }: Props) {
       </div>
 
       <div className={styles.timeline}>
-        {years.length === 0 && <p className={styles.subtitle}>No timeline events for this field yet. Add a document in Ingest &amp; Review to create a local demo event.</p>}
+        {years.length === 0 && <p className={styles.subtitle}>No timeline events for this field yet. Add a document in Ingest &amp; Review to create a field record.</p>}
         {years.map(yr => (
           <div key={yr} className={styles.yearGroup}>
             <div className={styles.yearLabel}>{yr}</div>
@@ -83,7 +84,7 @@ export default function TimelineView({ events, plot }: Props) {
                         </span>
                         <span className={styles.eventDate}>{ev.date}</span>
                         {ev.confidence != null && ev.confidence < 1 && (
-                          <span className={styles.eventConf}>{Math.round(ev.confidence * 100)}% demo score</span>
+                          <span className={styles.eventConf}>{Math.round(ev.confidence * 100)}% {demoMode ? "demo score" : "extraction confidence"}</span>
                         )}
                       </div>
                       <h3 className={styles.eventTitle}

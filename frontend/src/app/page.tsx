@@ -97,7 +97,7 @@ function DemoWorkspace({ onExitDemo }: { onExitDemo: () => void }) {
         </p>
         {section === "dashboard" && <DashboardView stats={stats} plot={activePlot} documents={plotDocs} onAskQuery={navigateToQuery} demoMode />}
         {section === "query" && <QueryView key={`${activePlot.id}:${pendingQuery ?? ""}`} initialQuery={pendingQuery} plotId={activePlot.id} plotName={activePlot.name} userRole="farmer" demoMode documents={plotDocs} suggestedQueries={suggestedQueries} onQueryComplete={() => setData(current => ({ ...current, totalQueries: current.totalQueries + 1 }))} />}
-        {section === "timeline" && <TimelineView events={plotTimeline} plot={activePlot} />}
+        {section === "timeline" && <TimelineView events={plotTimeline} plot={activePlot} demoMode />}
         {section === "graph" && <GraphView key={activePlot.id} nodes={graph.nodes} edges={graph.edges} />}
         {section === "capture" && <CaptureView plot={activePlot} queue={plotQueue} documents={plotDocs}
           onQueueChange={queue => setData(current => ({ ...current, queue: current.queue.map(item => queue.find(next => next.id === item.id) ?? item).concat(queue.filter(next => !current.queue.some(item => item.id === next.id))) }))}

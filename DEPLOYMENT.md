@@ -13,6 +13,12 @@ The site provides email/password account registration and sign-in. New accounts
 create a farm and can create their first field after sign-in. The authenticated
 workspace reads farm, field, document, graph, review, and query data from the API.
 The sample preview remains available separately and uses browser-only changes.
+Demo uploads, review decisions, and query counts persist in browser storage when
+available. Queries in this preview summarize only record titles and dates; they do
+not read file contents or establish causes. Graphs and timelines follow the selected
+field. **Settings → Reset demo data** restores the original records and the 18
+labeled synthetic CSV samples. The sample library provides downloadable originals;
+its signed-in Import action uses the configured backend for real ingestion.
 
 Authentication will not work until `BACKEND_URL` points to a reachable API with
 the production database configured. Uploaded documents, review decisions, and

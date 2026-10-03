@@ -92,7 +92,7 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId, plot
         await new Promise(resolve => setTimeout(resolve, 250));
         const evidence: EvidenceEdge[] = documents.map(doc => ({
           id: `demo-evidence-${doc.id}`, graph_node_id: `demo-${doc.id}`, node_label: doc.label,
-          node_type: "Practice", relationship_type: "APPLIED_TO", source_document_id: doc.id,
+          node_type: "Document", relationship_type: "HAS_DOCUMENT", source_document_id: doc.id,
           source_document_label: doc.label, date: doc.date_of_event ?? doc.uploaded_at.slice(0, 10),
         }));
         const answer = documents.length
@@ -189,7 +189,7 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId, plot
       </div>
 
       {error && <p role="alert">{error}</p>}
-      {isDemo && <p role="status">Sample answer from local demo records.</p>}
+      {demoMode && <p role="status">Local demo queries use this field’s record titles and dates; they do not read file contents or establish causes.</p>}
 
       {/* Loading state */}
       {loading && (
@@ -198,8 +198,8 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId, plot
             <span /><span /><span />
           </div>
           <div className={styles.loadingText}>
-            <span className={styles.loadingStage}>Querying field records…</span>
-            <span className={styles.loadingMeta}>Retrieving a traceable answer from the farm service</span>
+            <span className={styles.loadingStage}>{demoMode ? "Preparing local demo answer…" : "Querying field records…"}</span>
+            <span className={styles.loadingMeta}>{demoMode ? "Using the selected field’s sample record index" : "Retrieving a traceable answer from the farm service"}</span>
           </div>
         </div>
       )}
