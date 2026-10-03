@@ -31,7 +31,7 @@ for index, (field, crop, base_yield) in enumerate([('A', 'Winter Wheat', 5.4), (
     for kind, title, node_type, event_date, columns, rows, properties in examples:
         filename = f'synthetic-field-{field.lower()}-{kind}.csv'
         stream = io.StringIO(newline='')
-        writer = csv.writer(stream)
+        writer = csv.writer(stream, lineterminator="\n")
         writer.writerow(['data_origin', 'sample_field', *columns])
         writer.writerows([['SYNTHETIC_DEMO_NOT_REAL_FARM_DATA', f'Field {field}', *row] for row in rows])
         (DEST / filename).write_text(stream.getvalue(), encoding='utf-8')

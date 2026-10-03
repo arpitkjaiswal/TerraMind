@@ -1,4 +1,4 @@
-from datetime import date
+import uuid
 from unittest.mock import AsyncMock, patch
 
 import pytest
@@ -17,9 +17,9 @@ def test_legacy_graph_metadata_can_omit_optional_fields():
 @pytest.mark.asyncio
 @pytest.mark.parametrize('graph_unavailable', [False, True])
 async def test_saved_documents_appear_in_graph_even_before_extraction(client, db, farmer_token, test_plot, graph_unavailable):
-    doc = Document(id='test-document', farm_id=test_plot.farm_id, plot_id=test_plot.id, source_type='csv',
+    doc = Document(id=str(uuid.uuid4()), farm_id=test_plot.farm_id, plot_id=test_plot.id, source_type='csv',
                    label='Synthetic sample', storage_uri='s3://test/doc.csv', content_hash='a' * 64,
-                   ingest_status='processing', date_of_event=date(2026, 6, 1))
+                   ingest_status='processing', date_of_event='2026-06-01')
     db.add(doc)
     await db.flush()
     with patch('app.api.routes.plots.temporal_subgraph', new_callable=AsyncMock) as graph:

@@ -13,7 +13,7 @@ merge = module.merge_document_graph
 class DocumentGraphTests(unittest.TestCase):
     def setUp(self):
         self.plot = SimpleNamespace(id='plot', farm_id='farm', name='Field', crop_type='Wheat', size_ha=2)
-        self.document = dict(id='doc', farm_id='farm', plot_id='plot', date_of_event=date(2026, 6, 1),
+        self.document = dict(id='doc', farm_id='farm', plot_id='plot', date_of_event='2026-06-01',
                              uploaded_at=datetime(2026, 6, 2, tzinfo=timezone.utc), label='Report', source_type='csv', ingest_status='processing')
         self.empty = {'nodes': [], 'edges': []}
 
@@ -35,6 +35,11 @@ class DocumentGraphTests(unittest.TestCase):
         self.assertEqual(len(merge(self.plot, [doc], self.empty, date(2026, 6, 2))['nodes']), 1)
         doc.date_of_event = None
         self.assertEqual(len(merge(self.plot, [doc], self.empty, date(2026, 6, 2), date(2026, 6, 2))['nodes']), 2)
+
+    def test_invalid_legacy_date_falls_back_to_saved_date(self):
+        doc = SimpleNamespace(**{**self.document, 'date_of_event': 'not-a-date'})
+        graph = merge(self.plot, [doc], self.empty)
+        self.assertEqual(graph['nodes'][1]['date'], '2026-06-02')
 
     def test_existing_field_reused_and_null_or_dangling_edges_removed(self):
         graph = {'nodes': [{'id': 'real-field', 'type': 'Field', 'label': 'Field', 'properties': {}}],

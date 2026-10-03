@@ -1,4 +1,5 @@
 """Project saved document metadata without inventing extracted agronomic facts."""
+from datetime import date
 
 
 def merge_document_graph(plot, documents, graph, date_from=None, date_to=None):
@@ -16,7 +17,14 @@ def merge_document_graph(plot, documents, graph, date_from=None, date_to=None):
         # Defend the projection boundary as well as the database query.
         if doc.farm_id != plot.farm_id or doc.plot_id != plot.id:
             continue
-        event_date = doc.date_of_event or doc.uploaded_at.date()
+        # The database stores event dates as ISO strings, not Date columns.
+        event_date = doc.uploaded_at.date()
+        if doc.date_of_event:
+            try:
+                event_date = date.fromisoformat(str(doc.date_of_event))
+            except ValueError:
+                # Legacy invalid dates must not make the entire field unreadable.
+                pass
         if (date_from and event_date < date_from) or (date_to and event_date > date_to):
             continue
         node_id = f"record-document:{doc.id}"
