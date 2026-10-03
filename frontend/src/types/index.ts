@@ -1,7 +1,7 @@
 export type ConfidenceLabel = "documented_fact" | "statistical_association" | "unconfirmed_hypothesis";
 
-export type NodeType = "Field" | "ChemicalProduct" | "WeatherEvent" | "CropVariant" | "YieldMeasurement" | "Practice";
-export type EdgeType = "APPLIED_TO" | "OCCURRED_DURING" | "PRECEDED" | "CORRELATED_WITH" | "CONFIRMED_CAUSE";
+export type NodeType = "Field" | "Document" | "ChemicalProduct" | "WeatherEvent" | "CropVariant" | "YieldMeasurement" | "Practice";
+export type EdgeType = "HAS_DOCUMENT" | "DOCUMENTS" | "APPLIED_TO" | "OCCURRED_DURING" | "PRECEDED" | "CORRELATED_WITH" | "CONFIRMED_CAUSE";
 
 export interface Plot {
   id: string;

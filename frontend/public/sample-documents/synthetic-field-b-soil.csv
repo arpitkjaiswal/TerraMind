@@ -1,0 +1,4 @@
+data_origin,sample_field,date,sample_point,ph,organic_matter_pct
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field B,2026-02-12,north,6.3,2.5
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field B,2026-02-12,centre,6.4,2.7
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field B,2026-02-12,south,6.5,2.9

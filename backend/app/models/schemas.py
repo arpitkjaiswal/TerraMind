@@ -214,7 +214,7 @@ class GraphNode(BaseModel):
     id: str
     type: str
     label: str
-    date: Optional[str]
+    date: Optional[str] = None
     properties: Dict[str, Any]
 
 
@@ -222,9 +222,9 @@ class GraphEdge(BaseModel):
     source: str
     target: str
     type: str
-    confirmed: bool
-    date: Optional[str]
-    source_document_id: Optional[str]
+    confirmed: bool = False
+    date: Optional[str] = None
+    source_document_id: Optional[str] = None
 
 
 class GraphResponse(BaseModel):
@@ -232,6 +232,7 @@ class GraphResponse(BaseModel):
     edges: List[GraphEdge]
     plot_id: str
     farm_id: str
+    warnings: List[str] = Field(default_factory=list)
 
 
 # ── Health ────────────────────────────────────────────────────────────────────
@@ -240,4 +241,3 @@ class HealthCheck(BaseModel):
     status: str
     version: str
     services: Dict[str, str]
-

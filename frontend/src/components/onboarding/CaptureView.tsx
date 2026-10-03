@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
+import SampleDocuments from "./SampleDocuments";
 import type { IngestionQueueItem, Document, Plot, TimelineEvent } from "@/types";
 import styles from "./CaptureView.module.css";
 import { Upload, FileText, CheckCircle, XCircle, Clock, AlertTriangle, Camera, FilePlus, X, SwitchCamera } from "lucide-react";
@@ -324,6 +325,8 @@ export default function CaptureView({ plot, queue, documents, onQueueChange, onD
           </>
         )}
       </div>
+
+      <SampleDocuments key={plot.id} plotId={plot.id} />
 
       {/* Review queue */}
       {pending.length > 0 && (
