@@ -121,3 +121,14 @@
 @media (prefers-reduced-motion: reduce) {
   .controlBtn, .node, .node circle, .edge line, .toggleTrack, .toggleTrack span, .edgeRow { transition: none; }
 }
+
+.toolbar { flex-wrap: wrap; }
+.node { cursor: grab; }
+.node:active { cursor: grabbing; }
+.dateFilters { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--graph-border); font-size: 11px; color: #98a8b7; }
+.dateFilters label { display: flex; align-items: center; gap: 7px; }
+.dateFilters input { min-width: 0; padding: 6px; color: #d3ddd7; color-scheme: dark; border: 1px solid var(--graph-border); border-radius: 7px; background: #111b24; }
+.emptyOverlay { position: absolute; inset: 50px 20px 80px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; pointer-events: none; color: #98a8b7; }
+.emptyOverlay h2 { color: #d7e5dc; font-size: 18px; }
+.canvasFooter { flex-wrap: wrap; }
+.edgeContent small { overflow-wrap: anywhere; }

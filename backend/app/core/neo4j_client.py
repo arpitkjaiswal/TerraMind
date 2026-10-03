@@ -121,27 +121,31 @@ async def temporal_subgraph(
     Retrieve all nodes and edges for a plot, optionally filtered by date range.
     Used by the evidence layer to build the reasoning path.
     """
-    where_clauses = ["n.farm_id = $farm_id", "n.plot_id = $plot_id"]
+    where_clauses = ["n.farm_id = $farm_id", "n.plot_id = $plot_id", "n.id IS NOT NULL"]
     if date_from:
-        where_clauses.append("(n.date IS NULL OR n.date >= $date_from)")
+        where_clauses.append("(n.date IS NULL OR toString(n.date) >= $date_from)")
     if date_to:
-        where_clauses.append("(n.date IS NULL OR n.date <= $date_to)")
+        where_clauses.append("(n.date IS NULL OR toString(n.date) <= $date_to)")
     where = " AND ".join(where_clauses)
 
     query = f"""
         MATCH (n)
         WHERE {where}
+        WITH collect(n) AS scoped_nodes
+        UNWIND scoped_nodes AS n
         OPTIONAL MATCH (n)-[r]->(m)
-        WHERE m.farm_id = $farm_id AND m.plot_id = $plot_id
+        WHERE m IN scoped_nodes
+          AND ($date_from IS NULL OR r.date IS NULL OR toString(r.date) >= $date_from)
+          AND ($date_to IS NULL OR r.date IS NULL OR toString(r.date) <= $date_to)
         RETURN
-            collect(DISTINCT {{id: n.id, label: n.label, type: labels(n)[0], date: n.date, properties: properties(n)}}) AS nodes,
-            collect(DISTINCT {{source: startNode(r).id, target: endNode(r).id, type: type(r), confirmed: r.confirmed}}) AS edges
+            collect(DISTINCT {{id: n.id, label: coalesce(n.label, n.id), type: labels(n)[0], date: toString(n.date), properties: properties(n)}}) AS nodes,
+            collect(DISTINCT CASE WHEN r IS NOT NULL THEN {{
+                source: startNode(r).id, target: endNode(r).id, type: type(r),
+                confirmed: coalesce(r.confirmed, false), date: toString(r.date),
+                source_document_id: r.source_document_id
+            }} END) AS edges
     """
-    params = {"farm_id": farm_id, "plot_id": plot_id}
-    if date_from:
-        params["date_from"] = date_from
-    if date_to:
-        params["date_to"] = date_to
+    params = {"farm_id": farm_id, "plot_id": plot_id, "date_from": date_from, "date_to": date_to}
 
     rows = await run_read(query, params)
     if not rows:

@@ -1,0 +1,4 @@
+data_origin,sample_field,date,crop,yield_t_ha
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field C,2024-09-20,Soybean,3.3
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field C,2025-09-20,Soybean,3.5
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field C,2026-09-20,Soybean,3.0

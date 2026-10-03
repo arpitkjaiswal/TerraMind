@@ -1,0 +1,4 @@
+data_origin,sample_field,date,product,recorded_amount,unit
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field C,2026-03-20,Example fertiliser A,95,kg/ha
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field C,2026-04-18,Example compost,2.2,t/ha
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field C,2026-05-15,Example fertiliser B,46,kg/ha

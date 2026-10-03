@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { DashboardStats, Document, Farm, GraphEdge, GraphNode, IngestionQueueItem, Plot, TimelineEvent, User } from "@/types";
 import { backendFetch } from "@/lib/api";
 import Sidebar from "@/components/dashboard/Sidebar";
@@ -15,7 +15,7 @@ interface Props { user: User; onLogout: () => void; }
 interface FarmRecord extends Omit<Farm, "plots"> { plots?: Plot[]; }
 interface ReviewRecord { document_id: string; label: string; source_type: IngestionQueueItem["source_type"]; source_confidence: number; extracted_text: string; uploaded_at: string; }
 interface QueryHistory { query_id: string; query_text: string; }
-interface GraphResponse { nodes: GraphNode[]; edges: Omit<GraphEdge, "id">[]; }
+interface GraphResponse { plot_id: string; nodes: GraphNode[]; edges: Omit<GraphEdge, "id">[]; warnings?: string[]; }
 
 export default function LiveWorkspace({ user, onLogout }: Props) {
   const [farm, setFarm] = useState<Farm | null>(null);
@@ -26,18 +26,23 @@ export default function LiveWorkspace({ user, onLogout }: Props) {
   const [section, setSection] = useState<Section>("dashboard");
   const [pendingQuery, setPendingQuery] = useState<string | undefined>();
   const [queryCount, setQueryCount] = useState(0);
-  const [graphResponse, setGraphResponse] = useState<GraphResponse>({ nodes: [], edges: [] });
+  const [graphResponse, setGraphResponse] = useState<GraphResponse | null>(null);
+  const [graphError, setGraphError] = useState<{ plotId: string; message: string } | null>(null);
+  const [graphRevision, setGraphRevision] = useState(0);
+  const workspaceRequest = useRef(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [plotEditor, setPlotEditor] = useState<Plot | "new" | null>(null);
 
   const refreshWorkspace = useCallback(async () => {
+    const request = ++workspaceRequest.current;
     const [farmRecord, plotRecords, documentRecords, queueRecords] = await Promise.all([
       backendFetch<FarmRecord>("farms/me"),
       backendFetch<Plot[]>("plots/"),
       backendFetch<Document[]>("documents/"),
       backendFetch<ReviewRecord[]>("documents/review-queue"),
     ]);
+    if (request !== workspaceRequest.current) return;
     setFarm({ ...farmRecord, plots: plotRecords });
     setPlots(plotRecords);
     setDocuments(documentRecords);
@@ -62,24 +67,57 @@ export default function LiveWorkspace({ user, onLogout }: Props) {
     return { id: document.id, date: document.date_of_event ?? document.uploaded_at.slice(0, 10), title: document.label, category, description: `Ingestion status: ${document.ingest_status.replaceAll("_", " ")}.`, document_id: document.id, plot_id: document.plot_id, confidence: document.source_confidence };
   }), [plotDocuments]);
 
+  const documentRevision = plotDocuments.map(document => `${document.id}:${document.ingest_status}`).sort().join("|");
+  const hasProcessingDocuments = documents.some(document => ["pending_ocr", "processing"].includes(document.ingest_status));
   useEffect(() => {
-    if (!activePlot || (section !== "graph" && section !== "dashboard")) return;
-    backendFetch<GraphResponse>(`plots/${encodeURIComponent(activePlot.id)}/graph`).then(setGraphResponse).catch(cause => setError(cause instanceof Error ? cause.message : "Could not load the field graph."));
-  }, [activePlot, section]);
+    if (!hasProcessingDocuments) return;
+    let disposed = false;
+    let timer: number;
+    const poll = async () => {
+      try { if (!document.hidden) await refreshWorkspace(); }
+      catch (cause) { if (!disposed) setError(cause instanceof Error ? cause.message : "Document status refresh failed."); }
+      finally { if (!disposed) timer = window.setTimeout(poll, 5000); }
+    };
+    timer = window.setTimeout(poll, 5000);
+    return () => { disposed = true; window.clearTimeout(timer); };
+  }, [hasProcessingDocuments, refreshWorkspace]);
+
   useEffect(() => {
-    if (!activePlot) return;
-    backendFetch<QueryHistory[]>(`query/history?plot_id=${encodeURIComponent(activePlot.id)}&limit=100`).then(rows => setQueryCount(rows.length)).catch(() => setQueryCount(0));
-  }, [activePlot]);
+    if (!activePlotId || (section !== "graph" && section !== "dashboard")) return;
+    const controller = new AbortController();
+    let timer: number;
+    const refresh = async () => {
+      try {
+        const result = await backendFetch<GraphResponse>(`plots/${encodeURIComponent(activePlotId)}/graph`, { signal: controller.signal });
+        if (result.plot_id !== activePlotId) throw new Error("Graph response did not match the selected field.");
+        if (!controller.signal.aborted) { setGraphResponse(result); setGraphError(null); }
+      } catch (cause) {
+        if (!controller.signal.aborted) setGraphError({ plotId: activePlotId, message: cause instanceof Error ? cause.message : "Could not load the field graph." });
+      } finally {
+        if (!controller.signal.aborted) timer = window.setTimeout(() => {
+          if (!document.hidden) void refresh();
+          else timer = window.setTimeout(refresh, 10000);
+        }, 10000);
+      }
+    };
+    void refresh();
+    return () => { controller.abort(); window.clearTimeout(timer); };
+  }, [activePlotId, section, documentRevision, graphRevision]);
+
+  useEffect(() => {
+    if (!activePlotId) return;
+    const controller = new AbortController();
+    backendFetch<QueryHistory[]>(`query/history?plot_id=${encodeURIComponent(activePlotId)}&limit=100`, { signal: controller.signal })
+      .then(rows => { if (!controller.signal.aborted) setQueryCount(rows.length); })
+      .catch(() => { if (!controller.signal.aborted) setQueryCount(0); });
+    return () => controller.abort();
+  }, [activePlotId]);
 
   const graph = useMemo(() => {
-    const nodes = graphResponse.nodes.map((node, index) => {
-      const angle = (index / Math.max(graphResponse.nodes.length, 1)) * Math.PI * 2;
-      const radius = node.type === "Field" ? 0 : 155;
-      return { ...node, x: node.type === "Field" ? 430 : 430 + Math.cos(angle) * radius, y: node.type === "Field" ? 250 : 250 + Math.sin(angle) * radius };
-    });
-    const edges: GraphEdge[] = graphResponse.edges.map((edge, index) => ({ ...edge, id: `live-edge-${index}-${edge.source}-${edge.target}` }));
-    return { nodes, edges };
-  }, [graphResponse]);
+    if (graphResponse?.plot_id !== activePlotId) return { nodes: [], edges: [] };
+    const edges: GraphEdge[] = graphResponse.edges.map((edge, index) => ({ ...edge, id: `${edge.source}:${edge.type}:${edge.target}:${edge.source_document_id ?? ""}:${index}` }));
+    return { nodes: graphResponse.nodes, edges };
+  }, [graphResponse, activePlotId]);
   const stats: DashboardStats = {
     total_documents: plotDocuments.length, total_queries: queryCount,
     avg_confidence: plotDocuments.length ? plotDocuments.reduce((sum, doc) => sum + (doc.source_confidence ?? 0), 0) / plotDocuments.length : 0,
@@ -113,8 +151,16 @@ export default function LiveWorkspace({ user, onLogout }: Props) {
           {section === "dashboard" && <DashboardView stats={stats} plot={activePlot} documents={plotDocuments} onAskQuery={navigateToQuery} />}
           {section === "query" && <QueryView key={`${activePlot.id}:${pendingQuery ?? ""}`} initialQuery={pendingQuery} plotId={activePlot.id} plotName={activePlot.name} userRole={user.role} documents={plotDocuments} suggestedQueries={[`What records are available for ${activePlot.name}?`, `What are the latest field events for ${activePlot.name}?`, `What evidence is recorded for ${activePlot.name}?`]} onQueryComplete={() => setQueryCount(count => count + 1)} />}
           {section === "timeline" && <TimelineView events={timelineEvents} plot={activePlot} />}
-          {section === "graph" && <GraphView key={activePlot.id} nodes={graph.nodes} edges={graph.edges} />}
-          {section === "capture" && <LiveCaptureView plot={activePlot} queue={plotQueue} documents={plotDocuments} onRefresh={refreshWorkspace} />}
+          {section === "graph" && <>
+            <div style={{ padding: "14px 24px", display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+              <span role="status">{graphResponse?.plot_id === activePlotId ? "Graph refreshes every 10 seconds and when document status changes." : "Loading this field’s graph…"}</span>
+              <button className="btn btn-secondary" onClick={() => setGraphRevision(value => value + 1)}>Refresh graph</button>
+              {graphError?.plotId === activePlotId && <p role="alert">{graphError.message}</p>}
+              {graphResponse?.plot_id === activePlotId && graphResponse.warnings?.map(warning => <p role="status" key={warning}>{warning}</p>)}
+            </div>
+            <GraphView key={activePlot.id} nodes={graph.nodes} edges={graph.edges} />
+          </>}
+          {section === "capture" && <LiveCaptureView key={activePlot.id} plot={activePlot} queue={plotQueue} documents={plotDocuments} onRefresh={refreshWorkspace} />}
         </>}
       {plotEditor && <div role="presentation" onClick={() => setPlotEditor(null)} style={{ position: "fixed", inset: 0, zIndex: 120, display: "grid", placeItems: "center", padding: 20, background: "rgba(0,0,0,.7)" }}>
         <section role="dialog" aria-modal="true" aria-labelledby="field-editor-title" onClick={event => event.stopPropagation()} style={{ width: "min(480px, 100%)", background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 16, padding: 24 }}>

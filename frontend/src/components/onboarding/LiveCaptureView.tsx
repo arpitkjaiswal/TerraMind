@@ -4,6 +4,8 @@ import { AlertTriangle, Camera, CheckCircle, Download, FilePlus, FileText, Refre
 import type { Document, IngestionQueueItem, Plot } from "@/types";
 import { backendFetch } from "@/lib/api";
 import styles from "./CaptureView.module.css";
+import SampleDocuments from "./SampleDocuments";
+import type { SampleDocument } from "@/data/sample-documents";
 
 interface Props {
   plot: Plot;
@@ -47,20 +49,54 @@ export default function LiveCaptureView({ plot, queue, documents, onRefresh }: P
     } catch (cause) { tab?.close(); setError(cause instanceof Error ? cause.message : "Could not create the document download."); }
   }
 
-  async function upload(file?: File) {
-    if (!file) return;
-    if (file.size > 20 * 1024 * 1024) { setError("File exceeds the 20 MB upload limit."); return; }
+  async function uploadFiles(files: File[], samples?: SampleDocument[]) {
+    if (!files.length || busy) return;
     setError(null); setMessage(null); setBusy(true);
+    const failures: string[] = [];
+    let saved = 0;
     try {
-      const form = new FormData();
-      form.set("file", file);
-      form.set("plot_id", plot.id);
-      form.set("label", file.name);
-      const response = await backendFetch<{ document_id: string; ingest_status: string; message: string }>("documents/upload", { method: "POST", body: form });
-      setMessage(response.message || `Uploaded ${file.name}.`);
+      for (const [index, file] of files.entries()) {
+        setMessage(`Uploading ${index + 1} of ${files.length}: ${file.name}`);
+        try {
+          if (!file.size) throw new Error("File is empty.");
+          if (file.size > 20 * 1024 * 1024) throw new Error("File exceeds the 20 MB upload limit.");
+          const form = new FormData();
+          form.set("file", file); form.set("plot_id", plot.id);
+          form.set("label", samples?.[index]?.label ?? file.name);
+          if (samples?.[index]?.date) form.set("date_of_event", samples[index].date);
+          const response = await backendFetch<{ ingest_status: string }>("documents/upload", { method: "POST", body: form });
+          if (response.ingest_status === "ingest_failed") throw new Error("Saved, but processing failed. Check the document status.");
+          saved++;
+        } catch (cause) { failures.push(`${file.name}: ${cause instanceof Error ? cause.message : "Upload failed."}`); }
+      }
+      setMessage(`${saved} of ${files.length} documents accepted. Processing status refreshes automatically. Exact duplicates reuse the existing record.`);
       await onRefresh();
-    } catch (cause) { setError(cause instanceof Error ? cause.message : "Upload failed."); }
-    finally { setBusy(false); if (picker.current) picker.current.value = ""; if (cameraPicker.current) cameraPicker.current.value = ""; }
+    } catch (cause) { failures.push(cause instanceof Error ? cause.message : "Could not refresh documents."); }
+    finally {
+      setError(failures.length ? failures.join(" ") : null); setBusy(false);
+      if (picker.current) picker.current.value = ""; if (cameraPicker.current) cameraPicker.current.value = "";
+    }
+  }
+
+  async function importSamples(samples: SampleDocument[]) {
+    if (busy) return;
+    setBusy(true); setError(null); setMessage("Preparing synthetic sample documents…");
+    let files: File[];
+    try {
+      files = await Promise.all(samples.map(async sample => {
+        const response = await fetch(`/sample-documents/${sample.filename}`);
+        if (!response.ok) throw new Error(`Could not load ${sample.filename}.`);
+        return new File([await response.blob()], sample.filename, { type: "text/csv" });
+      }));
+    } catch (cause) { setError(cause instanceof Error ? cause.message : "Could not load sample pack."); setBusy(false); return; }
+    // uploadFiles owns the upload state and reports individual failures.
+    setBusy(false);
+    await uploadFiles(files, samples);
+  }
+
+  async function refresh() {
+    setError(null);
+    try { await onRefresh(); } catch (cause) { setError(cause instanceof Error ? cause.message : "Refresh failed."); }
   }
 
   async function decide(item: IngestionQueueItem, action: "approve" | "reject") {
@@ -74,8 +110,8 @@ export default function LiveCaptureView({ plot, queue, documents, onRefresh }: P
   }
 
   return <div className={styles.container}>
-    <input ref={picker} type="file" accept=".pdf,.csv,.jpg,.jpeg,.png,.tiff,.webp" hidden onChange={event => void upload(event.target.files?.[0])} />
-    <input ref={cameraPicker} type="file" accept="image/*" capture="environment" hidden onChange={event => void upload(event.target.files?.[0])} />
+    <input ref={picker} type="file" multiple accept=".pdf,.csv,.jpg,.jpeg,.png,.tif,.tiff,.webp" hidden onChange={event => void uploadFiles(Array.from(event.target.files ?? []))} />
+    <input ref={cameraPicker} type="file" accept="image/*" capture="environment" hidden onChange={event => void uploadFiles(Array.from(event.target.files ?? []))} />
     <header className={styles.header}><div><h1 className={styles.title}>Ingest &amp; Review</h1><p className={styles.subtitle}>Uploads are stored and processed by your farm&apos;s configured backend.</p></div></header>
     <div className={styles.dropZone} aria-busy={busy}>
       <div className={styles.dropIcon}><Upload size={28} color="var(--text-muted)" /></div>
@@ -85,6 +121,7 @@ export default function LiveCaptureView({ plot, queue, documents, onRefresh }: P
         <button className="btn btn-secondary" onClick={() => cameraPicker.current?.click()} disabled={busy}><Camera size={14} />Take photo</button>
       </div>
     </div>
+    <SampleDocuments busy={busy} onImport={importSamples} />
     {message && <p role="status">{message}</p>}{error && <p role="alert">{error}</p>}
     <section className={styles.section}>
       <div className={styles.sectionHeader}><AlertTriangle size={15} color="var(--amber-400)" /><h2 className={styles.sectionTitle}>Awaiting Review ({pending.length})</h2></div>
@@ -95,7 +132,7 @@ export default function LiveCaptureView({ plot, queue, documents, onRefresh }: P
       </article>)}</div>}
     </section>
     <section className={styles.section}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}><h2 className={styles.sectionTitle}>Documents ({filteredDocuments.length}{filteredDocuments.length !== documents.length ? ` of ${documents.length}` : ""})</h2><div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}><button className="btn btn-secondary" onClick={() => void onRefresh()} disabled={busy}><RefreshCw size={14} />Refresh</button><button className="btn btn-secondary" onClick={exportDocuments} disabled={!filteredDocuments.length}><Download size={14} />Export CSV</button></div></div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}><h2 className={styles.sectionTitle}>Documents ({filteredDocuments.length}{filteredDocuments.length !== documents.length ? ` of ${documents.length}` : ""})</h2><div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}><button className="btn btn-secondary" onClick={() => void refresh()} disabled={busy}><RefreshCw size={14} />Refresh</button><button className="btn btn-secondary" onClick={exportDocuments} disabled={!filteredDocuments.length}><Download size={14} />Export CSV</button></div></div>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}><label style={{ position: "relative", flex: "1 1 220px" }}><Search size={14} style={{ position: "absolute", top: 12, left: 11, color: "var(--text-muted)" }} /><input aria-label="Search documents" value={search} onChange={event => setSearch(event.target.value)} placeholder="Search records…" style={{ width: "100%", padding: "9px 12px 9px 32px", borderRadius: 8, background: "var(--bg-card)", border: "1px solid var(--border)", color: "var(--text-primary)" }} /></label><select aria-label="Filter document status" value={statusFilter} onChange={event => setStatusFilter(event.target.value)} style={{ padding: "9px 12px", borderRadius: 8, background: "var(--bg-card)", border: "1px solid var(--border)", color: "var(--text-primary)" }}><option value="all">All statuses</option><option value="review">Needs review</option><option value="processing">Processing</option><option value="ready">Ready</option><option value="failed">Failed</option></select></div>
       {filteredDocuments.length ? <div className={styles.docGrid}>{filteredDocuments.map(document => <article key={document.id} className={styles.docCard}>
         <div className={styles.docCardTop}><span className={`${styles.docType} ${document.source_type === "photo" ? styles.docTypePhoto : document.source_type === "csv" ? styles.docTypeCsv : styles.docTypePdf}`}>{document.source_type.toUpperCase()}</span><span className={styles.statusTag}>{document.ingest_status.replaceAll("_", " ")}</span></div>

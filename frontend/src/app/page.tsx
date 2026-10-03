@@ -12,13 +12,15 @@ import {
   mockFarm, mockDocuments, mockStats, mockTimeline,
   mockQueue, mockGraphNodes, mockGraphEdges, suggestedQueries
 } from "@/data/mock";
-import type { DashboardStats, Document, GraphEdge, GraphNode, IngestionQueueItem, Plot, TimelineEvent, User } from "@/types";
+import type { DashboardStats, Document, IngestionQueueItem, Plot, TimelineEvent, User } from "@/types";
 import styles from "./page.module.css";
+import { sampleDemoDocuments, sampleDocuments } from "@/data/sample-documents";
+import { buildDemoGraph } from "@/lib/demo-graph";
 
 type Section = "dashboard" | "query" | "timeline" | "graph" | "capture";
 type DemoData = { documents: Document[]; timeline: TimelineEvent[]; queue: IngestionQueueItem[]; totalQueries: number };
 const STORAGE_KEY = "aegis-demo-data-v1";
-const defaultData: DemoData = { documents: mockDocuments, timeline: mockTimeline, queue: mockQueue, totalQueries: mockStats.total_queries };
+const defaultData: DemoData = { documents: [...mockDocuments, ...sampleDemoDocuments], timeline: mockTimeline, queue: mockQueue, totalQueries: mockStats.total_queries };
 
 function readDemoData(): DemoData {
   try {
@@ -26,7 +28,7 @@ function readDemoData(): DemoData {
     if (!raw) return defaultData;
     const data = JSON.parse(raw) as Partial<DemoData>;
     return {
-      documents: Array.isArray(data.documents) ? data.documents : mockDocuments,
+      documents: Array.isArray(data.documents) ? [...data.documents, ...sampleDemoDocuments.filter(sample => !data.documents!.some(document => document.id === sample.id))] : defaultData.documents,
       timeline: Array.isArray(data.timeline) ? data.timeline : mockTimeline,
       queue: Array.isArray(data.queue) ? data.queue : mockQueue,
       totalQueries: typeof data.totalQueries === "number" ? data.totalQueries : mockStats.total_queries,
@@ -46,7 +48,7 @@ function DemoWorkspace({ onExitDemo }: { onExitDemo: () => void }) {
     return () => window.clearTimeout(timer);
   }, []);
   useEffect(() => {
-    if (hydrated) localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    if (hydrated) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch { /* Browser storage can be disabled or full; keep the working session. */ } }
   }, [data, hydrated]);
 
   function navigateToQuery(q: string) { setPendingQuery(q); setSection("query"); }
@@ -68,45 +70,18 @@ function DemoWorkspace({ onExitDemo }: { onExitDemo: () => void }) {
     const document = data.documents.find(doc => doc.id === item.document_id);
     return !document || document.plot_id === activePlot.id;
   }), [data.queue, data.documents, activePlot.id]);
+  const graph = useMemo(() => buildDemoGraph(activePlot, plotDocs, sampleDocuments,
+    activePlot.id === "plot-B" ? { nodes: mockGraphNodes, edges: mockGraphEdges } : undefined), [activePlot, plotDocs]);
   const stats: DashboardStats = {
     ...mockStats,
     total_documents: plotDocs.length,
     total_queries: data.totalQueries,
     pending_review: plotQueue.filter(item => item.status === "pending").length,
     avg_confidence: plotDocs.length ? plotDocs.reduce((sum, doc) => sum + (doc.source_confidence ?? 0), 0) / plotDocs.length : 0,
-    graph_nodes: activePlot.id === "plot-B" ? mockGraphNodes.length : plotDocs.length + 1,
-    graph_edges: activePlot.id === "plot-B" ? mockGraphEdges.length : plotDocs.length,
+    graph_nodes: graph.nodes.length,
+    graph_edges: graph.edges.length,
   };
-  const graph = useMemo(() => {
-    if (activePlot.id === "plot-B") {
-      const represented = new Set(mockGraphEdges.map(edge => edge.source_document_id).filter(Boolean));
-      const additionalDocuments = plotDocs.filter(document => !represented.has(document.id));
-      const extraNodes: GraphNode[] = additionalDocuments.map((document, index) => ({
-        id: `document-${document.id}`, type: "Practice", label: document.label,
-        date: document.date_of_event ?? document.uploaded_at.slice(0, 10), properties: { source: document.source_type, status: document.ingest_status },
-        x: 200 + (index % 2) * 400, y: 110 + Math.floor(index / 2) * 110,
-      }));
-      const extraEdges: GraphEdge[] = additionalDocuments.map(document => ({
-        id: `edge-${document.id}`, source: `document-${document.id}`, target: "n-field-B", type: "APPLIED_TO",
-        date: document.date_of_event, source_document_id: document.id, confirmed: document.ingest_status === "ready",
-      }));
-      return { nodes: [...mockGraphNodes, ...extraNodes], edges: [...mockGraphEdges, ...extraEdges] };
-    }
-    const fieldNode: GraphNode = {
-      id: `field-${activePlot.id}`, type: "Field", label: activePlot.name.split(" — ")[0],
-      properties: { crop_type: activePlot.crop_type, size_ha: activePlot.size_ha },
-    };
-    const nodes: GraphNode[] = [fieldNode, ...plotDocs.map((doc, index) => ({
-      id: `document-${doc.id}`, type: "Practice" as const, label: doc.label,
-      date: doc.date_of_event ?? doc.uploaded_at.slice(0, 10), properties: { source: doc.source_type, status: doc.ingest_status },
-      x: 220 + (index % 2) * 360, y: 150 + index * 100,
-    }))];
-    const edges: GraphEdge[] = plotDocs.map(doc => ({
-      id: `edge-${doc.id}`, source: `document-${doc.id}`, target: fieldNode.id,
-      type: "APPLIED_TO", date: doc.date_of_event, source_document_id: doc.id, confirmed: doc.ingest_status === "ready",
-    }));
-    return { nodes, edges };
-  }, [activePlot, plotDocs]);
+
 
   return (
     <div className={styles.layout}>
@@ -114,7 +89,7 @@ function DemoWorkspace({ onExitDemo }: { onExitDemo: () => void }) {
         onPlotChange={p => { setActivePlot(p); setSection("dashboard"); }}
         activeSection={section} onSectionChange={handleSectionChange}
         pendingCount={plotQueue.filter(item => item.status === "pending").length}
-        onResetDemo={() => { setData(defaultData); localStorage.removeItem(STORAGE_KEY); }} />
+        onResetDemo={() => { setData(defaultData); try { localStorage.removeItem(STORAGE_KEY); } catch { /* Storage is optional in demo mode. */ } }} />
       <main className={styles.main}>
         <p role="status" style={{ padding: "10px 24px", margin: 0, background: "#173322", color: "#d1fae5", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
           <span>Local demo preview: sample records and browser-only changes. No files leave this device.</span>
@@ -156,7 +131,7 @@ export default function Home() {
 
   if (demoPreview && !user) return <DemoWorkspace onExitDemo={() => setDemoPreview(false)} />;
   if (checkingSession) return <main style={{ minHeight: "100vh", display: "grid", placeItems: "center", background: "var(--bg-deep)", color: "var(--text-primary)" }}>Checking your session…</main>;
-  if (sessionError) return <main style={{ padding: 40 }}><p role="alert">Sign-in is temporarily unavailable. Your session has been preserved.</p><button className="btn btn-primary" onClick={() => window.location.reload()}>Retry</button></main>;
+  if (sessionError) return <main style={{ padding: 40 }}><p role="alert">Sign-in is temporarily unavailable. Your session has been preserved.</p><button className="btn btn-primary" onClick={() => window.location.reload()}>Retry</button><button className="btn btn-secondary" onClick={() => setDemoPreview(true)}>Explore local demo</button></main>;
   if (!user) return <AuthScreen onAuthenticated={setUser} onPreviewDemo={() => setDemoPreview(true)} />;
   return <LiveWorkspace user={user} onLogout={async () => { const response = await fetch("/api/auth/session", { method: "DELETE" }); if (!response.ok) { window.alert("Sign-out failed. Please try again."); return; } setUser(null); setDemoPreview(false); }} />;
 }

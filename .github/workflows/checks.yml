@@ -21,9 +21,14 @@ jobs:
       - run: npm ci
       - run: npm audit --omit=dev --json
       - run: npm run lint
+      - run: npm test
       - run: npx tsc --noEmit
       - run: npm run build
       - run: node tests/auth-smoke.mjs
+      - name: Install browser test runner
+        run: npm install --no-save --package-lock=false playwright@1.62.1
+      - run: npx playwright install --with-deps chromium
+      - run: node tests/graph-browser.mjs
   python-checks:
     runs-on: ubuntu-latest
     steps:
