@@ -13,8 +13,7 @@ import structlog
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from slowapi import Limiter
-from slowapi.util import get_remote_address
+from app.core.rate_limit import limiter
 
 from app.core.auth import get_current_token_data, TokenData
 from app.core.config import settings
@@ -30,7 +29,6 @@ from app.services.query import execute_query
 
 log = structlog.get_logger(__name__)
 router = APIRouter()
-limiter = Limiter(key_func=get_remote_address)
 
 
 @router.post("/", response_model=QueryResponse)
@@ -47,7 +45,8 @@ async def run_query(
     Request body:
       - query_text: plain-language question (5–2000 chars)
       - plot_id: which field to query
-      - date_from / date_to: optional temporal filter
+      - date_from / date_to: reserved; requests currently return 501 because the
+        configured Cognee adapter cannot enforce event-date constraints
       - include_hypotheses: show weakly-supported connections (default false)
 
     Response:
@@ -130,6 +129,7 @@ async def get_query(
         EvidenceEdgeRead(
             id=e.id,
             graph_node_id=e.graph_node_id,
+            target_graph_node_id=e.target_graph_node_id,
             node_label=e.node_label,
             node_type=e.node_type,
             relationship_type=e.relationship_type,

@@ -1,5 +1,5 @@
 """
-Celery tasks — async workers for the ingestion and memify pipelines.
+Celery tasks — async workers for ingestion and correction enrichment.
 
 These run in a separate process pool from the FastAPI app.
 Each task has structured logging, retry with exponential backoff,
@@ -17,15 +17,16 @@ from app.workers.celery_app import celery_app
 from app.core.redis_client import set_ingest_status
 
 log = structlog.get_logger(__name__)
+_worker_loop: asyncio.AbstractEventLoop | None = None
 
 
 def _run_async(coro):
-    """Run an async coroutine from a sync Celery task."""
-    loop = asyncio.new_event_loop()
-    try:
-        return loop.run_until_complete(coro)
-    finally:
-        loop.close()
+    """Use one event loop per Celery process so async connection pools stay valid."""
+    global _worker_loop
+    if _worker_loop is None or _worker_loop.is_closed():
+        _worker_loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(_worker_loop)
+    return _worker_loop.run_until_complete(coro)
 
 
 @celery_app.task(
@@ -66,7 +67,11 @@ def cognify_document(self, document_id: str, farm_id: str, plot_id: str, text: s
 
         # Mark ready in DB
         async with AsyncSessionLocal() as db:
-            result = await db.execute(select(Document).where(Document.id == document_id))
+            result = await db.execute(select(Document).where(
+                Document.id == document_id,
+                Document.farm_id == farm_id,
+                Document.plot_id == plot_id,
+            ))
             doc = result.scalar_one_or_none()
             if doc:
                 doc.ingest_status = "ready"
@@ -74,99 +79,78 @@ def cognify_document(self, document_id: str, farm_id: str, plot_id: str, text: s
                 await db.commit()
 
         await set_ingest_status(document_id, "ready")
+        from app.core.redis_client import invalidate_query_cache
+        await invalidate_query_cache(farm_id)
         log.info("task.cognify_done", document_id=document_id)
 
     try:
         _run_async(_inner())
     except Exception as exc:
         log.error("task.cognify_failed", document_id=document_id, error=str(exc), exc_info=True)
-        _run_async(set_ingest_status(document_id, "ingest_failed", str(exc)))
-
-        # Mark DB row failed on final retry
-        if self.request.retries >= self.max_retries - 1:
+        if self.request.retries >= self.max_retries:
             err_msg = str(exc)
             async def _mark_failed():
                 from app.core.database import AsyncSessionLocal
                 from app.models.db import Document
                 from sqlalchemy import select
                 async with AsyncSessionLocal() as db:
-                    result = await db.execute(select(Document).where(Document.id == document_id))
+                    result = await db.execute(select(Document).where(
+                        Document.id == document_id,
+                        Document.farm_id == farm_id,
+                        Document.plot_id == plot_id,
+                    ))
                     doc = result.scalar_one_or_none()
                     if doc:
                         doc.ingest_status = "ingest_failed"
-                        doc.ingest_error = f"Cognify failed after {self.max_retries} retries: {err_msg}"
+                        doc.ingest_error = f"Processing failed after retries: {err_msg[:1000]}"
                         await db.commit()
             _run_async(_mark_failed())
+            _run_async(set_ingest_status(document_id, "ingest_failed", "Processing failed after retries."))
+        else:
+            _run_async(set_ingest_status(document_id, "processing", "Processing will retry."))
         raise
 
 
 @celery_app.task(
     bind=True,
-    name="app.workers.tasks.run_memify_batch",
-    max_retries=3,
-    default_retry_delay=60,
+    name="app.workers.tasks.memify_correction",
+    max_retries=5,
+    default_retry_delay=30,
+    autoretry_for=(Exception,),
+    retry_backoff=True,
+    retry_backoff_max=120,
+    retry_jitter=True,
 )
-def run_memify_batch(self, farm_id: str | None = None):
-    """
-    Nightly batch: re-processes all farms that have pending corrections
-    so the knowledge graph improves over time.
-    Also runs on-demand after any human correction via the corrections API.
-    If farm_id is provided, only that farm is re-processed.
-    """
-    log.info("task.memify_batch_start", farm_id=farm_id)
-
+def memify_correction(self, correction_id: str, farm_id: str, plot_id: str):
+    """Apply one farm and plot scoped correction through Cognee's memify API."""
     async def _inner():
-        from app.core.database import AsyncSessionLocal
+        from sqlalchemy import select
         from app.core.cognee_client import run_memify
-        from app.core.redis_client import invalidate_query_cache
+        from app.core.database import AsyncSessionLocal
         from app.models.db import Correction, EvidenceEdge, QueryLog
-        from sqlalchemy import select, distinct
 
         async with AsyncSessionLocal() as db:
-            # Find all (farm_id, plot_id) pairs that have unprocessed corrections
-            q = (
-                select(
-                    distinct(QueryLog.farm_id),
-                    QueryLog.plot_id,
+            result = await db.execute(
+                select(Correction, EvidenceEdge)
+                .join(EvidenceEdge, EvidenceEdge.id == Correction.evidence_edge_id)
+                .join(QueryLog, QueryLog.id == EvidenceEdge.query_id)
+                .where(
+                    Correction.id == correction_id,
+                    QueryLog.farm_id == farm_id,
+                    QueryLog.plot_id == plot_id,
                 )
-                .join(EvidenceEdge, EvidenceEdge.query_id == QueryLog.id)
-                .join(Correction, Correction.evidence_edge_id == EvidenceEdge.id)
-                .where(Correction.memify_queued.is_(False))
             )
-            if farm_id:
-                q = q.where(QueryLog.farm_id == farm_id)
-            result = await db.execute(q)
-            pairs = result.all()
+            row = result.one_or_none()
+            if row is None:
+                raise ValueError("Correction not found in the requested farm and plot")
+            correction, edge = row
+            note = correction.correction_note
+            node_id = edge.graph_node_id
 
-        for batch_farm_id, plot_id in pairs:
-            try:
-                await run_memify(farm_id=batch_farm_id, plot_id=plot_id)
-                await invalidate_query_cache(batch_farm_id)
+        await run_memify(farm_id, plot_id, note, node_id)
+        from app.core.redis_client import invalidate_query_cache
+        await invalidate_query_cache(farm_id)
 
-                # Mark corrections as queued
-                async with AsyncSessionLocal() as db:
-                    from sqlalchemy import update
-                    await db.execute(
-                        update(Correction)
-                        .where(
-                            Correction.memify_queued.is_(False),
-                            Correction.evidence_edge_id.in_(
-                                select(EvidenceEdge.id)
-                                .join(QueryLog, EvidenceEdge.query_id == QueryLog.id)
-                                .where(QueryLog.farm_id == batch_farm_id, QueryLog.plot_id == plot_id)
-                            ),
-                        )
-                        .values(memify_queued=True)
-                    )
-                    await db.commit()
-
-                log.info("task.memify_done", farm_id=batch_farm_id, plot_id=plot_id)
-            except Exception as exc:
-                log.error("task.memify_farm_failed", farm_id=batch_farm_id, error=str(exc))
-
-    try:
-        _run_async(_inner())
-    except Exception as exc:
-        log.error("task.memify_batch_failed", error=str(exc), exc_info=True)
-        raise self.retry(exc=exc)
-
+    log.info("task.memify_correction_start", correction_id=correction_id, task_id=self.request.id)
+    _run_async(_inner())
+    log.info("task.memify_correction_done", correction_id=correction_id)

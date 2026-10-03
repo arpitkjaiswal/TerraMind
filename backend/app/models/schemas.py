@@ -6,7 +6,7 @@ Strict on input (extra="forbid") so bad fields are rejected at the API boundary.
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 from typing import Any, Dict, List, Literal, Optional
 
 from pydantic import BaseModel, EmailStr, Field, model_validator
@@ -58,14 +58,14 @@ class FarmRead(_ReadBase):
 class PlotCreate(_StrictBase):
     name: str = Field(min_length=1, max_length=255)
     crop_type: str = Field(min_length=1, max_length=255)
-    size_ha: float = Field(gt=0)
+    size_ha: float = Field(gt=0, allow_inf_nan=False)
     geo_boundary: Optional[str] = None  # GeoJSON string
 
 
 class PlotUpdate(_StrictBase):
     name: Optional[str] = Field(default=None, min_length=1, max_length=255)
-    crop_type: Optional[str] = Field(default=None, min_length=1)
-    size_ha: Optional[float] = Field(default=None, gt=0)
+    crop_type: Optional[str] = Field(default=None, min_length=1, max_length=255)
+    size_ha: Optional[float] = Field(default=None, gt=0, allow_inf_nan=False)
     geo_boundary: Optional[str] = None
 
 
@@ -138,6 +138,7 @@ class ReviewDecision(_StrictBase):
 class EvidenceEdgeRead(BaseModel):
     id: str
     graph_node_id: str
+    target_graph_node_id: Optional[str] = None
     node_label: str
     node_type: str
     relationship_type: str
@@ -157,6 +158,9 @@ class QueryRequest(_StrictBase):
 
     @model_validator(mode="after")
     def validate_dates(self) -> "QueryRequest":
+        for value in (self.date_from, self.date_to):
+            if value is not None:
+                date.fromisoformat(value)
         if self.date_from and self.date_to and self.date_from > self.date_to:
             raise ValueError("date_from must be before date_to")
         return self
@@ -210,7 +214,7 @@ class GraphNode(BaseModel):
     id: str
     type: str
     label: str
-    date: Optional[str]
+    date: Optional[str] = None
     properties: Dict[str, Any]
 
 
@@ -218,9 +222,9 @@ class GraphEdge(BaseModel):
     source: str
     target: str
     type: str
-    confirmed: bool
-    date: Optional[str]
-    source_document_id: Optional[str]
+    confirmed: bool = False
+    date: Optional[str] = None
+    source_document_id: Optional[str] = None
 
 
 class GraphResponse(BaseModel):
@@ -228,6 +232,7 @@ class GraphResponse(BaseModel):
     edges: List[GraphEdge]
     plot_id: str
     farm_id: str
+    warnings: List[str] = Field(default_factory=list)
 
 
 # ── Health ────────────────────────────────────────────────────────────────────
@@ -236,4 +241,3 @@ class HealthCheck(BaseModel):
     status: str
     version: str
     services: Dict[str, str]
-

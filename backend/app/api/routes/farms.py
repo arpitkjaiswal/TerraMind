@@ -11,6 +11,7 @@ import structlog
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 
 from app.core.auth import get_current_token_data, TokenData, require_role
 from app.core.database import get_db
@@ -75,6 +76,11 @@ async def add_farm_user(
         role=body.role,
     )
     db.add(user)
-    await db.flush()
+    try:
+        await db.flush()
+    except IntegrityError as exc:
+        await db.rollback()
+        raise HTTPException(status_code=409, detail="Email already registered") from exc
     log.info("farm.user_added", farm_id=td.farm_id, new_user_id=user.id, role=user.role)
     return user
+

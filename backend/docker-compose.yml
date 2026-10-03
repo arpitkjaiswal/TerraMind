@@ -116,32 +116,6 @@ services:
         condition: service_healthy
     command: celery -A app.workers.celery_app.celery_app worker --loglevel=info --queues=cognify --concurrency=2
 
-  worker-memify:
-    build:
-      context: .
-      target: runtime
-    restart: unless-stopped
-    env_file:
-      - .env
-    environment: *app-environment
-    depends_on:
-      api:
-        condition: service_healthy
-    command: celery -A app.workers.celery_app.celery_app worker --loglevel=info --queues=memify --concurrency=1
-
-  celery-beat:
-    build:
-      context: .
-      target: runtime
-    restart: unless-stopped
-    env_file:
-      - .env
-    environment: *app-environment
-    depends_on:
-      redis:
-        condition: service_healthy
-    command: celery -A app.workers.celery_app.celery_app beat --loglevel=info --scheduler celery.beat:PersistentScheduler
-
   # ── Observability (optional, comment out if not needed locally) ───────────
 
   prometheus:
@@ -162,4 +136,3 @@ volumes:
   neo4j_logs:
   qdrant_data:
   redis_data:
-

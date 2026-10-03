@@ -1,0 +1,6 @@
+data_origin,sample_field,date,applied_water_mm,method
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field A,2026-04-20,20,Example drip irrigation
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field A,2026-05-20,20,Example drip irrigation
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field A,2026-06-20,20,Example drip irrigation
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field A,2026-07-20,20,Example drip irrigation
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field A,2026-08-20,20,Example drip irrigation

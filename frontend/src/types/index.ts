@@ -1,7 +1,7 @@
 export type ConfidenceLabel = "documented_fact" | "statistical_association" | "unconfirmed_hypothesis";
 
-export type NodeType = "Field" | "ChemicalProduct" | "WeatherEvent" | "CropVariant" | "YieldMeasurement" | "Practice";
-export type EdgeType = "APPLIED_TO" | "OCCURRED_DURING" | "PRECEDED" | "CORRELATED_WITH" | "CONFIRMED_CAUSE";
+export type NodeType = "Field" | "Document" | "ChemicalProduct" | "WeatherEvent" | "CropVariant" | "YieldMeasurement" | "Practice";
+export type EdgeType = "HAS_DOCUMENT" | "DOCUMENTS" | "APPLIED_TO" | "OCCURRED_DURING" | "PRECEDED" | "CORRELATED_WITH" | "CONFIRMED_CAUSE";
 
 export interface Plot {
   id: string;
@@ -21,13 +21,22 @@ export interface Farm {
   created_at: string;
 }
 
+export interface User {
+  id: string;
+  farm_id: string;
+  email: string;
+  role: string;
+  is_active: boolean;
+  created_at: string;
+}
+
 export interface Document {
   id: string;
   plot_id: string;
   source_type: "pdf" | "photo" | "csv";
   label: string;
   storage_uri: string;
-  ingest_status: "processing" | "ready" | "review_needed" | "ingest_failed";
+  ingest_status: "pending_ocr" | "pending_review" | "processing" | "ready" | "review_needed" | "ingest_failed";
   source_confidence?: number;
   uploaded_at: string;
   date_of_event?: string;

@@ -105,6 +105,19 @@ class TestQueryRoutes:
             "documented_fact", "statistical_association", "unconfirmed_hypothesis"
         )
 
+    async def test_query_date_filter_is_not_silently_ignored(self, client, farmer_token, test_plot):
+        resp = await client.post(
+            "/api/v1/query/",
+            json={
+                "query_text": "Why did yield drop during the summer?",
+                "plot_id": test_plot.id,
+                "date_from": "2025-06-01",
+            },
+            headers={"Authorization": f"Bearer {farmer_token}"},
+        )
+        assert resp.status_code == 501
+        assert "Date filtered graph search is not available" in resp.json()["detail"]
+
     async def test_query_history_empty(self, client, farmer_token):
         resp = await client.get(
             "/api/v1/query/history",
@@ -124,12 +137,22 @@ class TestDocumentRoutes:
         assert resp.status_code == 200
         assert resp.json() == []
 
-    async def test_review_queue_requires_agronomist(self, client, farmer_token):
+    async def test_upload_rejects_unsupported_file_types(self, client, farmer_token, test_plot):
+        resp = await client.post(
+            "/api/v1/documents/upload",
+            headers={"Authorization": f"Bearer {farmer_token}"},
+            data={"plot_id": test_plot.id, "label": "Executable"},
+            files={"file": ("payload.exe", b"MZ", "application/octet-stream")},
+        )
+        assert resp.status_code == 415
+
+    async def test_review_queue_accessible_to_authenticated_farmer(self, client, farmer_token):
         resp = await client.get(
             "/api/v1/documents/review-queue",
             headers={"Authorization": f"Bearer {farmer_token}"},
         )
-        assert resp.status_code == 403
+        assert resp.status_code == 200
+        assert isinstance(resp.json(), list)
 
     async def test_review_queue_accessible_to_agronomist(self, client, agronomist_token):
         resp = await client.get(
@@ -145,3 +168,10 @@ class TestHealthRoutes:
         resp = await client.get("/ready")
         assert resp.status_code == 200
         assert resp.json()["ready"] is True
+
+    async def test_readiness_fails_when_qdrant_is_unavailable(self, client, mock_qdrant):
+        mock_qdrant.get_collections.side_effect = RuntimeError("private connection details")
+        resp = await client.get("/ready")
+        assert resp.status_code == 503
+        assert resp.json()["detail"]["services"]["qdrant"] == "unavailable"
+        assert "private connection details" not in resp.text

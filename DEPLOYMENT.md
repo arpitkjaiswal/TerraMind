@@ -3,21 +3,27 @@
 ## Frontend
 
 The existing Vercel project uses `frontend` as its root. Use the Next.js preset,
-`npm ci`, and `npm run build`. No secrets are needed for the sample dashboard.
-The UI identifies its data as a local demo. Uploads, review decisions, and query
-counts are saved in browser storage; uploaded files are not sent to a server.
-Demo queries summarize visible record titles and dates, and do not read file
-contents or infer causes. The graph and timeline are scoped to the selected field.
-Use **Settings → Reset demo data** to restore the original sample set.
+`npm ci`, and `npm run build`. Set the server-only `BACKEND_URL` environment
+variable to the HTTPS origin of the deployed FastAPI service. The Next.js server
+proxies authenticated API calls and stores access/refresh tokens in HttpOnly,
+Secure production cookies. Do not expose backend URLs containing credentials,
+API keys, or bearer tokens through `NEXT_PUBLIC_*` variables.
 
-To connect a backend, set the server-side `BACKEND_URL` to its HTTPS origin in
-Vercel and rebuild. `/api/v1/*` requests are proxied to that origin. Do not put
-API keys or shared bearer tokens in public environment variables.
+The site provides email/password account registration and sign-in. New accounts
+create a farm and can create their first field after sign-in. The authenticated
+workspace reads farm, field, document, graph, review, and query data from the API.
+The sample preview remains available separately and uses browser-only changes.
+Demo uploads, review decisions, and query counts persist in browser storage when
+available. Queries in this preview summarize only record titles and dates; they do
+not read file contents or establish causes. Graphs and timelines follow the selected
+field. **Settings → Reset demo data** restores the original records and the 18
+labeled synthetic CSV samples. The sample library provides downloadable originals;
+its signed-in Import action uses the configured backend for real ingestion.
 
-The dashboard currently uses mock farms/plots and has no sign-in flow. A backend
-URL alone does not turn this into a production farm management application:
-real account sign-in, authenticated API calls, farm data loading, and document
-processing still need integration. Demo query output is not a live AI answer.
+Authentication will not work until `BACKEND_URL` points to a reachable API with
+the production database configured. Uploaded documents, review decisions, and
+live agronomy queries also need the storage, OCR, worker, graph, vector, cache,
+and language-model services described below.
 
 ## Backend
 
@@ -38,11 +44,11 @@ and LLM/OCR provider credentials. List-valued environment settings must be JSON
 arrays. Configure `ALLOWED_HOSTS` and `CORS_ORIGINS` for the deployment domains.
 Run `alembic upgrade head` before starting the API and workers.
 
-Correction reprocessing is not implemented in the existing Cognee adapter. It
-now fails explicitly and leaves corrections pending rather than claiming they
-were processed. Cognee configuration/search compatibility, temporal filtering,
-worker transaction ordering, and end-to-end OCR/storage/provider behavior still
-require integration validation before production backend deployment.
+Corrections are queued on the Celery worker and processed against only the
+correction's plot dataset. A failed queue attempt remains retryable with the manual
+trigger. Date-filtered queries return HTTP 501 until the graph adapter can enforce
+event-date constraints. Graph confirmations require both endpoint nodes and farm/plot
+scope validation. Readiness checks Postgres, Neo4j, Redis, and Qdrant.
 
 ## Validation
 
@@ -64,5 +70,5 @@ result matches the dependencies that Vercel will install.
 
 Vercel deploys pull request previews and deploys production from `main`. Review
 the preview and confirm the GitHub checks are green before merging. The backend
-still needs managed services, provider credentials, account sign-in, and real
-farm data integration before it can serve as a production farm management API.
+still needs managed services, provider credentials, and integration checks against
+those real services before it can serve as a production farm management API.

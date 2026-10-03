@@ -9,20 +9,21 @@ interface Props {
   plot: Plot;
   documents: Document[];
   onAskQuery: (q: string) => void;
+  demoMode?: boolean;
 }
 
 
 
-export default function DashboardView({ stats, plot, documents, onAskQuery }: Props) {
+export default function DashboardView({ stats, plot, documents, onAskQuery, demoMode = false }: Props) {
   const statCards = [
-    { label: "Sample Documents", value: stats.total_documents, icon: FileText, color: "var(--sky-400)", trend: "This field" },
-    { label: "Demo Queries", value: stats.total_queries, icon: Search, color: "var(--green-400)", trend: "Browser count" },
+    { label: demoMode ? "Sample Documents" : "Documents", value: stats.total_documents, icon: FileText, color: "var(--sky-400)", trend: "This field" },
+    { label: demoMode ? "Demo Queries" : "Queries Run", value: stats.total_queries, icon: Search, color: "var(--green-400)", trend: demoMode ? "Browser count" : "This field" },
     { label: "Graph Nodes", value: stats.graph_nodes, icon: Network, color: "var(--amber-400)", trend: `${stats.graph_edges} links` },
-    { label: "Pending Review", value: stats.pending_review, icon: AlertTriangle, color: "#f87171", trend: "Local queue" },
+    { label: "Pending Review", value: stats.pending_review, icon: AlertTriangle, color: "#f87171", trend: demoMode ? "Local queue" : "Needs action" },
   ];
 
   const readyDocs = documents.filter(d => d.ingest_status === "ready");
-  const reviewDocs = documents.filter(d => d.ingest_status === "review_needed");
+  const reviewDocs = documents.filter(d => ["review_needed", "pending_review", "pending_ocr"].includes(d.ingest_status));
 
   return (
     <div className={styles.container}>
@@ -30,11 +31,11 @@ export default function DashboardView({ stats, plot, documents, onAskQuery }: Pr
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>{plot.name}</h1>
-          <p className={styles.subtitle}>{plot.crop_type} &middot; {plot.size_ha} ha &middot; Local demo records</p>
+          <p className={styles.subtitle}>{plot.crop_type} &middot; {plot.size_ha} ha &middot; {demoMode ? "Local demo records" : "Farm records"}</p>
         </div>
         <div className={styles.headerBadge}>
           <Activity size={13} />
-          <span>Demo data</span>
+          <span>{demoMode ? "Demo data" : "Live data"}</span>
         </div>
       </div>
 
@@ -55,7 +56,7 @@ export default function DashboardView({ stats, plot, documents, onAskQuery }: Pr
       </div>
 
       {/* Yield snapshot */}
-      {plot.id === "plot-B" && <div className={styles.yieldBanner}>
+      {demoMode && plot.id === "plot-B" && <div className={styles.yieldBanner}>
         <div className={styles.yieldLeft}>
           <TrendingDown size={20} color="#f87171" />
           <div>
@@ -108,7 +109,7 @@ export default function DashboardView({ stats, plot, documents, onAskQuery }: Pr
         <h2 className={styles.sectionTitle}>Suggested Questions</h2>
         <div className={styles.queryChips}>
           {[
-            `What sample records are available for ${plot.name.split(" — ")[0]}?`,
+            `What records are available for ${plot.name.split(" — ")[0]}?`,
             `What chemicals are listed for ${plot.name.split(" — ")[0]}?`,
             `What yield records are listed for ${plot.name.split(" — ")[0]}?`,
           ].map(q => (

@@ -1,9 +1,8 @@
 """
-Celery application — async task queue for document ingestion and memify.
+Celery application — async task queue for document ingestion and corrections.
 
-Two queues:
-  - cognify: Cognee extract+cognify pipeline (slow, LLM-heavy)
-  - memify:  Scheduled batch re-processing of corrections
+Worker queue:
+  - cognify: Cognee ingestion and correction enrichment jobs (slow, LLM-heavy)
 
 Workers run separately from the API process so slow document
 processing doesn't block API response time.
@@ -30,14 +29,7 @@ celery_app.conf.update(
     worker_prefetch_multiplier=1,  # one task at a time per worker (LLM calls are heavy)
     task_routes={
         "app.workers.tasks.cognify_document": {"queue": "cognify"},
-        "app.workers.tasks.run_memify_batch": {"queue": "memify"},
-    },
-    beat_schedule={
-        "nightly-memify": {
-            "task": "app.workers.tasks.run_memify_batch",
-            "schedule": 86400.0,   # every 24 hours
-            "options": {"queue": "memify"},
-        },
+        "app.workers.tasks.memify_correction": {"queue": "cognify"},
     },
     task_soft_time_limit=600,      # 10 min soft limit per cognify task
     task_time_limit=900,           # 15 min hard limit

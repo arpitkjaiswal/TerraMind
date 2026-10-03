@@ -1,0 +1,4 @@
+data_origin,sample_field,date,crop,yield_t_ha
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field A,2024-09-20,Winter Wheat,5.5
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field A,2025-09-20,Winter Wheat,5.7
+SYNTHETIC_DEMO_NOT_REAL_FARM_DATA,Field A,2026-09-20,Winter Wheat,5.2

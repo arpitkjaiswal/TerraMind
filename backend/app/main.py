@@ -13,6 +13,7 @@ Wires together:
   - Rate limiting (slowapi)
 """
 
+import asyncio
 import time
 import uuid
 
@@ -23,8 +24,9 @@ from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
-from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.util import get_remote_address
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.middleware import SlowAPIMiddleware
+from app.core.rate_limit import limiter
 from slowapi.errors import RateLimitExceeded
 from prometheus_fastapi_instrumentator import Instrumentator
 
@@ -33,7 +35,7 @@ from app.core.logging import configure_logging
 from app.core.database import engine, Base
 from app.core.neo4j_client import neo4j_driver
 from app.core.qdrant_client import get_qdrant_client
-from app.core.redis_client import get_redis_client
+from app.core.redis_client import get_redis_client, close_redis_client
 from app.core.cognee_client import init_cognee
 
 from app.api.routes import auth, farms, plots, documents, queries, corrections, health
@@ -43,7 +45,7 @@ configure_logging()
 log = structlog.get_logger(__name__)
 
 # ── Rate limiter ──────────────────────────────────────────────────────────────
-limiter = Limiter(key_func=get_remote_address, default_limits=[settings.RATE_LIMIT_DEFAULT])
+
 
 
 # ── Lifespan ──────────────────────────────────────────────────────────────────
@@ -51,46 +53,47 @@ limiter = Limiter(key_func=get_remote_address, default_limits=[settings.RATE_LIM
 async def lifespan(app: FastAPI):
     """Startup / shutdown lifecycle."""
     log.info("aegis.startup", version=settings.APP_VERSION, env=settings.APP_ENV)
+    try:
+        # Schema changes are deployed through Alembic. create_all is for local/dev only.
+        if settings.APP_ENV in {"development", "test"} or settings.DEMO_MODE:
+            async with engine.begin() as conn:
+                await conn.run_sync(Base.metadata.create_all)
+            log.info("aegis.db.tables_ready")
 
-    # Create tables
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    log.info("aegis.db.tables_ready")
+        if not settings.DEMO_MODE:
+            async with neo4j_driver.session(database=settings.NEO4J_DATABASE) as session:
+                await session.run("RETURN 1")
+            log.info("aegis.neo4j.connected", uri=settings.NEO4J_URI)
 
-    if settings.DEMO_MODE:
-        log.info("aegis.demo_mode.active - skipping external database connection checks")
+            from app.core.neo4j_client import ensure_graph_schema
+            await ensure_graph_schema()
+
+            await asyncio.to_thread(get_qdrant_client().get_collections)
+            log.info("aegis.qdrant.connected")
+
+            redis = await get_redis_client()
+            await redis.ping()
+            log.info("aegis.redis.connected")
+
+            await init_cognee()
+            log.info("aegis.cognee.initialized")
+        else:
+            log.info("aegis.demo_mode.active - skipping external database connection checks")
+
         yield
-        await engine.dispose()
-        return
-
-    # Verify Neo4j connectivity and ensure schema
-    async with neo4j_driver.session() as session:
-        await session.run("RETURN 1")
-    log.info("aegis.neo4j.connected", uri=settings.NEO4J_URI)
-    
-    from app.core.neo4j_client import ensure_graph_schema
-    await ensure_graph_schema()
-
-    # Verify Qdrant
-    qdrant = get_qdrant_client()
-    qdrant.get_collections()
-    log.info("aegis.qdrant.connected")
-
-    # Verify Redis
-    redis = await get_redis_client()
-    await redis.ping()
-    log.info("aegis.redis.connected")
-
-    # Initialise Cognee with our provider config
-    await init_cognee()
-    log.info("aegis.cognee.initialized")
-
-    yield  # ── app is running ──
-
-    # Teardown
-    await engine.dispose()
-    await neo4j_driver.close()
-    log.info("aegis.shutdown")
+    finally:
+        qdrant = get_qdrant_client()
+        cleanup_results = await asyncio.gather(
+            engine.dispose(),
+            close_redis_client(),
+            neo4j_driver.close(),
+            asyncio.to_thread(qdrant.close),
+            return_exceptions=True,
+        )
+        for cleanup_error in cleanup_results:
+            if isinstance(cleanup_error, BaseException):
+                log.warning("aegis.shutdown_cleanup_failed", error=str(cleanup_error))
+        log.info("aegis.shutdown")
 
 
 # ── App ───────────────────────────────────────────────────────────────────────
@@ -112,6 +115,7 @@ app = FastAPI(
 
 # Rate limiting
 app.state.limiter = limiter
+app.add_middleware(SlowAPIMiddleware)
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # CORS
@@ -180,3 +184,4 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         content={"detail": "Internal server error", "request_id": getattr(request.state, "request_id", None)},
     )
+

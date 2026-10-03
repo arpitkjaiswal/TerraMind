@@ -10,10 +10,11 @@ POST /auth/logout     → (token invalidation handled client-side; server logs t
 from datetime import datetime, timezone
 
 import structlog
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 
 from app.core.auth import (
     create_access_token,
@@ -78,11 +79,14 @@ async def refresh(body: RefreshRequest, db: AsyncSession = Depends(get_db)):
 
 
 @router.post("/register", response_model=UserRead, status_code=201)
-async def register(body: UserCreate, farm_name: str, db: AsyncSession = Depends(get_db)):
+async def register(body: UserCreate, farm_name: str = Query(min_length=1, max_length=255), db: AsyncSession = Depends(get_db)):
     """
     Create a new user + farm in one shot (onboarding flow).
     In production, farm creation would be a separate admin step.
     """
+    farm_name = farm_name.strip()
+    if not farm_name:
+        raise HTTPException(status_code=422, detail="Farm name cannot be blank")
     # Check email uniqueness
     existing = await db.execute(select(User).where(User.email == body.email))
     if existing.scalar_one_or_none():
@@ -102,9 +106,13 @@ async def register(body: UserCreate, farm_name: str, db: AsyncSession = Depends(
         role=body.role,
     )
     db.add(user)
-    await db.flush()
-    farm.owner_user_id = user.id
-    await db.flush()
+    try:
+        await db.flush()
+        farm.owner_user_id = user.id
+        await db.flush()
+    except IntegrityError as exc:
+        await db.rollback()
+        raise HTTPException(status_code=409, detail="Email already registered") from exc
 
     log.info("auth.registered", user_id=user.id, farm_id=farm.id)
     return user
@@ -123,4 +131,5 @@ async def logout(current_user: User = Depends(get_current_user)):
 @router.get("/me", response_model=UserRead)
 async def me(current_user: User = Depends(get_current_user)):
     return current_user
+
 

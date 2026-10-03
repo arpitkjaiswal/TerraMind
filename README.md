@@ -192,3 +192,32 @@ Open `http://localhost:3000` in your browser.
 ---
 
 *Built for the Cognee Hackathon 2026 by Team TerraMind*
+
+## Interactive graph and sample records
+
+The knowledge graph supports animated layout, mouse/touch node dragging, background
+panning, anchored zoom, fit-to-view, keyboard selection and movement, search, entity
+type and date filters, confirmed-link filtering, and JSON export. Reduced-motion
+preferences are respected. Live graphs refresh every 10 seconds and after document
+status changes, and discard responses from previously selected fields.
+
+The local demo includes 18 additional **synthetic CSV documents** (72 data rows)
+covering soil, crops, inputs, weather, irrigation, and yields across all three fields.
+Open **Ingest & Review → Sample document library** to download the originals.
+Signed-in users can import a pack of six into their selected field; ordinary upload
+also accepts multiple files. Imports use the normal authenticated upload pipeline,
+and repeated identical files are deduplicated within that field. Synthetic examples
+are labeled in every CSV row and are not farming recommendations.
+
+Saved documents appear as Document nodes with ingestion status and HAS_DOCUMENT
+links even before extraction finishes. These links describe stored records, not
+causal claims. Agronomic evidence continues to come from the configured graph
+service. If that service is temporarily unavailable, the UI explicitly reports that
+only saved records are shown. Uploads still require working database, storage,
+worker, and model configuration; no production credentials or real farm data are
+included with the sample pack.
+
+Run `python scripts/generate_sample_documents.py` to reproduce the documents.
+Regression checks: `cd frontend && npm test`; `python -m unittest discover -s checks`.
+CI also runs the production build, authenticated API tests, and Chromium interaction
+checks using mocked API responses (no real documents or model calls in tests).

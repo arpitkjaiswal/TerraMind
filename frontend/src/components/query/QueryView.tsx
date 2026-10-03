@@ -1,12 +1,16 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import type { QueryResult, ConfidenceLabel, Document, EvidenceEdge, NodeType } from "@/types";
+import type { QueryResult, ConfidenceLabel, Document, EvidenceEdge, NodeType, EdgeType } from "@/types";
+import { backendFetch } from "@/lib/api";
 import { Search, Send, ChevronDown, ChevronUp, FileText, Zap, Clock, GitBranch, Shield, AlertTriangle, Sparkles, RotateCcw } from "lucide-react";
 import styles from "./QueryView.module.css";
 
 interface Props {
   initialQuery?: string;
+  plotId: string;
   plotName: string;
+  userRole: string;
+  demoMode?: boolean;
   documents: Document[];
   suggestedQueries: string[];
   onQueryComplete: () => void;
@@ -49,7 +53,12 @@ function AnswerBlock({ text }: { text: string }) {
   );
 }
 
-export default function QueryView({ initialQuery, suggestedQueries, plotName, documents, onQueryComplete }: Props) {
+interface QueryApiResult extends Omit<QueryResult, "id" | "evidence_trail"> {
+  query_id: string;
+  evidence_trail: Array<Omit<EvidenceEdge, "source_document_label" | "source_document_id" | "date" | "node_type" | "relationship_type"> & { source_document_id?: string | null; source_document_label?: string | null; date?: string | null; node_type: string; relationship_type: string }>;
+}
+
+export default function QueryView({ initialQuery, suggestedQueries, plotId, plotName, userRole, demoMode = false, documents, onQueryComplete }: Props) {
   const [query, setQuery] = useState(initialQuery ?? "");
   const [result, setResult] = useState<QueryResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -75,23 +84,43 @@ export default function QueryView({ initialQuery, suggestedQueries, plotName, do
       return;
     }
     setError(null);
-    setIsDemo(true);
+    setIsDemo(demoMode);
     setLoading(true);
     setResult(null);
-    await new Promise(resolve => setTimeout(resolve, 300));
-    const name = plotName.split(" — ")[0];
-    const evidence: EvidenceEdge[] = documents.map(doc => {
-      const label = doc.label.toLowerCase();
-      const nodeType: NodeType = label.includes("weather") || label.includes("drought") ? "WeatherEvent" : label.includes("yield") ? "YieldMeasurement" : label.includes("pesticide") || label.includes("fertilizer") || label.includes("chemical") ? "ChemicalProduct" : label.includes("crop") ? "CropVariant" : "Practice";
-      return { id: `demo-evidence-${doc.id}`, graph_node_id: `demo-${doc.id}`, node_label: doc.label, node_type: nodeType, relationship_type: "APPLIED_TO", source_document_id: doc.id, source_document_label: doc.label, date: doc.date_of_event ?? doc.uploaded_at.slice(0, 10) };
-    });
-    const answer = documents.length
-      ? `This local demo has ${documents.length} sample record${documents.length === 1 ? "" : "s"} for ${name}. The record titles and dates below are available as evidence, but this demo does not read file contents or establish causes.\n\n${documents.map(doc => `**${doc.date_of_event ?? doc.uploaded_at.slice(0, 10)} — ${doc.label}**`).join("\n\n")}\n\nTreat this as an index of records, not an agronomic conclusion. Connect a configured backend and document processing service for answers based on extracted content.`
-      : `There are no sample documents indexed for ${name} yet. Add a file in Ingest & Review to see it appear here. This local demo does not infer causes from missing records.`;
-    setResult({ id: `demo-query-${Date.now()}`, query_text: text, answer_text: answer, confidence_label: "documented_fact", confidence_score: documents.length ? 0.6 : 0.2, evidence_trail: evidence, graph_hops: 0, latency_ms: 300, created_at: new Date().toISOString() });
-    onQueryComplete();
-    setLoading(false);
-    setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+    try {
+      if (demoMode) {
+        await new Promise(resolve => setTimeout(resolve, 250));
+        const evidence: EvidenceEdge[] = documents.map(doc => ({
+          id: `demo-evidence-${doc.id}`, graph_node_id: `demo-${doc.id}`, node_label: doc.label,
+          node_type: "Document", relationship_type: "HAS_DOCUMENT", source_document_id: doc.id,
+          source_document_label: doc.label, date: doc.date_of_event ?? doc.uploaded_at.slice(0, 10),
+        }));
+        const answer = documents.length
+          ? `The sample dataset has ${documents.length} record${documents.length === 1 ? "" : "s"} for ${plotName}. The entries below show available document titles and dates. The demo does not read file contents or establish causes.\n\n${documents.map(document => `**${document.date_of_event ?? document.uploaded_at.slice(0, 10)} — ${document.label}**`).join("\n\n")}`
+          : `There are no sample records for ${plotName} yet. Add a file in Ingest & Review to see it listed here.`;
+        setResult({ id: `demo-${Date.now()}`, query_text: text, answer_text: answer, confidence_label: "documented_fact", confidence_score: documents.length ? 0.6 : 0.2, evidence_trail: evidence, graph_hops: 0, latency_ms: 250, created_at: new Date().toISOString() });
+        onQueryComplete();
+        return;
+      }
+      const data = await backendFetch<QueryApiResult>("query/", { method: "POST", body: JSON.stringify({ query_text: text, plot_id: plotId, include_hypotheses: false }) });
+      const labels = new Map(documents.map(document => [document.id, document.label]));
+      const normalized: QueryResult = {
+        id: data.query_id, query_text: data.query_text, answer_text: data.answer_text,
+        confidence_label: data.confidence_label, confidence_score: data.confidence_score,
+        graph_hops: data.graph_hops, latency_ms: data.latency_ms, created_at: data.created_at,
+        evidence_trail: data.evidence_trail.map((edge, index) => ({
+          id: edge.id || `evidence-${index}`, graph_node_id: edge.graph_node_id, node_label: edge.node_label,
+          node_type: edge.node_type as NodeType, relationship_type: edge.relationship_type as EdgeType,
+          source_document_id: edge.source_document_id ?? "", source_document_label: edge.source_document_label ?? labels.get(edge.source_document_id ?? "") ?? "Source document",
+          date: edge.date ?? "",
+        })),
+      };
+      setResult(normalized);
+      onQueryComplete();
+      setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Query failed.");
+    } finally { setLoading(false); }
   }
 
   async function submitCorrection(edgeId: string) {
@@ -99,8 +128,10 @@ export default function QueryView({ initialQuery, suggestedQueries, plotName, do
       alert("Correction note must be at least 10 characters long.");
       return;
     }
-    setError("Corrections need a configured backend and reviewer account. No correction was saved in this local demo.");
-    setCorrectionTarget(edgeId);
+    try {
+      await backendFetch("corrections/", { method: "POST", body: JSON.stringify({ evidence_edge_id: edgeId, correction_note: correctionNote.trim() }) });
+      setCorrectionTarget(null); setCorrectionNote(""); setError(null);
+    } catch (cause) { setError(cause instanceof Error ? cause.message : "Correction could not be saved."); }
   }
 
   function handleKey(e: React.KeyboardEvent) {
@@ -129,7 +160,7 @@ export default function QueryView({ initialQuery, suggestedQueries, plotName, do
             ref={inputRef}
             id="query-input"
             className={styles.textarea}
-          placeholder={`Ask about the sample records for ${plotName.split(" — ")[0]}…`}
+            placeholder={`Ask about ${plotName}…`}
             value={query}
             onChange={e => setQuery(e.target.value)}
             onKeyDown={handleKey}
@@ -158,8 +189,7 @@ export default function QueryView({ initialQuery, suggestedQueries, plotName, do
       </div>
 
       {error && <p role="alert">{error}</p>}
-      <p role="status">Local demo query for {plotName.split(" — ")[0]}: answers use record titles and dates; no AI service is connected.</p>
-      {isDemo && <p role="status">Demo answer generated for this question from this field&apos;s local records.</p>}
+      {demoMode && <p role="status">Local demo queries use this field’s record titles and dates; they do not read file contents or establish causes.</p>}
 
       {/* Loading state */}
       {loading && (
@@ -168,8 +198,8 @@ export default function QueryView({ initialQuery, suggestedQueries, plotName, do
             <span /><span /><span />
           </div>
           <div className={styles.loadingText}>
-            <span className={styles.loadingStage}>Preparing local demo answer…</span>
-            <span className={styles.loadingMeta}>Using the selected field&apos;s sample record index</span>
+            <span className={styles.loadingStage}>{demoMode ? "Preparing local demo answer…" : "Querying field records…"}</span>
+            <span className={styles.loadingMeta}>{demoMode ? "Using the selected field’s sample record index" : "Retrieving a traceable answer from the farm service"}</span>
           </div>
         </div>
       )}
@@ -246,7 +276,7 @@ export default function QueryView({ initialQuery, suggestedQueries, plotName, do
                           </div>
                         </div>
                       ) : (
-                        <button className={styles.flagBtn} disabled={isDemo} onClick={() => setCorrectionTarget(e.id)}>⚑ Flag as incorrect</button>
+                        <button className={styles.flagBtn} disabled={isDemo || !["admin", "agronomist"].includes(userRole)} onClick={() => setCorrectionTarget(e.id)} title={["admin", "agronomist"].includes(userRole) ? "Flag evidence" : "Only agronomists can submit evidence corrections"}>⚑ Flag as incorrect</button>
                       )}
                     </div>
                   </div>

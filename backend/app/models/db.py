@@ -116,6 +116,7 @@ class Document(Base):
     __table_args__ = (
         Index("ix_documents_plot_created", "plot_id", "uploaded_at"),
         Index("ix_documents_farm_status", "farm_id", "ingest_status"),
+        Index("uq_documents_plot_content_hash", "plot_id", "content_hash", unique=True),
     )
 
     id: str = Column(UUID(as_uuid=False), primary_key=True, default=_uuid)
@@ -178,6 +179,7 @@ class EvidenceEdge(Base):
     query_id: str = Column(UUID(as_uuid=False), ForeignKey("query_logs.id", ondelete="CASCADE"), nullable=False)
     source_document_id: str = Column(UUID(as_uuid=False), ForeignKey("documents.id", ondelete="SET NULL"), nullable=True)
     graph_node_id: str = Column(String(255), nullable=False)
+    target_graph_node_id: Optional[str] = Column(String(255), nullable=True)
     node_label: str = Column(String(512), nullable=False)
     node_type: str = Column(String(64), nullable=False)
     relationship_type: str = Column(EdgeType, nullable=False)
@@ -189,10 +191,7 @@ class EvidenceEdge(Base):
 
 
 class Correction(Base):
-    """
-    Agronomist corrections to the evidence trail.
-    Each correction triggers a memify() cycle on the next scheduled batch.
-    """
+    """Agronomist corrections and whether a Cognee enrichment task was queued."""
     __tablename__ = "corrections"
 
     id: str = Column(UUID(as_uuid=False), primary_key=True, default=_uuid)

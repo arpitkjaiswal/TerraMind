@@ -34,6 +34,7 @@ from app.core.config import settings
 import structlog
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from fastapi import HTTPException
 
 from app.core.cognee_client import run_search
 from app.core.redis_client import get_cached_query, set_cached_query
@@ -128,6 +129,7 @@ def _build_evidence_trail(
                 query_id=query_id,
                 source_document_id=source_doc_id,
                 graph_node_id=e.get("node_id", ""),
+                target_graph_node_id=e.get("target_node_id") or e.get("target_id"),
                 node_label=e.get("node_label", "Unknown"),
                 node_type=e.get("node_type", "Unknown"),
                 relationship_type=e.get("relationship_type", "CORRELATED_WITH"),
@@ -147,6 +149,7 @@ def _evidence_to_schema(
         result.append(EvidenceEdgeRead(
             id=e.id,
             graph_node_id=e.graph_node_id,
+            target_graph_node_id=e.target_graph_node_id,
             node_label=e.node_label,
             node_type=e.node_type,
             relationship_type=e.relationship_type,
@@ -265,6 +268,12 @@ async def execute_query(
     user_id: str,
     db: AsyncSession,
 ) -> QueryResponse:
+    if request.date_from or request.date_to:
+        raise HTTPException(
+            status_code=501,
+            detail="Date filtered graph search is not available with the configured Cognee adapter.",
+        )
+
     if settings.DEMO_MODE:
         return await execute_demo_query(request)
 
@@ -303,7 +312,7 @@ async def execute_query(
         raw_edges = raw_result.get("evidence_edges", [])
         doc_ids = {e.get("source_document_id") for e in raw_edges if e.get("source_document_id")}
         docs_result = await db.execute(
-            select(Document).where(Document.id.in_(doc_ids), Document.farm_id == farm_id)
+            select(Document).where(Document.id.in_(doc_ids), Document.farm_id == farm_id, Document.plot_id == request.plot_id)
         )
         doc_lookup = {d.id: d for d in docs_result.scalars().all()}
         raw_edges = [e for e in raw_edges if e.get("source_document_id") in doc_lookup]
@@ -323,7 +332,7 @@ async def execute_query(
         # Build evidence trail — load source documents for labels
         doc_ids = {e.get("source_document_id") for e in raw_edges if e.get("source_document_id")}
         docs_result = await db.execute(
-            select(Document).where(Document.id.in_(doc_ids), Document.farm_id == farm_id)  # type: ignore[attr-defined]
+            select(Document).where(Document.id.in_(doc_ids), Document.farm_id == farm_id, Document.plot_id == request.plot_id)  # type: ignore[attr-defined]
         )
         doc_lookup = {d.id: d for d in docs_result.scalars().all()}
         evidence_edges_orm = _build_evidence_trail(raw_result, doc_lookup, query_id)
@@ -355,6 +364,7 @@ async def execute_query(
             select(Document).where(
                 Document.id.in_({e.source_document_id for e in evidence_edges_orm if e.source_document_id}),  # type: ignore[attr-defined]
                 Document.farm_id == farm_id,
+                Document.plot_id == request.plot_id,
             )
         )).scalars().all()
     }
@@ -387,4 +397,3 @@ async def execute_query(
         latency_ms=latency_ms,
     )
     return response
-
