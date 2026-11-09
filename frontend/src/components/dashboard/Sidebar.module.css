@@ -164,3 +164,16 @@
   font-family: 'Inter', sans-serif;
 }
 .bottomNavItem:hover { background: var(--bg-elevated); color: var(--text-secondary); }
+
+@media (max-width: 768px) {
+  .sidebar { position: static; width: 100%; min-height: auto; padding: 12px; border-right: 0; border-bottom: 1px solid var(--border); }
+  .logo { padding-bottom: 10px; }
+  .nav { display: flex; flex-direction: row; overflow-x: auto; gap: 4px; }
+  .navItem { flex-shrink: 0; width: auto; white-space: nowrap; }
+  .plotList { flex-direction: row; overflow-x: auto; }
+  .plotList > div { flex: 0 0 180px; }
+  .bottomNav { flex-direction: row; }
+  .bottomNavItem { width: auto; }
+  .upgradeCard { display: none; }
+  .divider { margin: 10px 0; }
+}

@@ -22,11 +22,19 @@ from app.core.circuit_breaker import ingestion_retry
 
 log = structlog.get_logger(__name__)
 
-_session = aioboto3.Session(
-    aws_access_key_id=settings.AWS_ACCESS_KEY_ID or None,
-    aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY or None,
-    region_name=settings.S3_REGION,
-)
+_session = None
+
+
+def get_storage_session():
+    """Resolve provider configuration only when storage is actually used."""
+    global _session
+    if _session is None:
+        _session = aioboto3.Session(
+            aws_access_key_id=settings.AWS_ACCESS_KEY_ID or None,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY or None,
+            region_name=settings.S3_REGION,
+        )
+    return _session
 
 
 def _s3_kwargs() -> dict:
@@ -64,7 +72,7 @@ async def upload_document(
     content_hash = compute_content_hash(content)
     detected_type = content_type or mimetypes.guess_type(filename)[0] or "application/octet-stream"
 
-    async with _session.client(**_s3_kwargs()) as s3:
+    async with get_storage_session().client(**_s3_kwargs()) as s3:
         # Check for existing object by content hash tag
         try:
             existing_tags = await s3.get_object_tagging(Bucket=settings.S3_BUCKET, Key=key)
@@ -90,7 +98,7 @@ async def upload_document(
 
 async def generate_presigned_url(storage_uri: str, expires_in: int = 3600) -> str:
     """Generate a presigned GET URL for viewing a stored document."""
-    async with _session.client(**_s3_kwargs()) as s3:
+    async with get_storage_session().client(**_s3_kwargs()) as s3:
         url = await s3.generate_presigned_url(
             "get_object",
             Params={"Bucket": settings.S3_BUCKET, "Key": storage_uri},

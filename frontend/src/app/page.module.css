@@ -5,6 +5,7 @@
 }
 
 .main {
+  min-width: 0;
   margin-left: var(--sidebar-width);
   flex: 1;
   min-height: 100vh;
@@ -15,5 +16,6 @@
 }
 
 @media (max-width: 768px) {
+  .layout { flex-direction: column; }
   .main { margin-left: 0; }
 }

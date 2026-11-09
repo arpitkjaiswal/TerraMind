@@ -1,223 +1,144 @@
-# TerraMind — Data Analysis & ML Pipeline
-## Longitudinal Agronomy & Soil Memory | Cognee Hackathon 2026
+# TerraMind
 
-> **"Digital Twin" memory graph for agricultural land** — Using Cognee's graph RAG to connect multi-year timelines of weather, chemical inputs, and soil data to explain crop yield anomalies.
+**An agricultural evidence explorer with temporal knowledge graphs and reproducible ML evaluation.**
 
----
+TerraMind connects field records across time so users can inspect what was recorded,
+where it came from, and which relationships remain unconfirmed. The public sandbox
+opens immediately—no account, backend, or API keys required.
 
-## 🌾 Problem Statement
+## Try it locally
 
-Agriculture operates on multi-year cycles. A crop failure today isn't just about today's weather — it's a cascading result of the fertilizer used in 2024, the cover crop planted in 2025, and the specific seed variant bought in 2026. **No AI can currently remember or connect a 3-year timeline of physical actions to a current soil anomaly.**
+Requires Node.js 22+ and npm:
 
-## 💡 Our Solution
-
-TerraMind uses **Cognee's hybrid graph-vector memory layer** to build a temporal knowledge graph for agricultural plots. When a farmer asks *"Why did Field B's yield drop by 20%?"*, Cognee executes multi-hop graph traversal to connect hidden relationships across years.
-
----
-
-## 📊 Datasets
-
-| File | Records | Description |
-|---|---|---|
-| `crop_yield.csv` | ~19,690 | Crop yields by state, year, season with fertilizer/pesticide data |
-| `state_soil_data.csv` | 31 | Soil nutrients (N, P, K, pH) by Indian state |
-| `state_weather_data_1997_2020.csv` | 720 | Temperature, rainfall, humidity by state & year |
-
-### Synthetic Datasets (Generated)
-| File | Description |
-|---|---|
-| `field_notes.json` | 500+ synthetic farmer field notes across 5 farms |
-| `chemical_logs.csv` | Chemical application records with causal patterns |
-| `weather_events.json` | Extreme weather event records |
-| `seed_data.json` | Farm/plot definitions with demo scenarios |
-
----
-
-## 🧠 Pipeline Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    DATA SOURCES                              │
-│  crop_yield.csv │ weather.csv │ soil.csv │ field notes       │
-└────────┬────────┴──────┬──────┴────┬─────┴──────┬───────────┘
-         │               │           │            │
-         ▼               ▼           ▼            ▼
-┌─────────────────────────────────────────────────────────────┐
-│              DATA ANALYSIS (EDA)                             │
-│  Trends │ Correlations │ Anomaly Detection │ Feature Import. │
-└────────┬────────────────────────────────────────┬───────────┘
-         │                                        │
-         ▼                                        ▼
-┌───────────────────────┐    ┌────────────────────────────────┐
-│     ML MODELS         │    │   COGNEE KNOWLEDGE GRAPH       │
-│  • Yield Predictor    │    │  • Temporal edges              │
-│  • Anomaly Detector   │    │  • Causal chains               │
-│  • Pattern Miner      │    │  • Multi-hop traversal         │
-└───────────────────────┘    └────────────────────────────────┘
-         │                                        │
-         ▼                                        ▼
-┌─────────────────────────────────────────────────────────────┐
-│              QUERY ENGINE                                    │
-│  "Why did Field B's yield drop by 20%?"                      │
-│   → Graph traversal → Evidence trail → Confidence label      │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 🚀 Quick Start
-
-### 1. Install Dependencies
-```bash
-pip install -r requirements_ml.txt
-```
-
-### 2. Run Data Analysis
-```bash
-python data_analysis/eda_crop_yield.py
-python data_analysis/eda_weather_soil.py
-python data_analysis/merged_analysis.py
-```
-
-### 3. Train ML Models
-```bash
-python ml_models/yield_predictor.py
-python ml_models/anomaly_detector.py
-python ml_models/temporal_pattern_miner.py
-```
-
-### 4. Generate Synthetic Data
-```bash
-python data_generation/generate_field_notes.py
-python data_generation/generate_chemical_logs.py
-python data_generation/generate_weather_events.py
-```
-
-### 5. Build Knowledge Graph & Run Queries
-```bash
-python cognee_pipeline/ingest_data.py --mode offline
-python cognee_pipeline/query_examples.py
-```
-
-### 6. Run Backend Web API (FastAPI)
-Configure your `.env` file inside the `backend` directory (see `backend/.env.example` as a template), then start the dev server:
-```bash
-cd backend
-source venv/bin/activate
-python -m uvicorn app.main:app --reload --port 8000
-```
-
-### 7. Run Frontend Dashboard (Next.js)
-Install node modules and start the development server:
-```bash
+```sh
 cd frontend
-npm install
+npm ci
 npm run dev
 ```
-Open `http://localhost:3000` in your browser.
 
----
+The home page provides three synthetic fields, an interactive graph, a record
+timeline, document review, and evidence-linked local search. Changes persist in
+browser storage when available; Settings → Reset demo data restores the samples.
+The optional `/live` workspace connects to the private farm API. See
+[deployment](DEPLOYMENT.md) for backend services and provider configuration.
 
-## 📈 Key Findings
+## A five-minute walkthrough
 
-### ML Model Performance
-- **Yield Prediction**: R² > 0.85 using Random Forest + Gradient Boosting ensemble
-- **Anomaly Detection**: Identifies yield drops with causal attribution
-- **Temporal Patterns**: Discovers 1-3 year lag effects of chemical inputs on yields
+1. Open Field B and inspect the documented yield change on its dashboard.
+2. Open Knowledge Graph, select a node, drag it, filter by type/date, and export
+   the visible graph. Links distinguish stored records from agronomic claims.
+3. In Ingest & Review, download one of the labeled synthetic CSVs. Upload a CSV
+   with your own observations, for example:
 
-### Hidden Relationships Discovered
-1. **Pesticide + Drought → Yield Crash**: High-dose Chlorpyrifos in 2024 + 2025 drought = 30% yield drop
-2. **Ammonium Sulphate Overuse → pH Decline**: Repeated nitrogen fertilizer without lime = progressive soil acidification
-3. **Fertilizer Reduction + Heatwave**: 60% fertilizer cut in 2025 + 48°C heatwave in 2026 = 40% cotton yield crash
+   ```csv
+   date,rainfall_mm,note
+   2026-09-30,15,Light rain after irrigation
+   ```
 
----
+4. Open Ask TerraMind and search for `rainfall`. The answer cites matching ready
+   records and includes parsed CSV rows. Switch fields to verify record isolation.
+5. Upload an image to exercise manual review, then reload to verify saved state.
 
-## 📁 Project Structure
+Local search is deterministic keyword retrieval, not an LLM. CSV files are parsed
+in the browser with limits of 256 KB, 500 data rows, and 128 KB parsed output.
+PDF and image uploads create metadata records; local OCR is not implemented.
+Nothing in this sandbox proves causation or recommends chemical dosages.
 
-```
-├── crop_yield.csv                    # Raw crop yield dataset
-├── state_soil_data.csv               # State-level soil data
-├── state_weather_data_1997_2020.csv  # Weather data 1997-2020
-├── requirements_ml.txt               # Python dependencies
-├── README.md                         # This file
-│
-├── data_analysis/                    # Exploratory Data Analysis
-│   ├── eda_crop_yield.py             # Crop yield analysis (7 charts)
-│   ├── eda_weather_soil.py           # Weather & soil analysis (5 charts)
-│   └── merged_analysis.py           # Multi-factor causal analysis
-│
-├── ml_models/                        # Machine Learning Models
-│   ├── yield_predictor.py            # RF + GBM yield prediction
-│   ├── anomaly_detector.py           # Yield anomaly detection
-│   └── temporal_pattern_miner.py     # Multi-year pattern discovery
-│
-├── data_generation/                  # Synthetic Data Generation
-│   ├── generate_field_notes.py       # Farmer field notes
-│   ├── generate_chemical_logs.py     # Chemical application records
-│   ├── generate_weather_events.py    # Extreme weather events
-│   └── generated/                    # Generated data files
-│
-├── cognee_pipeline/                  # Cognee Integration
-│   ├── ingest_data.py                # Data ingestion pipeline
-│   └── query_examples.py            # Demo query showcase
-│
-└── outputs/                          # Generated Outputs
-    ├── charts/                       # Visualization charts (19 PNGs)
-    ├── models/                       # Trained ML models (.joblib)
-    ├── reports/                      # Analysis reports (.md, .json)
-    └── cognee_graph/                 # Knowledge graph JSON files
+## Engineering design
+
+```mermaid
+flowchart LR
+  Browser[React / TypeScript] --> Sandbox[Browser sandbox]
+  Sandbox --> Storage[Validated local storage]
+  Sandbox --> Search[CSV parsing + lexical retrieval]
+  Browser --> BFF[Next.js server proxy]
+  BFF --> API[FastAPI + tenant authorization]
+  API --> PG[(PostgreSQL)]
+  API --> Queue[Redis / Celery]
+  Queue --> Cognee[Cognee extraction]
+  Cognee --> Graph[(Neo4j)]
+  Cognee --> Vector[(Qdrant)]
+  Queue --> S3[(Document storage)]
 ```
 
----
+- **Interactive visualization:** force layout, node dragging, anchored zoom,
+  selection, date/entity filters, reduced motion, and JSON export.
+- **State integrity:** field-scoped records, validated browser snapshots, recovery
+  from malformed state, and explicit persistence-failure messaging.
+- **Private API:** farm/plot authorization, HttpOnly cookie handling, token refresh,
+  same-origin write checks, rate limits, and evidence-scoped corrections.
+- **Evidence discipline:** pending documents remain visible as records; causal
+  confirmations require explicit human action and endpoint scope checks.
+- **Operational separation:** the sandbox runs independently. Real ingestion needs
+  storage, workers, graph/vector services, OCR, and model providers.
 
-## 🏆 Why This Project Wins
+## Verification
 
-1. **AgriTech + Graph RAG**: Massively underrepresented at AI hackathons
-2. **Temporal Reasoning**: Demonstrates Cognee's multi-hop traversal across years
-3. **Real + Synthetic Data**: Comprehensive data pipeline from raw CSVs to knowledge graph
-4. **Production-Ready**: Full ML pipeline with models, evaluation, and demo queries
-5. **Compound Causal Chains**: Discovers non-obvious multi-factor relationships
+```sh
+cd frontend
+npm run check
+```
 
----
+This runs lint, unit tests, TypeScript, production build, API proxy smoke tests,
+and Chromium interaction tests. Chromium is selected from `CHROMIUM_PATH`,
+`/usr/bin/chromium`, or the installed Playwright browser. To install the latter:
+`npx playwright install --with-deps chromium`.
 
-## 🛠️ Tech Stack
+```sh
+# From the repository root:
+python -m unittest discover -s checks -v
+cd backend
+python -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/python -m pytest -q
+```
 
-- **Data**: pandas, numpy
-- **ML**: scikit-learn, XGBoost
-- **Visualization**: matplotlib, seaborn
-- **Knowledge Graph**: Cognee (graph RAG + vector search)
-- **Backend**: FastAPI, PostgreSQL, Neo4j, Qdrant, Redis
-- **Frontend**: Next.js
+Backend tests use SQLite and mocked external providers. Browser tests exercise the
+real built frontend with mocked private API responses. Passing them does not
+establish availability of real provider services. CI runs these checks on pushes
+and pull requests.
 
----
+## ML evaluation
 
-*Built for the Cognee Hackathon 2026 by Team TerraMind*
+The yield model uses a temporal split: 16,299 training rows through 2016 and
+3,225 held-out rows from 2017–2020, after merging crop, soil, and weather data.
+Categorical vocabularies use training years only, with unknown categories mapped
+to -1. A fixed seed and mean baseline make the evaluation reproducible.
 
-## Interactive graph and sample records
+| Model | Held-out R² | RMSE | MAE |
+|---|---:|---:|---:|
+| Mean baseline | -0.0011 | 14.4138 | 5.4791 |
+| Random Forest | 0.6099 | 8.9980 | 1.5755 |
+| Gradient Boosting | 0.6360 | 8.6911 | 2.0435 |
+| Mean ensemble | 0.6317 | 8.7429 | 1.7223 |
 
-The knowledge graph supports animated layout, mouse/touch node dragging, background
-panning, anchored zoom, fit-to-view, keyboard selection and movement, search, entity
-type and date filters, confirmed-link filtering, and JSON export. Reduced-motion
-preferences are respected. Live graphs refresh every 10 seconds and after document
-status changes, and discard responses from previously selected fields.
+These are mixed-crop aggregate scores, not per-field guarantees. Annual weather
+and input totals must be available at inference time; this is not a pre-season
+forecast. The models are research scripts and are not served by the dashboard.
+See the [model card](docs/MODEL_CARD.md) and
+[machine-readable metrics](outputs/reports/model_metrics.json).
 
-The local demo includes 18 additional **synthetic CSV documents** (72 data rows)
-covering soil, crops, inputs, weather, irrigation, and yields across all three fields.
-Open **Ingest & Review → Sample document library** to download the originals.
-Signed-in users can import a pack of six into their selected field; ordinary upload
-also accepts multiple files. Imports use the normal authenticated upload pipeline,
-and repeated identical files are deduplicated within that field. Synthetic examples
-are labeled in every CSV row and are not farming recommendations.
+```sh
+python -m venv .venv-ml
+.venv-ml/bin/pip install -r requirements_ml.txt
+TERRAMIND_OUTPUT_DIR=/tmp/terramind-ml .venv-ml/bin/python ml_models/yield_predictor.py
+.venv-ml/bin/python -m unittest discover -s tests_ml -v
+```
 
-Saved documents appear as Document nodes with ingestion status and HAS_DOCUMENT
-links even before extraction finishes. These links describe stored records, not
-causal claims. Agronomic evidence continues to come from the configured graph
-service. If that service is temporarily unavailable, the UI explicitly reports that
-only saved records are shown. Uploads still require working database, storage,
-worker, and model configuration; no production credentials or real farm data are
-included with the sample pack.
+`TERRAMIND_OUTPUT_DIR` keeps newly trained artifacts separate from committed model
+files. Only load joblib artifacts from trusted sources.
 
-Run `python scripts/generate_sample_documents.py` to reproduce the documents.
-Regression checks: `cd frontend && npm test`; `python -m unittest discover -s checks`.
-CI also runs the production build, authenticated API tests, and Chromium interaction
-checks using mocked API responses (no real documents or model calls in tests).
+## Repository map
+
+| Directory | Purpose |
+|---|---|
+| `frontend/` | Next.js sandbox and optional private workspace |
+| `backend/` | FastAPI, data models, workers, integrations, and API tests |
+| `ml_models/` | Temporal yield evaluation, anomaly detection, pattern mining |
+| `data_analysis/` | Exploratory analysis scripts |
+| `cognee_pipeline/` | Offline/online graph ingestion and query examples |
+| `checks/`, `tests_ml/` | Isolated regressions and ML evaluation checks |
+| `outputs/` | Historical artifacts and current yield evaluation report |
+
+The synthetic sample library contains 18 CSV documents across three fields, with
+every row labeled fictional. It is a demonstration dataset, not farming advice.

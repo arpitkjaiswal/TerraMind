@@ -31,6 +31,8 @@ export interface User {
 }
 
 export interface Document {
+  /** Parsed local CSV rows; absent for files that were not extracted. */
+  extracted_text?: string;
   id: string;
   plot_id: string;
   source_type: "pdf" | "photo" | "csv";

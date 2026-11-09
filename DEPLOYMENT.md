@@ -9,21 +9,20 @@ proxies authenticated API calls and stores access/refresh tokens in HttpOnly,
 Secure production cookies. Do not expose backend URLs containing credentials,
 API keys, or bearer tokens through `NEXT_PUBLIC_*` variables.
 
-The site provides email/password account registration and sign-in. New accounts
-create a farm and can create their first field after sign-in. The authenticated
-workspace reads farm, field, document, graph, review, and query data from the API.
-The sample preview remains available separately and uses browser-only changes.
-Demo uploads, review decisions, and query counts persist in browser storage when
-available. Queries in this preview summarize only record titles and dates; they do
-not read file contents or establish causes. Graphs and timelines follow the selected
-field. **Settings → Reset demo data** restores the original records and the 18
-labeled synthetic CSV samples. The sample library provides downloadable originals;
-its signed-in Import action uses the configured backend for real ingestion.
+The public `/` route opens the browser sandbox immediately, without registration,
+session checks, backend access, or provider keys. Field selection, document review,
+timelines, the graph, and local search work with synthetic records. CSV uploads
+are parsed locally (256 KB input, 500 rows, 128 KB parsed output); PDF and image
+uploads create metadata records only. Local search ranks ready records by keyword
+overlap and cites matching documents. It does not run a language model or infer
+causation. Changes persist in browser storage when available. Settings → Reset
+demo data restores the original records. Treat browser storage as disposable,
+not a durable document store.
 
-Authentication will not work until `BACKEND_URL` points to a reachable API with
-the production database configured. Uploaded documents, review decisions, and
-live agronomy queries also need the storage, OCR, worker, graph, vector, cache,
-and language-model services described below.
+The optional `/live` route retains account registration and sign-in for private
+farm data. It requires `BACKEND_URL` and a configured backend. Removing the public
+sign-in gate does not grant anonymous access to private farm APIs. The signed-in
+sample import uses normal backend ingestion and requires its storage and workers.
 
 ## Backend
 

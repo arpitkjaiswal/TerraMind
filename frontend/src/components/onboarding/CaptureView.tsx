@@ -2,6 +2,7 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import SampleDocuments from "./SampleDocuments";
+import { csvRecordText } from "@/lib/local-records";
 import type { IngestionQueueItem, Document, Plot, TimelineEvent } from "@/types";
 import styles from "./CaptureView.module.css";
 import { Upload, FileText, CheckCircle, XCircle, Clock, AlertTriangle, Camera, FilePlus, X, SwitchCamera } from "lucide-react";
@@ -185,6 +186,18 @@ export default function CaptureView({ plot, queue, documents, onQueueChange, onD
       return;
     }
 
+    if (!file.size) {
+      setUploadResult({ success: false, message: "The file is empty. Choose a file with content." });
+      return;
+    }
+    let extractedText: string | undefined;
+    if (ext === "csv") {
+      try { extractedText = csvRecordText(await file.text()); }
+      catch (error) {
+        setUploadResult({ success: false, message: error instanceof Error ? error.message : "Could not read CSV." });
+        return;
+      }
+    }
     setUploading(true);
     setUploadResult(null);
 
@@ -199,15 +212,16 @@ export default function CaptureView({ plot, queue, documents, onQueueChange, onD
 
     const now = new Date();
     const uploadedAt = now.toISOString();
-    const documentId = `doc-local-${now.getTime()}`;
+    const documentId = `doc-local-${crypto.randomUUID()}`;
     const doc: Document = {
+      extracted_text: extractedText,
       id: documentId, plot_id: plot.id, source_type: isImage ? "photo" : ext === "pdf" ? "pdf" : "csv",
       label: file.name, storage_uri: "local-demo://browser", ingest_status: highConf ? "ready" : "review_needed",
       source_confidence: simulatedConfidence, uploaded_at: uploadedAt, date_of_event: uploadedAt.slice(0, 10),
     };
     onDocumentAdd(doc);
     if (highConf) {
-      onTimelineAdd({ id: `upload-event-${now.getTime()}`, date: uploadedAt.slice(0, 10), title: "Demo document added", category: "practice", description: `${file.name} was added to the local sample records.`, document_id: documentId, plot_id: plot.id, confidence: simulatedConfidence });
+      onTimelineAdd({ id: `upload-event-${documentId}`, date: uploadedAt.slice(0, 10), title: "Demo document added", category: "practice", description: `${file.name} was added to the local sample records.`, document_id: documentId, plot_id: plot.id, confidence: simulatedConfidence });
       setUploadResult({
         success: true,
         message: `"${file.name}" added to this browser's demo records (${Math.round(simulatedConfidence * 100)}% demo confidence).`,
@@ -215,7 +229,7 @@ export default function CaptureView({ plot, queue, documents, onQueueChange, onD
     } else {
       // Add to review queue
       const newItem: IngestionQueueItem = {
-        id: `upload-${now.getTime()}`,
+        id: `upload-${documentId}`,
         document_id: documentId,
         label: file.name,
         source_type: isImage ? "photo" : ext === "pdf" ? "pdf" : "csv",
@@ -316,7 +330,7 @@ export default function CaptureView({ plot, queue, documents, onQueueChange, onD
             </div>
             <div className={styles.dropRule}>
               <span className={styles.ruleBox} style={{ background: "rgba(34,197,94,0.08)", borderColor: "rgba(34,197,94,0.2)", color: "var(--green-400)" }}>
-                PDF and CSV → Added directly in this demo
+                CSV → Parsed locally · PDF → Record only
               </span>
               <span className={styles.ruleBox} style={{ background: "rgba(245,158,11,0.08)", borderColor: "rgba(245,158,11,0.2)", color: "var(--amber-400)" }}>
                 Images → Manual review queue in this demo
