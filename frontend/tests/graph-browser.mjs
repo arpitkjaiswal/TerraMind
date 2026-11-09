@@ -1,6 +1,7 @@
 /** Real browser coverage of the graph and sample-upload flow; all API writes are mocked. */
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
+import { existsSync } from 'node:fs';
 import { chromium } from 'playwright';
 
 const origin = 'http://127.0.0.1:3200';
@@ -14,13 +15,17 @@ const waitFor = async (condition, message) => {
 };
 try {
   await waitFor(async () => { try { return (await fetch(origin)).ok; } catch { return false; } }, 'Next did not start: ' + logs);
-  browser = await chromium.launch({ headless: true });
+  const executablePath = process.env.CHROMIUM_PATH || (existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined);
+  browser = await chromium.launch({ headless: true, ...(executablePath ? { executablePath } : {}) });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
-  await page.route('**/api/auth/session', route => route.fulfill({ json: { user: null } }));
+  let sessionRequests = 0;
+  await page.route('**/api/auth/session', route => { sessionRequests++; return route.fulfill({ status: 503, json: { detail: 'Backend offline' } }); });
   await page.goto(origin);
-  await page.getByRole('button', { name: 'Preview the sample dashboard' }).click();
+  await page.getByRole('heading', { name: /Field B/ }).first().waitFor();
+  assert.equal(sessionRequests, 0, 'The public sandbox must never depend on authentication');
+  assert.equal(await page.getByRole('button', { name: 'Sign in', exact: true }).count(), 0);
   await page.getByRole('button', { name: 'Knowledge Graph', exact: true }).click();
   const graphNodes = page.locator('[data-graph-node]');
   await waitFor(async () => await graphNodes.count() === 23, 'Expected the original graph plus 6 new sample documents and entities');
@@ -59,6 +64,37 @@ try {
   await page.getByText('new-observation.csv', { exact: true }).waitFor();
   await page.getByRole('button', { name: 'Knowledge Graph', exact: true }).click();
   await waitFor(async () => await graphNodes.count() === 24, 'A demo upload must add a document node');
+  await page.getByRole('button', { name: 'Ask TerraMind', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Ask about field records' }).fill('rainfall');
+  await page.getByRole('button', { name: 'Search field records', exact: true }).click();
+  await page.getByText(/rainfall_mm: 15/).waitFor();
+  await page.reload();
+  await page.getByRole('button', { name: 'Knowledge Graph', exact: true }).click();
+  await waitFor(async () => await graphNodes.count() === 24, 'Uploaded records must survive reload');
+  for (const [action, expected] of [['approve', 'ready'], ['reject', 'ingest_failed']]) {
+    await page.getByRole('button', { name: 'Ingest & Review', exact: true }).click();
+    const filename = `local-${action}.png`;
+    await page.locator('input[type="file"]').first().setInputFiles({ name: filename, mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aPiUAAAAASUVORK5CYII=', 'base64') });
+    let uploadedId;
+    await waitFor(async () => {
+      uploadedId = await page.evaluate(name => JSON.parse(localStorage.getItem('aegis-demo-data-v1')).documents.find(doc => doc.label === name)?.id, filename);
+      return !!uploadedId;
+    }, 'Image record must be saved for review');
+    await page.locator(`[id="btn-${action}-upload-${uploadedId}"]`).click();
+    await waitFor(async () => await page.evaluate(({ id, status }) => JSON.parse(localStorage.getItem('aegis-demo-data-v1')).documents.find(doc => doc.id === id)?.ingest_status === status, { id: uploadedId, status: expected }), 'Review must update the saved document status');
+  }
+  await page.getByRole('button', { name: /^Field A/ }).click();
+  await page.getByRole('button', { name: 'Knowledge Graph', exact: true }).click();
+  assert.equal(await page.locator('[data-graph-node^="document-doc-local-"]').count(), 0);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.waitForFunction(() => getComputedStyle(document.querySelector('aside')).position === 'static');
+  const sidebar = await page.locator('aside').first().boundingBox();
+  const main = await page.locator('main').boundingBox();
+  assert.ok(main.y >= sidebar.y + sidebar.height - 1, `Mobile navigation must not cover the workspace: ${JSON.stringify({ sidebar, main })}`);
+  await page.evaluate(() => localStorage.setItem('aegis-demo-data-v1', JSON.stringify({ documents: [null] })));
+  await page.reload();
+  await page.getByRole('button', { name: 'Knowledge Graph', exact: true }).click();
+  await waitFor(async () => await graphNodes.count() === 23, 'Corrupt saved state must recover to defaults');
   await page.close();
 
   // A signed-in workspace, including a delayed response from the old field.
@@ -89,7 +125,7 @@ try {
     } else throw new Error('Unexpected API request ' + path);
     if (!route.request().isNavigationRequest()) await route.fulfill({ json: data }).catch(() => {});
   });
-  await live.goto(origin);
+  await live.goto(origin + "/live");
   await live.getByRole('button', { name: 'Knowledge Graph', exact: true }).click();
   await live.locator('[data-graph-node="live-A"]').waitFor();
   slowA = true;
@@ -111,7 +147,7 @@ try {
   await live.getByRole('button', { name: 'Ingest & Review', exact: true }).click();
   await waitFor(async () => await live.getByText('ready', { exact: true }).count() === 6, 'Processing statuses must refresh automatically');
   assert.deepEqual(errors, []);
-  console.log('Browser checks passed: drag, select, filters, dates, fit, mobile, export, sample downloads, demo upload, field races, live sample imports, processing refresh.');
+  console.log('Browser checks passed: direct anonymous access, CSV search, persistence, approval/rejection, corrupt-state recovery, mobile navigation, graph drag/select/filter/date/fit/export, sample downloads, field isolation/races, live sample imports, processing refresh.');
 } finally {
   await browser?.close(); app.kill('SIGTERM');
 }

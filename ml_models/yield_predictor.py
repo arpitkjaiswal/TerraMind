@@ -1,7 +1,7 @@
 """
 TerraMind — Crop Yield Prediction Model
 ========================================
-Ensemble model (Random Forest + XGBoost) for yield prediction.
+Ensemble model (Random Forest + Gradient Boosting) for yield prediction.
 
 Features:
   - Weather: temperature, rainfall, humidity
@@ -20,7 +20,6 @@ Outputs:
 
 import os
 import json
-import warnings
 
 import matplotlib
 matplotlib.use("Agg")
@@ -29,18 +28,18 @@ import numpy as np
 import pandas as pd
 import joblib
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.model_selection import cross_val_score
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.preprocessing import LabelEncoder
+from sklearn.dummy import DummyRegressor
 
-warnings.filterwarnings("ignore")
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = BASE_DIR
-OUTPUT_DIR = os.path.join(BASE_DIR, "outputs", "charts")
-MODEL_DIR = os.path.join(BASE_DIR, "outputs", "models")
-REPORT_DIR = os.path.join(BASE_DIR, "outputs", "reports")
+OUTPUT_ROOT = os.environ.get("TERRAMIND_OUTPUT_DIR", os.path.join(BASE_DIR, "outputs"))
+OUTPUT_DIR = os.path.join(OUTPUT_ROOT, "charts")
+MODEL_DIR = os.path.join(OUTPUT_ROOT, "models")
+REPORT_DIR = os.path.join(OUTPUT_ROOT, "reports")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 os.makedirs(MODEL_DIR, exist_ok=True)
 os.makedirs(REPORT_DIR, exist_ok=True)
@@ -62,7 +61,7 @@ plt.rcParams.update({
 PALETTE = ["#58a6ff", "#3fb950", "#d29922", "#f85149", "#bc8cff"]
 
 
-def load_and_prepare():
+def load_and_prepare(train_end=2016):
     """Load, merge, and feature-engineer the dataset."""
     crop = pd.read_csv(os.path.join(DATA_DIR, "crop_yield.csv"))
     crop.columns = crop.columns.str.strip().str.lower()
@@ -89,9 +88,11 @@ def load_and_prepare():
     le_season = LabelEncoder()
     le_state = LabelEncoder()
 
-    df["crop_encoded"] = le_crop.fit_transform(df["crop"])
-    df["season_encoded"] = le_season.fit_transform(df["season"])
-    df["state_encoded"] = le_state.fit_transform(df["state"])
+    # Fit vocabulary on training years only. Unseen future categories use -1.
+    for column, encoder in [("crop", le_crop), ("season", le_season), ("state", le_state)]:
+        encoder.fit(df.loc[df["year"] <= train_end, column])
+        vocabulary = {label: index for index, label in enumerate(encoder.classes_)}
+        df[f"{column}_encoded"] = df[column].map(vocabulary).fillna(-1).astype(int)
 
     # Feature engineering
     df["fert_per_area"] = df["fertilizer"] / (df["area"] + 1)
@@ -132,15 +133,20 @@ def temporal_split(df, train_end=2016):
     return X_train, y_train, X_test, y_test, feature_cols, test
 
 
-def train_models(X_train, y_train, X_test, y_test, feature_cols):
+def train_models(X_train, y_train, X_test, y_test, feature_cols, n_estimators=300):
     """Train Random Forest and Gradient Boosting models."""
-    models = {}
+    baseline = DummyRegressor(strategy="mean").fit(X_train, y_train)
+    prediction = baseline.predict(X_test)
+    models = {"mean_baseline": {
+        "predictions": prediction, "mae": mean_absolute_error(y_test, prediction),
+        "rmse": np.sqrt(mean_squared_error(y_test, prediction)), "r2": r2_score(y_test, prediction),
+    }}
 
     # 1. Random Forest
     print("\n  Training Random Forest...")
     rf = RandomForestRegressor(
-        n_estimators=300, max_depth=20, min_samples_leaf=5,
-        random_state=42, n_jobs=-1
+        n_estimators=n_estimators, max_depth=20, min_samples_leaf=5,
+        random_state=42, n_jobs=min(4, os.cpu_count() or 1)
     )
     rf.fit(X_train, y_train)
     y_pred_rf = rf.predict(X_test)
@@ -158,7 +164,7 @@ def train_models(X_train, y_train, X_test, y_test, feature_cols):
     # 2. Gradient Boosting (XGBoost-like)
     print("  Training Gradient Boosting...")
     gb = GradientBoostingRegressor(
-        n_estimators=300, max_depth=8, learning_rate=0.1,
+        n_estimators=n_estimators, max_depth=8, learning_rate=0.1,
         min_samples_leaf=10, subsample=0.8,
         random_state=42
     )
@@ -198,7 +204,7 @@ def plot_model_results(models, y_test, feature_cols, X_train, y_train):
     for name, color, marker in [("random_forest", PALETTE[0], "o"),
                                  ("gradient_boosting", PALETTE[1], "s")]:
         m = models[name]
-        sample_idx = np.random.choice(len(y_test), min(1500, len(y_test)), replace=False)
+        sample_idx = np.random.default_rng(42).choice(len(y_test), min(1500, len(y_test)), replace=False)
         ax.scatter(y_test[sample_idx], m["predictions"][sample_idx],
                    c=color, alpha=0.3, s=8, label=f"{name} (R²={m['r2']:.3f})")
     max_val = max(y_test.max(), models["random_forest"]["predictions"].max())
@@ -294,19 +300,23 @@ def generate_model_report(models):
     report.append("## Model Performance")
     report.append("| Model | R² | RMSE | MAE |")
     report.append("|---|---|---|---|")
-    for name in ["random_forest", "gradient_boosting", "ensemble"]:
+    for name in ["mean_baseline", "random_forest", "gradient_boosting", "ensemble"]:
         m = models[name]
         nice = name.replace("_", " ").title()
         report.append(f"| {nice} | {m['r2']:.4f} | {m['rmse']:.4f} | {m['mae']:.4f} |")
 
-    report.append(f"\n## Best Model: **{'Ensemble' if models['ensemble']['r2'] > models['random_forest']['r2'] else 'Random Forest'}**")
     best = max(models.items(), key=lambda x: x[1]["r2"])
+    report.append(f"\n## Best held-out score: **{best[0].replace('_', ' ').title()}**")
+    report.append("The test set is used for reporting, not hyperparameter tuning. Annual weather and input totals must be available at inference time; this is not a pre-season forecast.")
+    report.append("Categorical vocabularies are fit on training years only; unseen test categories map to -1. Mixed-crop aggregate scores do not establish per-crop accuracy or causal effects.")
     report.append(f"- R²: **{best[1]['r2']:.4f}**")
     report.append(f"- This means the model explains **{best[1]['r2']*100:.1f}%** of yield variance")
 
-    with open(os.path.join(REPORT_DIR, "model_performance.md"), "w") as f:
+    with open(os.path.join(REPORT_DIR, "model_performance.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(report))
-    print("  ✓ Report: model_performance.md")
+    with open(os.path.join(REPORT_DIR, "model_metrics.json"), "w", encoding="utf-8") as f:
+        json.dump({"train_end": 2016, "seed": 42, "models": {name: {key: float(value[key]) for key in ("r2", "rmse", "mae")} for name, value in models.items()}}, f, indent=2)
+    print("  ✓ Reports: model_performance.md, model_metrics.json")
 
 
 def main():

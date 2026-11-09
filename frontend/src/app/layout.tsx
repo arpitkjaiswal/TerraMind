@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Aegis — Temporal Knowledge-Graph Digital Twin for Farmland",
+  title: "TerraMind — Field Intelligence & Evidence Explorer",
   description:
-    "Aegis builds a longitudinal soil-memory graph for your farmland. Ask plain-language questions and trace answers back to dated field notes, weather events, and chemical logs.",
+    "Explore agricultural records, interactive knowledge graphs, and evidence-linked search. Try the private browser sandbox without creating an account.",
   keywords: ["agronomy", "soil memory", "knowledge graph", "farmland digital twin", "cognee", "RAG", "agriculture AI"],
 };
 

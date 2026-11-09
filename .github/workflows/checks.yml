@@ -25,8 +25,6 @@ jobs:
       - run: npx tsc --noEmit
       - run: npm run build
       - run: node tests/auth-smoke.mjs
-      - name: Install browser test runner
-        run: npm install --no-save --package-lock=false playwright@1.62.1
       - run: npx playwright install --with-deps chromium
       - run: node tests/graph-browser.mjs
   python-checks:
@@ -52,4 +50,13 @@ jobs:
           cache-dependency-path: backend/requirements.txt
       - run: pip install -r requirements.txt
       - run: python -m pytest -q
+  ml-evaluation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements_ml.txt
+      - run: python -m unittest discover -s tests_ml -v
 

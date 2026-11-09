@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import type { QueryResult, ConfidenceLabel, Document, EvidenceEdge, NodeType, EdgeType } from "@/types";
 import { backendFetch } from "@/lib/api";
+import { searchRecords } from "@/lib/local-records";
 import { Search, Send, ChevronDown, ChevronUp, FileText, Zap, Clock, GitBranch, Shield, AlertTriangle, Sparkles, RotateCcw } from "lucide-react";
 import styles from "./QueryView.module.css";
 
@@ -90,15 +91,16 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId, plot
     try {
       if (demoMode) {
         await new Promise(resolve => setTimeout(resolve, 250));
-        const evidence: EvidenceEdge[] = documents.map(doc => ({
+        const matches = searchRecords(text, documents);
+        const evidence: EvidenceEdge[] = matches.map(doc => ({
           id: `demo-evidence-${doc.id}`, graph_node_id: `demo-${doc.id}`, node_label: doc.label,
           node_type: "Document", relationship_type: "HAS_DOCUMENT", source_document_id: doc.id,
           source_document_label: doc.label, date: doc.date_of_event ?? doc.uploaded_at.slice(0, 10),
         }));
-        const answer = documents.length
-          ? `The sample dataset has ${documents.length} record${documents.length === 1 ? "" : "s"} for ${plotName}. The entries below show available document titles and dates. The demo does not read file contents or establish causes.\n\n${documents.map(document => `**${document.date_of_event ?? document.uploaded_at.slice(0, 10)} — ${document.label}**`).join("\n\n")}`
-          : `There are no sample records for ${plotName} yet. Add a file in Ingest & Review to see it listed here.`;
-        setResult({ id: `demo-${Date.now()}`, query_text: text, answer_text: answer, confidence_label: "documented_fact", confidence_score: documents.length ? 0.6 : 0.2, evidence_trail: evidence, graph_hops: 0, latency_ms: 250, created_at: new Date().toISOString() });
+        const answer = matches.length
+          ? `Found ${matches.length} matching ready record${matches.length === 1 ? "" : "s"} for ${plotName}. Results are ranked by keyword overlap with your question. These records do not establish causes.\n\n${matches.map(document => `**${document.date_of_event ?? document.uploaded_at.slice(0, 10)} — ${document.label}**\n${document.extracted_text ? document.extracted_text.slice(0, 1600) + (document.extracted_text.length > 1600 ? "\n[Excerpt truncated]" : "") : "Only the record title and date are available; file contents have not been extracted."}`).join("\n\n")}`
+          : `No ready records match this question for ${plotName}. Try a document title, a year, or a term from an uploaded CSV. Documents awaiting review or rejected are excluded.`;
+        setResult({ id: `demo-${Date.now()}`, query_text: text, answer_text: answer, confidence_label: matches.length ? "documented_fact" : "unconfirmed_hypothesis", confidence_score: 0, evidence_trail: evidence, graph_hops: 0, latency_ms: 250, created_at: new Date().toISOString() });
         onQueryComplete();
         return;
       }
@@ -147,7 +149,7 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId, plot
       <div className={styles.header}>
         <div className={styles.headerIcon}><Sparkles size={20} /></div>
         <div>
-          <h1 className={styles.title}>Ask Aegis</h1>
+          <h1 className={styles.title}>Ask TerraMind</h1>
           <p className={styles.subtitle}>Plain-language questions answered with a transparent evidence trail from your field records.</p>
         </div>
       </div>
@@ -159,6 +161,7 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId, plot
           <textarea
             ref={inputRef}
             id="query-input"
+            aria-label="Ask about field records"
             className={styles.textarea}
             placeholder={`Ask about ${plotName}…`}
             value={query}
@@ -168,6 +171,7 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId, plot
           />
           <button
             id="btn-submit-query"
+            aria-label="Search field records"
             className={styles.sendBtn}
             onClick={() => handleSubmit()}
             disabled={loading || query.trim().length < 5 || query.length > 2000}
@@ -189,7 +193,7 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId, plot
       </div>
 
       {error && <p role="alert">{error}</p>}
-      {demoMode && <p role="status">Local demo queries use this field’s record titles and dates; they do not read file contents or establish causes.</p>}
+      {demoMode && <p role="status">Local search uses ready record titles, dates, and CSV rows parsed in this browser. It does not infer causes or call an AI provider.</p>}
 
       {/* Loading state */}
       {loading && (
@@ -199,7 +203,7 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId, plot
           </div>
           <div className={styles.loadingText}>
             <span className={styles.loadingStage}>{demoMode ? "Preparing local demo answer…" : "Querying field records…"}</span>
-            <span className={styles.loadingMeta}>{demoMode ? "Using the selected field’s sample record index" : "Retrieving a traceable answer from the farm service"}</span>
+            <span className={styles.loadingMeta}>{demoMode ? "Searching the selected field’s ready records" : "Retrieving a traceable answer from the farm service"}</span>
           </div>
         </div>
       )}
@@ -212,11 +216,11 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId, plot
             <div className={styles.resultMeta}>
               <span className={`badge ${cm!.cls}`}>
                 <ConfIcon size={10} />
-                {cm!.label}
+                {isDemo ? "Local record search" : cm!.label}
               </span>
               <span className={styles.metaItem}><GitBranch size={12} />{result.graph_hops} hops</span>
               <span className={styles.metaItem}><Clock size={12} />{result.latency_ms}ms</span>
-              <span className={styles.metaItem}><Zap size={12} />{Math.round(result.confidence_score * 100)}% confidence</span>
+              {!isDemo && <span className={styles.metaItem}><Zap size={12} />{Math.round(result.confidence_score * 100)}% confidence</span>}
             </div>
             <button className={styles.resetBtn} onClick={() => { setResult(null); setQuery(""); }}><RotateCcw size={14} />New query</button>
           </div>
@@ -229,7 +233,7 @@ export default function QueryView({ initialQuery, suggestedQueries, plotId, plot
           {/* Confidence explanation */}
           <div className={styles.confBox}>
             <ConfIcon size={14} />
-            <span><strong>{cm!.label}:</strong> {cm!.desc}.</span>
+            <span>{isDemo ? "Keyword matches are citations to local records, not a confidence estimate or proof of causation." : <><strong>{cm!.label}:</strong> {cm!.desc}.</>}</span>
           </div>
 
           {/* Evidence trail */}

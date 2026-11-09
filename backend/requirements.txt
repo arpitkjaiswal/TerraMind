@@ -30,6 +30,7 @@ redis[hiredis]==5.2.1
 celery[redis]==5.4.0
 
 # ── Cognee (memory / knowledge graph engine) ────────────────────────────────
+fastapi-users[sqlalchemy]==15.0.4  # compatible multipart >=0.0.22; older 15.0.x pins conflict
 cognee==1.2.2          # pip-installable; wraps extract→cognify→search
 
 # ── Document parsing ─────────────────────────────────────────────────────────

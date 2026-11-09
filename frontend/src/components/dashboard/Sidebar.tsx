@@ -26,7 +26,7 @@ interface Props {
 
 const navItems = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { id: "query", label: "Ask Aegis", icon: Search },
+  { id: "query", label: "Ask TerraMind", icon: Search },
   { id: "timeline", label: "Field Timeline", icon: Clock },
   { id: "graph", label: "Knowledge Graph", icon: GitBranch },
   { id: "capture", label: "Ingest & Review", icon: Upload },
@@ -44,7 +44,7 @@ export default function Sidebar({ farm, activePlot, onPlotChange, activeSection,
           <Leaf size={18} strokeWidth={2.5} />
         </div>
         <div>
-          <span className={styles.logoText}>Aegis</span>
+          <span className={styles.logoText}>TerraMind</span>
           <span className={styles.logoBeta}>BETA</span>
         </div>
       </div>
@@ -61,12 +61,14 @@ export default function Sidebar({ farm, activePlot, onPlotChange, activeSection,
           <button
             key={id}
             id={`nav-${id}`}
+            aria-label={label}
             className={`${styles.navItem} ${activeSection === id ? styles.navItemActive : ""}`}
             onClick={() => onSectionChange(id)}
+            aria-current={activeSection === id ? "page" : undefined}
           >
             <Icon size={16} strokeWidth={2} />
             <span>{label}</span>
-            {id === "query" && <span className={styles.navBadge}>AI</span>}
+            {id === "query" && <span className={styles.navBadge}>{user ? "AI" : "LOCAL"}</span>}
           </button>
         ))}
       </nav>
@@ -75,7 +77,7 @@ export default function Sidebar({ farm, activePlot, onPlotChange, activeSection,
 
       {/* Plot switcher */}
       <div className={styles.section}>
-        <button className={styles.sectionHeader} onClick={() => setPlotsOpen(o => !o)}>
+        <button className={styles.sectionHeader} aria-expanded={plotsOpen} onClick={() => setPlotsOpen(o => !o)}>
           <span className={styles.sectionLabel}>Fields ({farm.plots.length})</span>
           {plotsOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
         </button>

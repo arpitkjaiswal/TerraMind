@@ -6,49 +6,45 @@ import QueryView from "@/components/query/QueryView";
 import TimelineView from "@/components/timeline/TimelineView";
 import GraphView from "@/components/graph/GraphView";
 import CaptureView from "@/components/onboarding/CaptureView";
-import AuthScreen from "@/components/auth/AuthScreen";
-import LiveWorkspace from "@/components/dashboard/LiveWorkspace";
 import {
   mockFarm, mockDocuments, mockStats, mockTimeline,
   mockQueue, mockGraphNodes, mockGraphEdges, suggestedQueries
 } from "@/data/mock";
-import type { DashboardStats, Document, IngestionQueueItem, Plot, TimelineEvent, User } from "@/types";
+import type { DashboardStats, Plot, TimelineEvent } from "@/types";
 import styles from "./page.module.css";
 import { sampleDemoDocuments, sampleDocuments } from "@/data/sample-documents";
 import { buildDemoGraph } from "@/lib/demo-graph";
+import { restoreWorkspace, type WorkspaceData } from "@/lib/workspace-storage";
 
 type Section = "dashboard" | "query" | "timeline" | "graph" | "capture";
-type DemoData = { documents: Document[]; timeline: TimelineEvent[]; queue: IngestionQueueItem[]; totalQueries: number };
-const STORAGE_KEY = "aegis-demo-data-v1";
-const defaultData: DemoData = { documents: [...mockDocuments, ...sampleDemoDocuments], timeline: mockTimeline, queue: mockQueue, totalQueries: mockStats.total_queries };
 
-function readDemoData(): DemoData {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return defaultData;
-    const data = JSON.parse(raw) as Partial<DemoData>;
-    return {
-      documents: Array.isArray(data.documents) ? [...data.documents, ...sampleDemoDocuments.filter(sample => !data.documents!.some(document => document.id === sample.id))] : defaultData.documents,
-      timeline: Array.isArray(data.timeline) ? data.timeline : mockTimeline,
-      queue: Array.isArray(data.queue) ? data.queue : mockQueue,
-      totalQueries: typeof data.totalQueries === "number" ? data.totalQueries : mockStats.total_queries,
-    };
-  } catch { return defaultData; }
+const STORAGE_KEY = "aegis-demo-data-v1";
+const defaultData: WorkspaceData = { documents: [...mockDocuments, ...sampleDemoDocuments], timeline: mockTimeline, queue: mockQueue, totalQueries: mockStats.total_queries };
+
+function readDemoData(): WorkspaceData {
+  try { return restoreWorkspace(localStorage.getItem(STORAGE_KEY), defaultData, sampleDemoDocuments); }
+  catch { return defaultData; }
 }
 
-function DemoWorkspace({ onExitDemo }: { onExitDemo: () => void }) {
+function DemoWorkspace() {
   const [section, setSection] = useState<Section>("dashboard");
   const [activePlot, setActivePlot] = useState<Plot>(mockFarm.plots[1]);
   const [pendingQuery, setPendingQuery] = useState<string | undefined>();
-  const [data, setData] = useState<DemoData>(defaultData);
+  const [data, setData] = useState<WorkspaceData>(defaultData);
   const [hydrated, setHydrated] = useState(false);
+  const [storageError, setStorageError] = useState(false);
 
   useEffect(() => {
     const timer = window.setTimeout(() => { setData(readDemoData()); setHydrated(true); }, 0);
     return () => window.clearTimeout(timer);
   }, []);
   useEffect(() => {
-    if (hydrated) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch { /* Browser storage can be disabled or full; keep the working session. */ } }
+    if (!hydrated) return;
+    const timer = window.setTimeout(() => {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); setStorageError(false); }
+      catch { setStorageError(true); }
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [data, hydrated]);
 
   function navigateToQuery(q: string) { setPendingQuery(q); setSection("query"); }
@@ -92,9 +88,9 @@ function DemoWorkspace({ onExitDemo }: { onExitDemo: () => void }) {
         onResetDemo={() => { setData(defaultData); try { localStorage.removeItem(STORAGE_KEY); } catch { /* Storage is optional in demo mode. */ } }} />
       <main className={styles.main}>
         <p role="status" style={{ padding: "10px 24px", margin: 0, background: "#173322", color: "#d1fae5", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-          <span>Local demo preview: sample records and browser-only changes. No files leave this device.</span>
-          <button className="btn btn-secondary" onClick={onExitDemo}>Sign in</button>
+          <span>Interactive sandbox · No account needed · Your changes stay in this browser.</span>
         </p>
+        {storageError && <p role="alert" style={{ padding: "12px 24px" }}>Browser storage is unavailable or full. Changes work in this session but may be lost when you reload.</p>}
         {section === "dashboard" && <DashboardView stats={stats} plot={activePlot} documents={plotDocs} onAskQuery={navigateToQuery} demoMode />}
         {section === "query" && <QueryView key={`${activePlot.id}:${pendingQuery ?? ""}`} initialQuery={pendingQuery} plotId={activePlot.id} plotName={activePlot.name} userRole="farmer" demoMode documents={plotDocs} suggestedQueries={suggestedQueries} onQueryComplete={() => setData(current => ({ ...current, totalQueries: current.totalQueries + 1 }))} />}
         {section === "timeline" && <TimelineView events={plotTimeline} plot={activePlot} demoMode />}
@@ -110,29 +106,5 @@ function DemoWorkspace({ onExitDemo }: { onExitDemo: () => void }) {
 }
 
 export default function Home() {
-  const [user, setUser] = useState<User | null>(null);
-  const [checkingSession, setCheckingSession] = useState(true);
-  const [sessionError, setSessionError] = useState(false);
-  const [demoPreview, setDemoPreview] = useState(false);
-
-  useEffect(() => {
-    const expired = () => { setUser(null); setDemoPreview(false); };
-    window.addEventListener("terramind:session-expired", expired);
-    return () => window.removeEventListener("terramind:session-expired", expired);
-  }, []);
-
-  useEffect(() => {
-    fetch("/api/auth/session", { cache: "no-store" })
-      .then(response => { if (!response.ok) throw new Error("Session unavailable"); return response.json(); })
-      .then(data => setUser(data.user ?? null))
-      .catch(() => setSessionError(true))
-      .finally(() => setCheckingSession(false));
-  }, []);
-
-  if (demoPreview && !user) return <DemoWorkspace onExitDemo={() => setDemoPreview(false)} />;
-  if (checkingSession) return <main style={{ minHeight: "100vh", display: "grid", placeItems: "center", background: "var(--bg-deep)", color: "var(--text-primary)" }}>Checking your session…</main>;
-  if (sessionError) return <main style={{ padding: 40 }}><p role="alert">Sign-in is temporarily unavailable. Your session has been preserved.</p><button className="btn btn-primary" onClick={() => window.location.reload()}>Retry</button><button className="btn btn-secondary" onClick={() => setDemoPreview(true)}>Explore local demo</button></main>;
-  if (!user) return <AuthScreen onAuthenticated={setUser} onPreviewDemo={() => setDemoPreview(true)} />;
-  return <LiveWorkspace user={user} onLogout={async () => { const response = await fetch("/api/auth/session", { method: "DELETE" }); if (!response.ok) { window.alert("Sign-out failed. Please try again."); return; } setUser(null); setDemoPreview(false); }} />;
+  return <DemoWorkspace />;
 }
-
